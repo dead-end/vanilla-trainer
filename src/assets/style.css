@@ -3,3 +3,10 @@ body {
   width: 50%;
   background: #eee;
 }
+
+footer {
+  text-align: right;
+  padding: 1rem 2rem;
+  font-size: smaller;
+  border-top: 1px solid #444;
+}
