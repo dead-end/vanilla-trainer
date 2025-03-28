@@ -1,8 +1,5 @@
-.center {
+body {
   margin: auto;
   width: 50%;
-}
-
-body {
   background: #eee;
 }
