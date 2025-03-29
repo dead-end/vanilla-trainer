@@ -1,10 +1,17 @@
+:root {
+  --error-color: #700000;
+
+  --border: 1px solid #999;
+  --border-radius: 0.5rem;
+}
+
 * {
   font-family: Verdana, sans-serif;
 }
 
 .border {
-  border: 1px solid #999;
-  border-radius: 0.5rem;
+  border: var(--border);
+  border-radius: var(--border-radius);
 }
 
 .container {
@@ -24,4 +31,9 @@ footer {
   font-size: smaller;
   border-top: 1px solid #444;
   margin-top: 1rem;
+}
+
+/* Not used */
+.error {
+  color: var(--error-color);
 }
