@@ -3,7 +3,7 @@ import { $ } from './utils';
 const routes = new Map<string, string>();
 
 const handleHashChange = () => {
-  const hash = (window.location.hash || '#/').substring(1);
+  const hash = window.location.hash || '#/';
   const page = routes.get(hash) || 'not-found-page';
   const element = document.createElement(page);
   $('main').replaceChildren(element);

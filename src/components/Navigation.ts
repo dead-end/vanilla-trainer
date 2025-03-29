@@ -24,7 +24,7 @@ export class Navigation extends HTMLElement {
 
     routes.forEach((page, href) => {
       const a = document.createElement('a');
-      a.href = '#' + href;
+      a.href = href;
       a.textContent = page;
       container.appendChild(a);
     });
