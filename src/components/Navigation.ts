@@ -20,12 +20,11 @@ export class Navigation extends HTMLElement {
 
     const tmpl = tmplClone(Navigation.TMPL);
     const container = $('nav', tmpl);
-    const routes = routesGet();
 
-    routes.forEach((page, href) => {
+    routesGet().forEach((nav) => {
       const a = document.createElement('a');
-      a.href = href;
-      a.textContent = page;
+      a.href = nav.hash;
+      a.textContent = nav.label;
       container.appendChild(a);
     });
 

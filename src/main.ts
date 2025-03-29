@@ -9,8 +9,8 @@ import { NotFoundPage } from './pages/NotFoundPage';
 
 console.log('Started');
 
-routeRegister('#/', 'index-page');
-routeRegister('#/admin', 'admin-page');
+routeRegister('#/', 'Home', 'index-page');
+routeRegister('#/admin', 'Admin', 'admin-page');
 
 routeInit();
 
