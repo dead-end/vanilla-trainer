@@ -1,3 +1,4 @@
+import { adminIsLogin } from './admin';
 import { TNav } from './types';
 import { $ } from './utils';
 
@@ -10,7 +11,13 @@ const notFound: TNav = {
 const routes: TNav[] = [];
 
 const handleHashChange = () => {
-  const hash = window.location.hash || '#/';
+  let hash = window.location.hash || '#/';
+
+  if (!adminIsLogin() && hash !== '#/admin') {
+    window.location.hash = '#/admin';
+    return;
+  }
+
   const nav = routes.find((n) => n.hash === hash) || notFound;
   const element = document.createElement(nav.page);
   $('main').replaceChildren(element);

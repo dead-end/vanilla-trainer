@@ -8,7 +8,7 @@ export const $ = <T extends Element>(
 
   const result = root.querySelector(query);
   if (!result) {
-    throw new Error('Mist');
+    throw new Error(`Unable to find: ${query}`);
   }
   return result as T;
 };

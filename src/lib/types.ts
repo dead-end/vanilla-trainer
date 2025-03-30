@@ -3,3 +3,8 @@ export type TNav = {
   label: string;
   page: string;
 };
+
+export type TAdmin = {
+  url: string;
+  token: string;
+};
