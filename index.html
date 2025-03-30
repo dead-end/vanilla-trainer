@@ -6,15 +6,57 @@
     <title>Vanilla Trainer</title>
   </head>
   <body>
-    <header>
-      <h2>Vanilla Trainer</h2>
-      <navi-gation></navi-gation>
-    </header>
-    <main class="border container">
-      <index-page></index-page>
-    </main>
+    <div id="app">
+      <header>
+        <h2>Vanilla Trainer</h2>
+        <navi-gation></navi-gation>
+      </header>
+      <main class="border container">
+        <index-page></index-page>
+      </main>
+      <footer>Copyright Volker Senkel 2025</footer>
 
-    <footer>Copyright Volker Senkel 2025</footer>
+      <template id="admin">
+        <page-layout label="Admin">
+          <p>This is the admin page</p>
+          <p id="status"></p>
+          <form-wrapper>
+            <field-input
+              data-id="url"
+              data-type="text"
+              data-label="Github URL"
+            ></field-input>
+
+            <field-input
+              data-id="token"
+              data-type="password"
+              data-label="Token"
+            ></field-input>
+            <ui-button></ui-button>
+            <button type="submit">Submit</button>
+          </form-wrapper>
+          <button id="login"></button>
+        </page-layout>
+      </template>
+    </div>
+
+    <template id="ui-button">
+      <style>
+        button {
+          color: white;
+          background-color: #3366ff;
+          font-weight: 700;
+          transition: 300ms;
+          border: none;
+          border-radius: var(--border-radius);
+          padding: 0.5rem 0.5rem;
+        }
+        button:hover {
+          background-color: #0039e6;
+        }
+      </style>
+      <button>Default Button</button>
+    </template>
 
     <script type="module" src="/src/main.ts"></script>
   </body>
