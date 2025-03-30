@@ -22,14 +22,15 @@ export class FieldLabel extends HTMLElement {
 
     const shadow = this.attachShadow({ mode: 'open' });
     const tmpl = tmplClone(FieldLabel.TMPL);
-
     this.label = $<HTMLLabelElement>('label', tmpl);
-
     shadow.appendChild(tmpl);
   }
 
-  public update(htmlFor: string, label: string): void {
-    this.label.htmlFor = htmlFor;
+  connectedCallback() {
+    const id = this.getAttribute('data-for') || 'no-for-found';
+    const label = this.getAttribute('data-label') || 'no-label-found';
+
+    this.label.htmlFor = id;
     this.label.textContent = label;
   }
 }
