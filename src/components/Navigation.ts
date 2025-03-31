@@ -14,21 +14,26 @@ export class Navigation extends HTMLElement {
 <nav>
 </nav>
 `);
+  initialized = false;
 
   constructor() {
     super();
+  }
 
-    const tmpl = tmplClone(Navigation.TMPL);
-    const container = $('nav', tmpl);
+  connectedCallback() {
+    if (!this.initialized) {
+      const tmpl = tmplClone(Navigation.TMPL);
+      const container = $('nav', tmpl);
 
-    routesGet().forEach((nav) => {
-      const a = document.createElement('a');
-      a.href = nav.hash;
-      a.textContent = nav.label;
-      container.appendChild(a);
-    });
+      routesGet().forEach((nav) => {
+        const a = document.createElement('a');
+        a.href = nav.hash;
+        a.textContent = nav.label;
+        container.appendChild(a);
+      });
 
-    const shadow = this.attachShadow({ mode: 'open' });
-    shadow.appendChild(tmpl);
+      this.appendChild(tmpl);
+      this.initialized = true
+    }
   }
 }

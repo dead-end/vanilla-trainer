@@ -7,11 +7,16 @@ export class IndexPage extends HTMLElement {
 </page-layout>
 `);
 
+  initialized = false;
   constructor() {
     super();
+  }
 
-    const shadow = this.attachShadow({ mode: 'open' });
-    const tmpl = tmplClone(IndexPage.TMPL);
-    shadow.appendChild(tmpl);
+  connectedCallback() {
+    if (!this.initialized) {
+      const tmpl = tmplClone(IndexPage.TMPL);
+      this.appendChild(tmpl);
+      this.initialized = true
+    }
   }
 }

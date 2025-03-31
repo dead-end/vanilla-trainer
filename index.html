@@ -16,52 +16,34 @@
       </main>
       <footer>Copyright Volker Senkel 2025</footer>
 
-      <template id="admin">
+      <template id="admin-page">
         <page-layout label="Admin">
           <p>This is the admin page</p>
           <p id="status"></p>
-          <form-wrapper>
-            <field-input data-id="url" data-type="text">
-              <field-label
-                slot="label"
-                data-for="url"
-                data-label="Github URL"
-              ></field-label>
-            </field-input>
+          <form class="form">
 
-            <field-input data-id="token" data-type="password">
-              <field-label
-                slot="label"
-                data-for="token"
-                data-label="Token"
-              ></field-label>
-            </field-input>
-            <ui-button data-label="Submit"></ui-button>
-            <button type="submit">Submit</button>
-          </form-wrapper>
-          <button id="login"></button>
+            <div>
+              <label id="url-label" class="field-label" for="url">Github URL</label>
+              <input class="input-text" id="url" type="text" />
+              <p class="field-error" data-for="url"></p>
+            </div>
+
+            <div>
+              <label class="field-label" for="token">Token</label>
+              <input class="input-password" id="token" type="text" />
+              <p class="field-error" data-for="token"></p>
+            </div>
+
+            <div class="btn-group">
+              <button class="btn" type="submit">Submit</button>
+              <button class="btn" id="login">Login</button>
+            </div>
+            
+          </form>
+          
         </page-layout>
       </template>
     </div>
-
-    <template id="ui-button">
-      <style>
-        button {
-          color: white;
-          background-color: var(--color-blue-600);
-          font-weight: 800;
-          transition: 300ms;
-          border: none;
-          border-radius: var(--border-radius);
-          padding: 0.6rem 0.8rem;
-          box-shadow: var(--shadow-sm);
-        }
-        button:hover {
-          background-color: var(--color-blue-700);
-        }
-      </style>
-      <button>Default Button</button>
-    </template>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

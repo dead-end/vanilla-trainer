@@ -19,6 +19,7 @@ const handleHashChange = () => {
   }
 
   const nav = routes.find((n) => n.hash === hash) || notFound;
+  console.log(nav, $('main').isConnected)
   const element = document.createElement(nav.page);
   $('main').replaceChildren(element);
 };
