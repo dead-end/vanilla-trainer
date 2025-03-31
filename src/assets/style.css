@@ -64,9 +64,9 @@ body {
 footer {
   text-align: right;
   padding: 1rem 2rem;
-  font-size: smaller;
-  border-top: 1px solid #444;
-  margin-top: 1rem;
+  font-size: small;
+  border-top: var(--border);
+  margin-top: 2rem;
 }
 
 /* Not used */
@@ -74,18 +74,11 @@ footer {
   color: var(--error-color);
 }
 
-
-
 page-layout::slotted(.field-label) {
   font-weight: 600;
   font-size: small;
   display: block;
 }
-
-
-
-
-
 
 /* --------------------- */
 .btn {
@@ -127,6 +120,7 @@ page-layout::slotted(.field-label) {
 .field-error {
   color: #700000;
   font-size: small;
+  margin-top: 0.2rem;
 }
 
 .input-password,
@@ -135,5 +129,5 @@ page-layout::slotted(.field-label) {
   padding: 0.5rem 0.5rem;
   border: var(--border);
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-xs);
 }
