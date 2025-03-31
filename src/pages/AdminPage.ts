@@ -3,45 +3,40 @@ import { $, tmplClone } from '../lib/utils';
 
 export class AdminPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#admin-page');
-  button: HTMLButtonElement | undefined;
-  status: HTMLElement | undefined;
+
   form: HTMLFormElement | undefined;
 
   constructor() {
     super();
-    console.log('AdminPage created.')
+    console.log('AdminPage created.');
   }
 
   connectedCallback() {
-
-    if (!this.button && !this.status) {
+    if (!this.form) {
       const tmpl = tmplClone(AdminPage.TMPL);
 
-      this.status = $<HTMLElement>('#status', tmpl);
-      this.button = $<HTMLButtonElement>('#login', tmpl);
-      this.button.onclick = this.handleButton.bind(this);
+      $<HTMLButtonElement>('#login', tmpl).onclick =
+        this.handleButton.bind(this);
 
       this.form = $<HTMLFormElement>('form', tmpl);
       this.form.onsubmit = this.handleSubmit.bind(this);
-
-      this.handleLoginStatus(adminIsLogin());
       this.appendChild(tmpl);
-
-      console.log('AdminPage initialized.')
+      this.handleLoginStatus(adminIsLogin());
+      console.log('AdminPage initialized.');
     }
   }
 
   handleSubmit(e: SubmitEvent) {
-    e.preventDefault()
+    e.preventDefault();
 
-    const url = $<HTMLInputElement>('#url', this.form).value
-    const token = $<HTMLInputElement>('#token', this.form).value
-    console.log('url', url, 'token', token)
+    const url = $<HTMLInputElement>('#url', this.form).value;
+    const token = $<HTMLInputElement>('#token', this.form).value;
+    console.log('url', url, 'token', token);
     if (!url) {
-      $('p[data-for="url"]', this.form).textContent = 'not defined'
+      $('p[data-for="url"]', this.form).textContent = 'not defined';
     }
     if (!token) {
-      $('p[data-for="token"]', this.form).textContent = 'not defined'
+      $('p[data-for="token"]', this.form).textContent = 'not defined';
     }
   }
 
@@ -57,9 +52,7 @@ export class AdminPage extends HTMLElement {
   }
 
   handleLoginStatus(isLogin: boolean) {
-    if (this.button && this.status) {
-      this.status.textContent = `Login: ${isLogin}`;
-      this.button.textContent = isLogin ? 'Logout' : 'login';
-    }
+    $('#status', this).textContent = `Login: ${isLogin}`;
+    $('#login', this).textContent = isLogin ? 'Logout' : 'login';
   }
 }
