@@ -1,20 +1,15 @@
 import { adminIsLogin, adminLogin, adminLogout } from '../lib/admin';
-import { $, tmplClone, tmplCreate } from '../lib/utils';
+import { $, tmplClone } from '../lib/utils';
 
 export class AdminPage extends HTMLElement {
-  /*
-  static TMPL = tmplCreate(`
-<page-layout label="Admin">
-  <p>This is the admin page</p>
-</page-layout>
-`);
-*/
   static TMPL = $<HTMLTemplateElement>('#admin-page');
   button: HTMLButtonElement | undefined;
   status: HTMLElement | undefined;
+  form: HTMLFormElement | undefined;
 
   constructor() {
     super();
+    console.log('AdminPage created.')
   }
 
   connectedCallback() {
@@ -25,12 +20,30 @@ export class AdminPage extends HTMLElement {
       this.status = $<HTMLElement>('#status', tmpl);
       this.button = $<HTMLButtonElement>('#login', tmpl);
       this.button.onclick = this.handleButton.bind(this);
-  
+
+      this.form = $<HTMLFormElement>('form', tmpl);
+      this.form.onsubmit = this.handleSubmit.bind(this);
+
       this.handleLoginStatus(adminIsLogin());
       this.appendChild(tmpl);
+
+      console.log('AdminPage initialized.')
     }
   }
 
+  handleSubmit(e: SubmitEvent) {
+    e.preventDefault()
+
+    const url = $<HTMLInputElement>('#url', this.form).value
+    const token = $<HTMLInputElement>('#token', this.form).value
+    console.log('url', url, 'token', token)
+    if (!url) {
+      $('p[data-for="url"]', this.form).textContent = 'not defined'
+    }
+    if (!token) {
+      $('p[data-for="token"]', this.form).textContent = 'not defined'
+    }
+  }
 
   handleButton() {
     const isLogin = adminIsLogin();
