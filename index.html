@@ -15,35 +15,40 @@
         <index-page></index-page>
       </main>
       <footer>Copyright Volker Senkel 2025</footer>
-
-      <template id="admin-page">
-        <page-layout label="Admin">
-          <p>This is the admin page</p>
-          <p id="status"></p>
-          <form class="form">
-
-            <div>
-              <label id="url-label" class="field-label" for="url">Github URL</label>
-              <input class="input-text" id="url" type="text" />
-              <p class="field-error" data-for="url"></p>
-            </div>
-
-            <div>
-              <label class="field-label" for="token">Token</label>
-              <input class="input-password" id="token" type="text" />
-              <p class="field-error" data-for="token"></p>
-            </div>
-
-            <div class="btn-group">
-              <button class="btn" type="submit">Submit</button>
-              <button class="btn" type="button" id="login">Login</button>
-            </div>
-            
-          </form>
-          
-        </page-layout>
-      </template>
     </div>
+
+    <template id="admin-page">
+      <page-layout label="Admin">
+        <p>This is the admin page</p>
+        <p id="status"></p>
+        <form class="form">
+          <ui-input
+            data-id="url"
+            data-label="Github Url"
+            data-type="text"
+          ></ui-input>
+
+          <ui-input
+            data-id="token"
+            data-label="Token"
+            data-type="password"
+          ></ui-input>
+
+          <div class="btn-group">
+            <button class="btn" type="submit">Submit</button>
+            <button class="btn" type="button" id="login">Login</button>
+          </div>
+        </form>
+      </page-layout>
+    </template>
+
+    <template id="ui-input">
+      <div>
+        <label class="field-label" for="url">Github URL</label>
+        <input class="input-text" id="url" type="text" />
+        <p class="field-error" data-for="url"></p>
+      </div>
+    </template>
 
     <script type="module" src="/src/main.ts"></script>
   </body>
