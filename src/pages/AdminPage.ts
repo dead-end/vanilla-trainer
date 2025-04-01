@@ -1,4 +1,5 @@
 import { adminIsLogin, adminLogin, adminLogout } from '../lib/admin';
+import { errorReset, errorSet } from '../lib/error';
 import { $, tmplClone } from '../lib/utils';
 
 export class AdminPage extends HTMLElement {
@@ -29,23 +30,21 @@ export class AdminPage extends HTMLElement {
   handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
+    errorReset(this)
+
     const user = $<HTMLInputElement>('#user', this.form).value;
     const repo = $<HTMLInputElement>('#repo', this.form).value;
     const token = $<HTMLInputElement>('#token', this.form).value;
     console.log('url', user, 'repo', repo, 'token', token);
     if (!user) {
-      this.error('user', 'Not-defined!')
+      errorSet(this, 'user', 'Not-defined!')
     }
     if (!repo) {
-      this.error('repo', 'Not-defined!')
+      errorSet(this, 'repo', 'Not-defined!')
     }
     if (!token) {
-      this.error('token', 'Not-defined!')
+      errorSet(this, 'token', 'Not-defined!')
     }
-  }
-
-  error(name: string, msg: string) {
-    $(`p[data-for="${name}"]`, this.form).textContent = msg;
   }
 
   handleButton() {
