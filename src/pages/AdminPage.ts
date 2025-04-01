@@ -34,14 +34,18 @@ export class AdminPage extends HTMLElement {
     const token = $<HTMLInputElement>('#token', this.form).value;
     console.log('url', user, 'repo', repo, 'token', token);
     if (!user) {
-      $('p[data-for="user"]', this.form).textContent = 'not defined';
+      this.error('user', 'Not-defined!')
     }
     if (!repo) {
-      $('p[data-for="repo"]', this.form).textContent = 'not defined';
+      this.error('repo', 'Not-defined!')
     }
     if (!token) {
-      $('p[data-for="token"]', this.form).textContent = 'not defined';
+      this.error('token', 'Not-defined!')
     }
+  }
+
+  error(name: string, msg: string) {
+    $(`p[data-for="${name}"]`, this.form).textContent = msg;
   }
 
   handleButton() {
