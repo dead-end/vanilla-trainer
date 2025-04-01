@@ -1,55 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla Trainer</title>
-  </head>
-  <body>
-    <div id="app">
-      <header>
-        <h2>Vanilla Trainer</h2>
-        <navi-gation></navi-gation>
-      </header>
-      <main class="border container">
-        <index-page></index-page>
-      </main>
-      <footer>Copyright Volker Senkel 2025</footer>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vanilla Trainer</title>
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <h2>Vanilla Trainer</h2>
+      <navi-gation></navi-gation>
+    </header>
+    <main class="border container">
+      <index-page></index-page>
+    </main>
+    <footer>Copyright Volker Senkel 2025</footer>
+  </div>
+
+  <template id="admin-page">
+    <page-layout label="Admin">
+      <p>This is the admin page</p>
+      <p id="status"></p>
+      <form class="form">
+        <ui-input data-id="user" data-label="Github User" data-type="text"></ui-input>
+        <ui-input data-id="repo" data-label="Github Repository" data-type="text"></ui-input>
+        <ui-input data-id="token" data-label="Token" data-type="password"></ui-input>
+
+        <div class="btn-group">
+          <button class="btn" type="submit">Submit</button>
+          <button class="btn" type="button" id="login">Login</button>
+        </div>
+      </form>
+    </page-layout>
+  </template>
+
+  <template id="ui-input">
+    <div>
+      <label class="field-label" for="url">Github URL</label>
+      <input class="input-text" id="url" type="text" />
+      <p class="field-error" data-for="url"></p>
     </div>
+  </template>
 
-    <template id="admin-page">
-      <page-layout label="Admin">
-        <p>This is the admin page</p>
-        <p id="status"></p>
-        <form class="form">
-          <ui-input
-            data-id="url"
-            data-label="Github Url"
-            data-type="text"
-          ></ui-input>
+  <script type="module" src="/src/main.ts"></script>
+</body>
 
-          <ui-input
-            data-id="token"
-            data-label="Token"
-            data-type="password"
-          ></ui-input>
-
-          <div class="btn-group">
-            <button class="btn" type="submit">Submit</button>
-            <button class="btn" type="button" id="login">Login</button>
-          </div>
-        </form>
-      </page-layout>
-    </template>
-
-    <template id="ui-input">
-      <div>
-        <label class="field-label" for="url">Github URL</label>
-        <input class="input-text" id="url" type="text" />
-        <p class="field-error" data-for="url"></p>
-      </div>
-    </template>
-
-    <script type="module" src="/src/main.ts"></script>
-  </body>
 </html>

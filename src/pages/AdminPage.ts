@@ -29,11 +29,15 @@ export class AdminPage extends HTMLElement {
   handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
-    const url = $<HTMLInputElement>('#url', this.form).value;
+    const user = $<HTMLInputElement>('#user', this.form).value;
+    const repo = $<HTMLInputElement>('#repo', this.form).value;
     const token = $<HTMLInputElement>('#token', this.form).value;
-    console.log('url', url, 'token', token);
-    if (!url) {
-      $('p[data-for="url"]', this.form).textContent = 'not defined';
+    console.log('url', user, 'repo', repo, 'token', token);
+    if (!user) {
+      $('p[data-for="user"]', this.form).textContent = 'not defined';
+    }
+    if (!repo) {
+      $('p[data-for="repo"]', this.form).textContent = 'not defined';
     }
     if (!token) {
       $('p[data-for="token"]', this.form).textContent = 'not defined';
