@@ -13,6 +13,7 @@ export class Navigation extends HTMLElement {
 </style>
 <nav>
 </nav>
+<
 `);
   initialized = false;
 

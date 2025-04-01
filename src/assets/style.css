@@ -131,3 +131,8 @@ page-layout::slotted(.field-label) {
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-xs);
 }
+
+.icon {
+  height: 2.5rem;
+  font-weight: 600;
+}

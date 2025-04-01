@@ -1,5 +1,6 @@
 import './assets/reset.css';
 import './assets/style.css';
+import { Icons } from './components/Icons';
 import { Navigation } from './components/Navigation';
 import { PageLayout } from './components/PageLayout';
 import { UiInput } from './components/ui/UiInput';
@@ -17,6 +18,7 @@ customElements.define('page-layout', PageLayout);
 customElements.define('navi-gation', Navigation);
 
 customElements.define('ui-input', UiInput);
+customElements.define('ui-icons', Icons);
 
 customElements.define('not-found-page', NotFoundPage);
 customElements.define('index-page', IndexPage);
