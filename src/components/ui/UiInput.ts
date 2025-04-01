@@ -20,7 +20,7 @@ export class UiInput extends HTMLElement {
 
       labelElem.htmlFor = id;
       inputElem.id = id;
-      errElem.setAttribute('data-for', id);
+      errElem.setAttribute('data-error', id);
 
       labelElem.textContent = this.getAttribute('data-label') || 'no-label';
       inputElem.type = this.getAttribute('data-type') || 'text';
