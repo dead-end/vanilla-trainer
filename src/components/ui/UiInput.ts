@@ -1,7 +1,14 @@
-import { $, tmplClone } from '../../lib/utils';
+import { $, tmplClone, tmplCreate } from '../../lib/utils';
 
 export class UiInput extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#ui-input');
+  static TMPL = tmplCreate(`
+    <div>
+      <label class="field-label" for="default-id">Default Label</label>
+      <input class="input-text" id="default-id" type="text" />
+      <p class="field-error" data-error="default-id"></p>
+    </div>
+`);
+
   initialized = false;
 
   constructor() {
