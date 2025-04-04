@@ -1,40 +1,41 @@
-import { routesGet } from '../lib/route';
-import { $, tmplClone, tmplCreate } from '../lib/utils';
+import { adminLogout } from '../lib/admin';
+import { $, tmplClone } from '../lib/utils';
 
 export class Navigation extends HTMLElement {
-  static TMPL = tmplCreate(`
-<style>
-  nav {
-    display: flex;
-    gap: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-</style>
-<nav>
-</nav>
-<
-`);
-  initialized = false;
+  static TMPL = $<HTMLTemplateElement>('#tmpl-navigation');
+  nav: HTMLElement | undefined;
 
   constructor() {
     super();
   }
 
   connectedCallback() {
-    if (!this.initialized) {
+    if (!this.nav) {
       const tmpl = tmplClone(Navigation.TMPL);
-      const container = $('nav', tmpl);
-
-      routesGet().forEach((nav) => {
-        const a = document.createElement('a');
-        a.href = nav.hash;
-        a.textContent = nav.label;
-        container.appendChild(a);
-      });
-
+      this.nav = $<HTMLElement>('nav', tmpl);
+      $('#logout', tmpl).onclick = this.doLogout;
       this.appendChild(tmpl);
-      this.initialized = true
+
+      document.addEventListener('login', this.onLogin.bind(this));
+      document.addEventListener('logout', this.onLogout.bind(this));
+
+      console.log('navigation connected!', this.nav);
     }
+  }
+
+  onLogin() {
+    if (this.nav) {
+      this.nav.style.display = 'block';
+    }
+  }
+
+  onLogout() {
+    if (this.nav) {
+      this.nav.style.display = 'none';
+    }
+  }
+
+  doLogout() {
+    adminLogout();
   }
 }

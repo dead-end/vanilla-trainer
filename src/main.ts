@@ -4,6 +4,7 @@ import { Icons } from './components/Icons';
 import { Navigation } from './components/Navigation';
 import { PageLayout } from './components/PageLayout';
 import { UiInput } from './components/ui/UiInput';
+import { adminInit } from './lib/admin';
 import { routeInit, routeRegister } from './lib/route';
 import { AdminPage } from './pages/AdminPage';
 import { IndexPage } from './pages/IndexPage';
@@ -25,3 +26,5 @@ customElements.define('index-page', IndexPage);
 customElements.define('admin-page', AdminPage);
 
 routeInit();
+
+adminInit();
