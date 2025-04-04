@@ -1,43 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vanilla Trainer</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vanilla Trainer</title>
-</head>
+  <body>
+    <div id="app">
+      <header>
+        <h2>Vanilla Trainer</h2>
+        <navi-gation />
+      </header>
+      <main class="border container">
+        <index-page></index-page>
+      </main>
+      <footer>Copyright Volker Senkel 2025</footer>
+    </div>
 
-<body>
-  <div id="app">
-    <header>
-      <h2>Vanilla Trainer</h2>
-      <navi-gation></navi-gation>
-      <ui-icons data-icon="logout" />
-    </header>
-    <main class="border container">
-      <index-page></index-page>
-    </main>
-    <footer>Copyright Volker Senkel 2025</footer>
-  </div>
+    <template id="admin-page">
+      <page-layout label="Admin">
+        <p>This is the admin page</p>
+        <p id="status"></p>
+        <form class="form">
+          <ui-input
+            data-id="user"
+            data-label="Github User"
+            data-type="text"
+          ></ui-input>
+          <ui-input
+            data-id="repo"
+            data-label="Github Repository"
+            data-type="text"
+          ></ui-input>
+          <ui-input
+            data-id="token"
+            data-label="Token"
+            data-type="password"
+          ></ui-input>
 
-  <template id="admin-page">
-    <page-layout label="Admin">
-      <p>This is the admin page</p>
-      <p id="status"></p>
-      <form class="form">
-        <ui-input data-id="user" data-label="Github User" data-type="text"></ui-input>
-        <ui-input data-id="repo" data-label="Github Repository" data-type="text"></ui-input>
-        <ui-input data-id="token" data-label="Token" data-type="password"></ui-input>
+          <div class="btn-group">
+            <button class="btn" type="submit">Submit</button>
+            <button class="btn" type="button" id="login">Login</button>
+          </div>
+        </form>
+      </page-layout>
+    </template>
 
-        <div class="btn-group">
-          <button class="btn" type="submit">Submit</button>
-          <button class="btn" type="button" id="login">Login</button>
+    <template id="tmpl-navigation">
+      <nav>
+        <div class="nav">
+          <div>
+            <a href="#/">
+              <ui-icons data-icon="home" />
+            </a>
+          </div>
+          <div class="nav-items">
+            <a href="#/admin">
+              <ui-icons data-icon="admin" />
+            </a>
+            <a href="#/admin" id="logout">
+              <ui-icons data-icon="logout" />
+            </a>
+          </div>
         </div>
-      </form>
-    </page-layout>
-  </template>
+      </nav>
+    </template>
 
-  <script type="module" src="/src/main.ts"></script>
-</body>
-
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
