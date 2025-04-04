@@ -134,5 +134,19 @@ page-layout::slotted(.field-label) {
 
 .icon {
   height: 2.5rem;
-  font-weight: 600;
+  font-weight: 900; /* Does not work*/
+}
+
+/* ------------------------------- */
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 2rem 0rem;
+}
+
+.nav-items {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
 }
