@@ -1,12 +1,7 @@
-import { tmplClone, tmplCreate } from '../lib/utils';
+import { $, tmplClone } from '../lib/utils';
 
 export class IndexPage extends HTMLElement {
-  static TMPL = tmplCreate(`
-<page-layout label="Home">
-  <p>Welcome to the Vanilla Trainer</p>
-</page-layout>
-`);
-
+  static TMPL = $<HTMLTemplateElement>('#page-index');
   initialized = false;
   constructor() {
     super();
@@ -16,7 +11,7 @@ export class IndexPage extends HTMLElement {
     if (!this.initialized) {
       const tmpl = tmplClone(IndexPage.TMPL);
       this.appendChild(tmpl);
-      this.initialized = true
+      this.initialized = true;
     }
   }
 }
