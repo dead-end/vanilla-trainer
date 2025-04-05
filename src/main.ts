@@ -2,7 +2,6 @@ import './assets/reset.css';
 import './assets/style.css';
 import { Icons } from './components/Icons';
 import { Navigation } from './components/Navigation';
-import { PageLayout } from './components/PageLayout';
 import { UiInput } from './components/ui/UiInput';
 import { adminInit } from './lib/admin';
 import { routeInit, routeRegister } from './lib/route';
@@ -15,7 +14,6 @@ console.log('Started');
 routeRegister('#/', 'Home', 'index-page');
 routeRegister('#/admin', 'Admin', 'admin-page');
 
-customElements.define('page-layout', PageLayout);
 customElements.define('navi-gation', Navigation);
 
 customElements.define('ui-input', UiInput);

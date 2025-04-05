@@ -11,9 +11,10 @@ export const adminIsLogin = () => {
   return localStorage.getItem(STORE_KEY) !== null;
 };
 
-export const adminLogin = (url: string, token: string) => {
+export const adminLogin = (user: string, repo: string, token: string) => {
   const admin: TAdmin = {
-    url,
+    user,
+    repo,
     token,
   };
   localStorage.setItem(STORE_KEY, JSON.stringify(admin));
@@ -25,4 +26,21 @@ export const adminLogout = () => {
     localStorage.removeItem(STORE_KEY);
     document.dispatchEvent(new Event('logout'));
   }
+};
+
+export const adminGet = () => {
+  let result: TAdmin;
+
+  const str = localStorage.getItem(STORE_KEY);
+  if (!str) {
+    result = {
+      user: '',
+      repo: '',
+      token: '',
+    };
+    return result;
+  }
+
+  result = JSON.parse(str);
+  return result;
 };

@@ -9,53 +9,62 @@
   <body>
     <div id="app">
       <header>
-        <h2>Vanilla Trainer</h2>
         <navi-gation />
       </header>
-      <main class="border container">
+      <main class="px">
         <index-page></index-page>
       </main>
       <footer>Copyright Volker Senkel 2025</footer>
     </div>
 
-    <template id="admin-page">
-      <page-layout label="Admin">
-        <p>This is the admin page</p>
-        <p id="status"></p>
-        <form class="form">
-          <ui-input
-            data-id="user"
-            data-label="Github User"
-            data-type="text"
-          ></ui-input>
-          <ui-input
-            data-id="repo"
-            data-label="Github Repository"
-            data-type="text"
-          ></ui-input>
-          <ui-input
-            data-id="token"
-            data-label="Token"
-            data-type="password"
-          ></ui-input>
+    <template id="page-index">
+      <h3>Welcome to Vanilla Trainer</h3>
+    </template>
 
-          <div class="btn-group">
-            <button class="btn" type="submit">Submit</button>
-            <button class="btn" type="button" id="login">Login</button>
-          </div>
-        </form>
-      </page-layout>
+    <template id="page-not-found">
+      <h3>Page not found</h3>
+      <p class="error">Sorry, the page was not found!</p>
+    </template>
+
+    <template id="page-admin">
+      <h3>Administration</h3>
+      <p>This is the admin page</p>
+      <form class="form">
+        <ui-input
+          data-id="user"
+          data-label="Github User"
+          data-type="text"
+        ></ui-input>
+        <ui-input
+          data-id="repo"
+          data-label="Github Repository"
+          data-type="text"
+        ></ui-input>
+        <ui-input
+          data-id="token"
+          data-label="Token"
+          data-type="password"
+        ></ui-input>
+
+        <div class="btn-group">
+          <button class="btn" type="submit">Save</button>
+        </div>
+      </form>
     </template>
 
     <template id="tmpl-navigation">
       <nav>
-        <div class="nav">
-          <div>
+        <div class="nav px">
+          <div class="floating floating-center">
             <a href="#/">
               <ui-icons data-icon="home" />
             </a>
+            <h1 class="nav-title">Vanilla Trainer</h1>
           </div>
           <div class="nav-items">
+            <a href="#/books">
+              <ui-icons data-icon="book" />
+            </a>
             <a href="#/admin">
               <ui-icons data-icon="admin" />
             </a>

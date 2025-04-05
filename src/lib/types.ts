@@ -5,6 +5,7 @@ export type TNav = {
 };
 
 export type TAdmin = {
-  url: string;
+  user: string;
+  repo: string;
   token: string;
 };
