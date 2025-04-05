@@ -17,6 +17,8 @@
       <footer>Copyright Volker Senkel 2025</footer>
     </div>
 
+    <!-- Pages -->
+
     <template id="page-index">
       <h3>Welcome to Vanilla Trainer</h3>
     </template>
@@ -27,9 +29,8 @@
     </template>
 
     <template id="page-admin">
-      <h3>Administration</h3>
-      <p>This is the admin page</p>
-      <form class="form">
+      <h3 class="page-title">Administration</h3>
+      <form class="is-column is-gap">
         <ui-input
           data-id="user"
           data-label="Github User"
@@ -46,22 +47,24 @@
           data-type="password"
         ></ui-input>
 
-        <div class="btn-group">
+        <div class="is-row is-gap">
           <button class="btn" type="submit">Save</button>
         </div>
       </form>
     </template>
 
+    <!-- Components -->
+
     <template id="tmpl-navigation">
       <nav>
         <div class="nav px">
-          <div class="floating floating-center">
+          <div class="is-row is-row-center is-gap">
             <a href="#/">
               <ui-icons data-icon="home" />
             </a>
             <h1 class="nav-title">Vanilla Trainer</h1>
           </div>
-          <div class="nav-items">
+          <div id="nav-items" class="is-row is-gap">
             <a href="#/books">
               <ui-icons data-icon="book" />
             </a>
@@ -74,6 +77,14 @@
           </div>
         </div>
       </nav>
+    </template>
+
+    <template id="tmpl-ui-input">
+      <div>
+        <label class="field-label" for="default-id">Default Label</label>
+        <input class="input-text" id="default-id" type="text" />
+        <p class="field-error" data-error="default-id"></p>
+      </div>
     </template>
 
     <script type="module" src="/src/main.ts"></script>

@@ -36,7 +36,8 @@
 
   /* ------------------------- */
 
-  --error-color: #700000;
+  --color-reverse: #fff;
+  --color-error: #700000;
 
   --border: 0.5px solid var(--color-gray-300);
   --border-radius: 0.3rem;
@@ -46,11 +47,18 @@
   --color-primary-hl: var(--color-blue-800);
 
   --padding-x: 1.8rem;
+
+  --gap: 1rem;
 }
 
 * {
   font-family: Verdana, sans-serif;
   font-size: small;
+}
+
+main {
+  margin: 0px;
+  padding: 0px;
 }
 
 .border {
@@ -76,16 +84,14 @@ body {
 footer {
   text-align: right;
   font-size: small;
+
   border-top: var(--border);
-  margin-top: 2rem;
+
+  padding: 1.5rem 0rem;
+
+  margin-top: calc(var(--gap) * 2);
   margin-left: var(--padding-x);
   margin-right: var(--padding-x);
-  padding: 1.5rem 0rem;
-}
-
-/* Not used */
-.error {
-  color: var(--error-color);
 }
 
 /* --------------------- */
@@ -105,18 +111,6 @@ footer {
   background-color: var(--color-primary-hl);
 }
 
-.btn-group {
-  display: flex;
-  flex-direction: row;
-  gap: 1.1rem;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .field-label {
   display: block;
   font-weight: 600;
@@ -126,9 +120,9 @@ footer {
 }
 
 .field-error {
-  color: #700000;
   font-size: small;
   margin-top: 0.2rem;
+  color: var(--color-error);
 }
 
 .input-password,
@@ -143,7 +137,7 @@ footer {
 .icon {
   height: 3rem;
   font-weight: 900; /* Does not work*/
-  color: #fff;
+  color: var(--color-reverse);
   padding: 0.3rem;
 }
 
@@ -166,35 +160,49 @@ footer {
 
   padding-top: 1rem;
   padding-bottom: 1rem;
-  margin: 2rem 0rem;
-}
-
-.nav-items {
-  display: flex;
-  flex-direction: row;
-  gap: 0.8rem;
 }
 
 .nav-title {
   font-weight: 700;
-  color: #fff;
-  margin-left: 1rem;
+  color: var(--color-reverse);
   font-size: large;
 }
 
-.floating {
-  display: flex;
-  flex-direction: row;
-}
-
-.floating-center {
-  justify-content: center;
-  align-items: center;
+.page-title {
+  margin-top: calc(var(--gap) * 2);
+  margin-bottom: calc(var(--gap) * 2);
 }
 
 .px {
   padding-left: var(--padding-x);
   padding-right: var(--padding-x);
+}
+
+.is-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.is-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.is-gap {
+  gap: var(--gap);
+}
+
+.is-row-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.is-error {
+  color: var(--color-error);
+}
+
+.is-text-small {
+  font-size: small;
 }
 
 /******************************************************************************
