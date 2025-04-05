@@ -1,7 +1,7 @@
 import { adminIsLogin } from './admin';
 import { TNav } from './types';
 import { $ } from './utils';
-
+// TODO: Label is not necessary
 const notFound: TNav = {
   hash: '*',
   label: 'Not Found',
@@ -19,7 +19,7 @@ const handleHashChange = () => {
   }
 
   const nav = routes.find((n) => n.hash === hash) || notFound;
-  console.log(nav, $('main').isConnected)
+  console.log(nav, $('main').isConnected);
   const element = document.createElement(nav.page);
   $('main').replaceChildren(element);
 };
