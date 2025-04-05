@@ -1,9 +1,4 @@
 :root {
-  --error-color: #700000;
-
-  --border: 0.5px solid #999;
-  --border-radius: 0.3rem;
-
   /* Tailwind blue */
   --color-blue-50: oklch(0.97 0.014 254.604);
   --color-blue-100: oklch(0.932 0.032 255.585);
@@ -17,6 +12,18 @@
   --color-blue-900: oklch(0.379 0.146 265.522);
   --color-blue-950: oklch(0.282 0.091 267.935);
 
+  --color-gray-50: oklch(0.985 0.002 247.839);
+  --color-gray-100: oklch(0.967 0.003 264.542);
+  --color-gray-200: oklch(0.928 0.006 264.531);
+  --color-gray-300: oklch(0.872 0.01 258.338);
+  --color-gray-400: oklch(0.707 0.022 261.325);
+  --color-gray-500: oklch(0.551 0.027 264.364);
+  --color-gray-600: oklch(0.446 0.03 256.802);
+  --color-gray-700: oklch(0.373 0.034 259.733);
+  --color-gray-800: oklch(0.278 0.033 256.848);
+  --color-gray-900: oklch(0.21 0.034 264.665);
+  --color-gray-950: oklch(0.13 0.028 261.692);
+
   --shadow-2xs: 0 1px rgb(0 0 0 / 0.05);
   --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
@@ -26,6 +33,19 @@
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* ------------------------- */
+
+  --error-color: #700000;
+
+  --border: 0.5px solid var(--color-gray-300);
+  --border-radius: 0.3rem;
+
+  --transition: 300ms;
+  --color-primary: var(--color-blue-700);
+  --color-primary-hl: var(--color-blue-800);
+
+  --padding-x: 1.8rem;
 }
 
 * {
@@ -36,10 +56,6 @@
 .border {
   border: var(--border);
   border-radius: var(--border-radius);
-}
-
-.container {
-  padding: 0.8rem 1rem;
 }
 
 body {
@@ -54,19 +70,17 @@ body {
   border-radius: var(--border-radius);
   margin-top: 4rem;
   margin-bottom: 4rem;
-  padding: 2rem 2rem;
-  /*
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  */
   box-shadow: var(--shadow-md);
 }
 
 footer {
   text-align: right;
-  padding: 1rem 2rem;
   font-size: small;
   border-top: var(--border);
   margin-top: 2rem;
+  margin-left: var(--padding-x);
+  margin-right: var(--padding-x);
+  padding: 1.5rem 0rem;
 }
 
 /* Not used */
@@ -74,18 +88,12 @@ footer {
   color: var(--error-color);
 }
 
-page-layout::slotted(.field-label) {
-  font-weight: 600;
-  font-size: small;
-  display: block;
-}
-
 /* --------------------- */
 .btn {
   color: white;
-  background-color: var(--color-blue-600);
+  background-color: var(--color-primary);
   font-weight: 600;
-  transition: 300ms;
+  transition: var(--transition);
   border: none;
   border-radius: var(--border-radius);
   padding: 0.4rem 0.8rem;
@@ -94,7 +102,7 @@ page-layout::slotted(.field-label) {
 }
 
 .btn:hover {
-  background-color: var(--color-blue-700);
+  background-color: var(--color-primary-hl);
 }
 
 .btn-group {
@@ -133,8 +141,16 @@ page-layout::slotted(.field-label) {
 }
 
 .icon {
-  height: 2.5rem;
+  height: 3rem;
   font-weight: 900; /* Does not work*/
+  color: #fff;
+  padding: 0.3rem;
+}
+
+.icon:hover {
+  background-color: var(--color-primary-hl);
+  border-radius: 50%;
+  padding: 0.35rem;
 }
 
 /* ------------------------------- */
@@ -142,11 +158,105 @@ page-layout::slotted(.field-label) {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  background-color: var(--color-primary);
+
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   margin: 2rem 0rem;
 }
 
 .nav-items {
   display: flex;
   flex-direction: row;
-  gap: 1.5rem;
+  gap: 0.8rem;
+}
+
+.nav-title {
+  font-weight: 700;
+  color: #fff;
+  margin-left: 1rem;
+  font-size: large;
+}
+
+.floating {
+  display: flex;
+  flex-direction: row;
+}
+
+.floating-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.px {
+  padding-left: var(--padding-x);
+  padding-right: var(--padding-x);
+}
+
+/******************************************************************************
+ * 
+ *****************************************************************************/
+
+/******************************************************************************
+ * Defintion of the header tags
+ *****************************************************************************/
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  line-height: 1.2;
+  font-weight: var(--font-weight-bold);
+}
+
+/* TODO: The margin is not a correct solution */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0rem 0rem var(--margin-y) 0rem;
+}
+
+h1,
+.h1 {
+  font-size: 2rem;
+}
+
+h2,
+.h2 {
+  font-size: 1.6rem;
+}
+
+h3,
+.h3 {
+  font-size: 1.4rem;
+}
+
+h4,
+.h4 {
+  font-size: 1.2rem;
+}
+
+h5,
+.h5 {
+  font-size: 1rem;
+}
+
+h6,
+.h6 {
+  font-size: 0.8rem;
 }
