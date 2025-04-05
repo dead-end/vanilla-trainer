@@ -6,6 +6,9 @@ export class AdminPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-admin');
 
   form: HTMLFormElement | undefined;
+  user: HTMLInputElement | undefined;
+  repo: HTMLInputElement | undefined;
+  token: HTMLInputElement | undefined;
 
   constructor() {
     super();
@@ -14,9 +17,15 @@ export class AdminPage extends HTMLElement {
   connectedCallback() {
     if (!this.form) {
       const tmpl = tmplClone(AdminPage.TMPL);
+
       this.form = $<HTMLFormElement>('form', tmpl);
       this.form.onsubmit = this.handleSubmit.bind(this);
+
       this.appendChild(tmpl);
+
+      this.user = $<HTMLInputElement>('#user', this.form);
+      this.repo = $<HTMLInputElement>('#repo', this.form);
+      this.token = $<HTMLInputElement>('#token', this.form);
 
       document.addEventListener('logout', this.onLogout.bind(this));
     }
@@ -27,33 +36,36 @@ export class AdminPage extends HTMLElement {
   handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
+    if (!this.user || !this.repo || !this.token) {
+      throw new Error('Not initialized!');
+    }
+
     errorReset(this);
 
-    const user = $<HTMLInputElement>('#user', this.form).value;
-    const repo = $<HTMLInputElement>('#repo', this.form).value;
-    const token = $<HTMLInputElement>('#token', this.form).value;
-
-    console.log('url', user, 'repo', repo, 'token', token);
-    if (!user) {
-      errorSet(this, 'user', 'Not-defined!');
+    if (!this.user.value) {
+      errorSet(this, 'user', 'Please enter a value!');
     }
-    if (!repo) {
-      errorSet(this, 'repo', 'Not-defined!');
+    if (!this.repo.value) {
+      errorSet(this, 'repo', 'Please enter a value!');
     }
-    if (!token) {
-      errorSet(this, 'token', 'Not-defined!');
+    if (!this.token.value) {
+      errorSet(this, 'token', 'Please enter a value!');
     }
 
     if (!errorExists(this)) {
-      adminLogin(user, repo, token);
+      adminLogin(this.user.value, this.repo.value, this.token.value);
     }
   }
 
   getAdmin() {
+    if (!this.user || !this.repo || !this.token) {
+      throw new Error('Not initialized!');
+    }
+
     const admin = adminGet();
-    $<HTMLInputElement>('#user', this.form).value = admin.user;
-    $<HTMLInputElement>('#repo', this.form).value = admin.repo;
-    $<HTMLInputElement>('#token', this.form).value = admin.token;
+    this.user.value = admin.user;
+    this.repo.value = admin.repo;
+    this.token.value = admin.token;
   }
 
   onLogout() {
