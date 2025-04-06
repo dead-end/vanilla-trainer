@@ -1,46 +1,58 @@
-import { TAdmin } from './types';
+import {
+  githubConfigDelete,
+  githubConfigGet,
+  githubConfigPut,
+} from './model/githubConfig';
+import { TGithubConfig } from './types';
 
-const STORE_KEY = 'admin';
+/**
+ * The id of the object in the admin store.
+ */
+const STORE_ID = 'github';
 
-export const adminInit = () => {
-  const event = adminIsLogin() ? new Event('login') : new Event('logout');
-  document.dispatchEvent(event);
+let configPromise = githubConfigGet();
+
+export const adminInit = async () => {
+  document.dispatchEvent(
+    (await configPromise) ? new Event('login') : new Event('logout')
+  );
 };
 
-export const adminIsLogin = () => {
-  return localStorage.getItem(STORE_KEY) !== null;
+export const adminIsLogin = async () => {
+  return (await configPromise) !== undefined;
 };
 
-export const adminLogin = (user: string, repo: string, token: string) => {
-  const admin: TAdmin = {
+export const adminLogin = async (user: string, repo: string, token: string) => {
+  const githubConfig: TGithubConfig = {
+    id: STORE_ID,
     user,
     repo,
     token,
   };
-  localStorage.setItem(STORE_KEY, JSON.stringify(admin));
+  configPromise = githubConfigPut(githubConfig);
   document.dispatchEvent(new Event('login'));
 };
 
-export const adminLogout = () => {
-  if (localStorage.getItem(STORE_KEY) !== null) {
-    localStorage.removeItem(STORE_KEY);
+export const adminLogout = async () => {
+  const config = await configPromise;
+  if (config) {
+    configPromise = githubConfigDelete(STORE_ID);
     document.dispatchEvent(new Event('logout'));
   }
 };
 
-export const adminGet = () => {
-  let result: TAdmin;
-
-  const str = localStorage.getItem(STORE_KEY);
-  if (!str) {
-    result = {
+export const adminGet = async () => {
+  const config = await configPromise;
+  if (!config) {
+    const defaultConfig: TGithubConfig = {
+      id: STORE_ID,
       user: '',
       repo: '',
       token: '',
     };
-    return result;
+
+    return defaultConfig;
   }
 
-  result = JSON.parse(str);
-  return result;
+  return config;
 };
