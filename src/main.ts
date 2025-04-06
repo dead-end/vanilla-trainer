@@ -11,8 +11,9 @@ import { NotFoundPage } from './pages/NotFoundPage';
 
 console.log('Started');
 
-routeRegister('#/', 'Home', 'index-page');
-routeRegister('#/admin', 'Admin', 'admin-page');
+routeRegister('#/', 'index-page');
+routeRegister('#/admin', 'admin-page');
+//routeRegister('*', 'not-found-page');
 
 customElements.define('navi-gation', Navigation);
 
