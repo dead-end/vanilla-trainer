@@ -49,6 +49,9 @@
   --padding-x: 1.8rem;
 
   --gap: 1rem;
+
+  --font-weight-bold: 600;
+  --shadow: var(--shadow-md);
 }
 
 * {
@@ -61,10 +64,12 @@ main {
   padding: 0px;
 }
 
+/*
 .border {
   border: var(--border);
   border-radius: var(--border-radius);
 }
+  */
 
 body {
   margin: auto;
@@ -78,7 +83,7 @@ body {
   border-radius: var(--border-radius);
   margin-top: 4rem;
   margin-bottom: 4rem;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow);
 }
 
 footer {
@@ -103,26 +108,12 @@ footer {
   border: none;
   border-radius: var(--border-radius);
   padding: 0.4rem 0.8rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow);
   cursor: pointer;
 }
 
 .btn:hover {
   background-color: var(--color-primary-hl);
-}
-
-.field-label {
-  display: block;
-  font-weight: 600;
-  font-size: small;
-  color: #444;
-  margin-bottom: 0.5rem;
-}
-
-.field-error {
-  font-size: small;
-  margin-top: 0.2rem;
-  color: var(--color-error);
 }
 
 .input-password,
@@ -136,7 +127,6 @@ footer {
 
 .icon {
   height: 3rem;
-  font-weight: 900; /* Does not work*/
   color: var(--color-reverse);
   padding: 0.3rem;
 }
@@ -152,6 +142,7 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 
   background-color: var(--color-primary);
 
@@ -160,12 +151,8 @@ footer {
 
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
 
-.nav-title {
-  font-weight: 700;
-  color: var(--color-reverse);
-  font-size: large;
+  box-shadow: var(--shadow-sm);
 }
 
 .page-title {
@@ -177,6 +164,10 @@ footer {
   padding-left: var(--padding-x);
   padding-right: var(--padding-x);
 }
+
+/******************************************************************************
+ * 
+ *****************************************************************************/
 
 .is-row {
   display: flex;
@@ -192,10 +183,18 @@ footer {
   gap: var(--gap);
 }
 
+.is-gap-small {
+  gap: calc(var(--gap) / 2);
+}
+
 .is-row-center {
   justify-content: center;
   align-items: center;
 }
+
+/******************************************************************************
+ * 
+ *****************************************************************************/
 
 .is-error {
   color: var(--color-error);
@@ -205,9 +204,13 @@ footer {
   font-size: small;
 }
 
-/******************************************************************************
- * 
- *****************************************************************************/
+.is-text-bold {
+  font-weight: var(--font-weight-bold);
+}
+
+.is-text-reverse {
+  color: var(--color-reverse);
+}
 
 /******************************************************************************
  * Defintion of the header tags
