@@ -1,25 +1,23 @@
 import { adminIsLogin } from './admin';
 import { TNav } from './types';
 import { $ } from './utils';
-// TODO: Label is not necessary
+
 const notFound: TNav = {
   hash: '*',
-  label: 'Not Found',
   page: 'not-found-page',
 };
 
 const routes: TNav[] = [];
 
-const handleHashChange = () => {
+const handleHashChange = async () => {
   let hash = window.location.hash || '#/';
 
-  if (!adminIsLogin() && hash !== '#/admin') {
+  if (!(await adminIsLogin()) && hash !== '#/admin') {
     window.location.hash = '#/admin';
     return;
   }
 
   const nav = routes.find((n) => n.hash === hash) || notFound;
-  console.log(nav, $('main').isConnected);
   const element = document.createElement(nav.page);
   $('main').replaceChildren(element);
 };
@@ -28,8 +26,8 @@ export const routesGet = () => {
   return routes;
 };
 
-export const routeRegister = (hash: string, label: string, page: string) => {
-  routes.push({ hash, label, page });
+export const routeRegister = (hash: string, page: string) => {
+  routes.push({ hash, page });
 };
 
 export const routeInit = () => {
