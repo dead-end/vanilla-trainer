@@ -151,8 +151,10 @@ footer {
 
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
 
-  box-shadow: var(--shadow-sm);
+nav {
+  box-shadow: var(--shadow);
 }
 
 .page-title {
