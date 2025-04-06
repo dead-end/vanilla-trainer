@@ -4,7 +4,19 @@ export type TNav = {
   page: string;
 };
 
-export type TAdmin = {
+export type TContentHash = {
+  content: string;
+  hash: string;
+};
+
+export type TCache<T> = {
+  path: string;
+  data: T;
+  hash: string;
+};
+
+export type TGithubConfig = {
+  id: string;
   user: string;
   repo: string;
   token: string;
