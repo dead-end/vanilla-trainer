@@ -12,15 +12,8 @@ const initAndUpdate = (db: IDBDatabase) => {
   }
 
   if (!db.objectStoreNames.contains('admin')) {
-    const store = db.createObjectStore('admin', {
+    db.createObjectStore('admin', {
       keyPath: 'id',
-    });
-
-    store.add({
-      id: 'github',
-      user: '',
-      repo: '',
-      token: '',
     });
   }
 };
