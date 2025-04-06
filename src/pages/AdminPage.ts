@@ -28,9 +28,9 @@ export class AdminPage extends HTMLElement {
       this.token = $<HTMLInputElement>('#token', this.form);
 
       document.addEventListener('logout', this.onLogout.bind(this));
-    }
 
-    this.getAdmin();
+      this.getAdmin();
+    }
   }
 
   handleSubmit(e: SubmitEvent) {
@@ -57,12 +57,12 @@ export class AdminPage extends HTMLElement {
     }
   }
 
-  getAdmin() {
+  async getAdmin() {
     if (!this.user || !this.repo || !this.token) {
       throw new Error('Not initialized!');
     }
 
-    const admin = adminGet();
+    const admin = await adminGet();
     this.user.value = admin.user;
     this.repo.value = admin.repo;
     this.token.value = admin.token;
