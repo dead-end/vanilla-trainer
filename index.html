@@ -20,12 +20,12 @@
     <!-- Pages -->
 
     <template id="page-index">
-      <h3>Welcome to Vanilla Trainer</h3>
+      <h3 class="page-title">Welcome to Vanilla Trainer</h3>
     </template>
 
     <template id="page-not-found">
-      <h3>Page not found</h3>
-      <p class="error">Sorry, the page was not found!</p>
+      <h3 class="page-title">Page not found</h3>
+      <p class="is-error">Sorry, the page was not found!</p>
     </template>
 
     <template id="page-admin">
@@ -58,13 +58,11 @@
     <template id="tmpl-navigation">
       <nav>
         <div class="nav px">
-          <div class="is-row is-row-center is-gap">
+          <h1 class="is-text-reverse">Vanilla Trainer</h1>
+          <div id="nav-items" class="is-row is-gap">
             <a href="#/">
               <ui-icons data-icon="home" />
             </a>
-            <h1 class="nav-title">Vanilla Trainer</h1>
-          </div>
-          <div id="nav-items" class="is-row is-gap">
             <a href="#/books">
               <ui-icons data-icon="book" />
             </a>
@@ -80,10 +78,12 @@
     </template>
 
     <template id="tmpl-ui-input">
-      <div>
-        <label class="field-label" for="default-id">Default Label</label>
+      <div class="is-column is-gap-small">
+        <label class="is-small is-text-bold" for="default-id"
+          >Default Label</label
+        >
         <input class="input-text" id="default-id" type="text" />
-        <p class="field-error" data-error="default-id"></p>
+        <p class="is-error is-small" data-error="default-id"></p>
       </div>
     </template>
 
