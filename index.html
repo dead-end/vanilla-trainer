@@ -7,7 +7,7 @@
   </head>
 
   <body>
-    <div id="app">
+    <div id="app" class="container">
       <header>
         <navi-gation />
       </header>
@@ -51,6 +51,35 @@
           <button class="btn" type="submit">Save</button>
         </div>
       </form>
+    </template>
+
+    <template id="page-book-list">
+      <h3 class="page-title">Book list</h3>
+      <div class="is-column is-gap">
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="is-row is-gap">
+          <button class="btn">Create</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="tmpl-book-list">
+      <tr>
+        <td data-id="id">Id</td>
+        <td data-id="title">Title</td>
+        <td data-id="desc">Description</td>
+        <td data-id="actions">Actions</td>
+      </tr>
     </template>
 
     <!-- Components -->
