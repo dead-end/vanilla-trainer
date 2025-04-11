@@ -20,16 +20,16 @@
     <!-- Pages -->
 
     <template id="page-index">
-      <h3 class="page-title">Welcome to Vanilla Trainer</h3>
+      <page-header data-title="Welcome to Vanilla Trainer"></page-header>
     </template>
 
     <template id="page-not-found">
-      <h3 class="page-title">Page not found</h3>
+      <page-header data-title="Page not found"></page-header>
       <p class="is-error">Sorry, the page was not found!</p>
     </template>
 
     <template id="page-admin">
-      <h3 class="page-title">Administration</h3>
+      <page-header data-title="Administration"></page-header>
       <form class="is-column is-gap">
         <ui-input
           data-id="user"
@@ -54,7 +54,7 @@
     </template>
 
     <template id="page-book-list">
-      <h3 class="page-title">Book list</h3>
+      <page-header data-title="Book list"></page-header>
       <div class="is-column is-gap">
         <table>
           <thead>
@@ -114,6 +114,10 @@
         <input class="input-text" id="default-id" type="text" />
         <p class="is-error is-small" data-error="default-id"></p>
       </div>
+    </template>
+
+    <template id="tmpl-page-header">
+      <h3 class="page-title" data-id="title">Book list</h3>
     </template>
 
     <script type="module" src="/src/main.ts"></script>

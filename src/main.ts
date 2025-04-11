@@ -2,6 +2,7 @@ import './assets/reset.css';
 import './assets/style.css';
 import { Icons } from './components/Icons';
 import { Navigation } from './components/Navigation';
+import { PageHeader } from './components/PageHeader';
 import { UiInput } from './components/ui/UiInput';
 import { adminInit } from './lib/admin';
 import { routeInit, routeRegister } from './lib/route';
@@ -18,6 +19,7 @@ routeRegister('#/books', 'book-list-page');
 //routeRegister('*', 'not-found-page');
 
 customElements.define('navi-gation', Navigation);
+customElements.define('page-header', PageHeader);
 
 customElements.define('ui-input', UiInput);
 customElements.define('ui-icons', Icons);
