@@ -57,14 +57,16 @@
   --color-reverse: #ffffff;
   --color-error: #700000;
 
-  --color-focus: var(--color-blue-500);
-
   /*
    * Border
    */
+  --border-color: var(--color-gray-300);
+  --border-color-focus: var(--color-blue-500);
+  --border-color-hover: var(--color-blue-500);
+
   --border-radius: 0.3rem;
   --border-size: 1px;
-  --border: var(--border-size) solid var(--color-gray-300);
+  --border: var(--border-size) solid var(--border-color);
 
   /*
    * Background color
@@ -107,6 +109,10 @@ body {
   box-shadow: var(--shadow);
 }
 
+.page-header {
+  margin-bottom: var(--gap);
+}
+
 footer {
   text-align: right;
   font-size: small;
@@ -120,6 +126,11 @@ footer {
 }
 
 /* --------------------- */
+
+a {
+  text-decoration: none;
+}
+
 .btn {
   color: white;
   background-color: var(--color-primary);
@@ -149,7 +160,13 @@ textarea {
 
 input:focus,
 textarea:focus {
-  border: var(--border-size) solid var(--color-focus);
+  border: var(--border-size) solid var(--border-color-focus);
+  outline: 0px;
+}
+
+input:hover,
+textarea:hover {
+  border: var(--border-size) solid var(--border-color-hover);
   outline: 0px;
 }
 
