@@ -19,3 +19,8 @@ export const errorExists = (root: HTMLElement) => {
     undefined
   );
 };
+
+export const errorGlobal = (msg: string) => {
+  const event = new CustomEvent('error-msg', { detail: msg });
+  document.dispatchEvent(event);
+};
