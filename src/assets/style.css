@@ -206,12 +206,10 @@ nav {
 }
 
 .page-title {
+  margin-top: calc(var(--gap) * 2);
   /*
-  margin-top: calc(var(--gap) * 2);
-  margin-bottom: calc(var(--gap) * 2);
+  margin-bottom: cals(var(--gap) * 0.5);
   */
-  margin-top: calc(var(--gap) * 2);
-  margin-bottom: var(--gap);
 }
 
 .px {
@@ -286,16 +284,6 @@ h6,
   font-weight: var(--font-weight-bold);
 }
 
-/* TODO: The margin is not a correct solution */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0rem 0rem var(--margin-y) 0rem;
-}
-
 h1,
 .h1 {
   font-size: 2rem;
@@ -358,7 +346,7 @@ h6,
 /* medium: md */
 @media (max-width: 960px) {
   .container {
-    max-width: var(--break-point-md);
+    width: 100%;
   }
 
   .hide-md,
@@ -369,12 +357,16 @@ h6,
   .input {
     width: 25rem;
   }
+
+  #app {
+    margin: 0rem;
+  }
 }
 
 /* small: sl */
 @media (max-width: 640px) {
   .container {
-    max-width: var(--break-point-sm);
+    width: 100%;
   }
 
   .hide-sm,
@@ -385,5 +377,9 @@ h6,
 
   .input {
     width: 100%;
+  }
+
+  #app {
+    margin: 0rem;
   }
 }
