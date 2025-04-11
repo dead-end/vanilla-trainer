@@ -115,7 +115,6 @@ footer {
 
   padding: 1.5rem 0rem;
 
-  margin-top: calc(var(--gap) * 1);
   margin-left: var(--padding-x);
   margin-right: var(--padding-x);
 }
@@ -199,17 +198,12 @@ tr:last-child {
 
   padding-top: 1rem;
   padding-bottom: 1rem;
+
+  margin-bottom: var(--gap);
 }
 
 nav {
   box-shadow: var(--shadow);
-}
-
-.page-title {
-  margin-top: calc(var(--gap) * 2);
-  /*
-  margin-bottom: cals(var(--gap) * 0.5);
-  */
 }
 
 .px {
