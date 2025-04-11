@@ -6,23 +6,23 @@ export class BookListPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-list');
   static TMPL_ROW = $<HTMLTemplateElement>('#tmpl-book-list');
 
-  tbody: HTMLElement | undefined;
+  _tbody: HTMLElement | undefined;
 
   constructor() {
     super();
   }
 
   connectedCallback() {
-    if (!this.tbody) {
+    if (!this._tbody) {
       const tmpl = tmplClone(BookListPage.TMPL);
-      this.tbody = $<HTMLElement>('tbody', tmpl);
+      this._tbody = $<HTMLElement>('tbody', tmpl);
       this.appendChild(tmpl);
       this.render();
     }
   }
 
   async render() {
-    if (!this.tbody) {
+    if (!this._tbody) {
       return;
     }
     const config = await adminGet();
@@ -42,7 +42,7 @@ export class BookListPage extends HTMLElement {
         arr.push(tmpl);
       });
 
-      this.tbody.replaceChildren(...arr);
+      this._tbody.replaceChildren(...arr);
       console.log(books);
     }
   }
