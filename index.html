@@ -11,7 +11,8 @@
       <header>
         <navi-gation />
       </header>
-      <main class="px">
+      <error-msg class="is-padding-x"></error-msg>
+      <main class="is-padding-x">
         <index-page></index-page>
       </main>
       <footer>Copyright Volker Senkel 2025</footer>
@@ -68,7 +69,7 @@
           <tbody></tbody>
         </table>
         <div class="is-row is-gap">
-          <button class="btn">Create</button>
+          <a href="#/books/create" class="btn">Create</a>
         </div>
       </div>
     </template>
@@ -78,28 +79,47 @@
         <td data-id="id">Id</td>
         <td data-id="title">Title</td>
         <td data-id="desc">Description</td>
-        <td data-id="actions">Actions</td>
+        <td data-id="actions">
+          <div class="is-row is-gap-small">
+            <ui-icons class="action" data-icon="delete"></ui-icons>
+            <ui-icons class="action" data-icon="edit"></ui-icons>
+            <ui-icons class="action" data-icon="list"></ui-icons>
+          </div>
+        </td>
       </tr>
+    </template>
+
+    <template id="page-book-create">
+      <page-header data-title="Create Book"></page-header>
+      <form class="is-column is-gap">
+        <ui-input data-id="id" data-label="Id" data-type="text"></ui-input>
+        <ui-input data-id="title" data-label="Title"></ui-input>
+        <ui-textarea data-id="desc" data-label="Description"></ui-textarea>
+        <div class="is-row is-gap">
+          <a href="#/books" class="btn">Cancel</a>
+          <button class="btn" type="submit">Save</button>
+        </div>
+      </form>
     </template>
 
     <!-- Components -->
 
     <template id="tmpl-navigation">
       <nav>
-        <div class="nav px">
+        <div class="nav is-padding-x">
           <h1 class="is-text-reverse">Vanilla Trainer</h1>
           <div id="nav-items" class="is-row is-gap">
             <a href="#/">
-              <ui-icons data-icon="home" />
+              <ui-icons class="nav-item" data-icon="home" />
             </a>
             <a href="#/books">
-              <ui-icons data-icon="book" />
+              <ui-icons class="nav-item" data-icon="book" />
             </a>
             <a href="#/admin">
-              <ui-icons data-icon="admin" />
+              <ui-icons class="nav-item" data-icon="admin" />
             </a>
             <a href="#/admin" id="logout">
-              <ui-icons data-icon="logout" />
+              <ui-icons class="nav-item" data-icon="logout" />
             </a>
           </div>
         </div>
@@ -111,13 +131,33 @@
         <label class="is-small is-text-bold" for="default-id"
           >Default Label</label
         >
-        <input class="input-text" id="default-id" type="text" />
+        <input id="default-id" type="text" />
+        <p class="is-error is-small" data-error="default-id"></p>
+      </div>
+    </template>
+
+    <template id="tmpl-ui-textarea">
+      <div class="is-column is-gap-small">
+        <label class="is-small is-text-bold" for="default-id"
+          >Default Label</label
+        >
+        <textarea id="default-id" type="text" rows="4"></textarea>
         <p class="is-error is-small" data-error="default-id"></p>
       </div>
     </template>
 
     <template id="tmpl-page-header">
-      <h3 data-id="title">Book list</h3>
+      <h3 class="page-header" data-id="title">Book list</h3>
+    </template>
+
+    <template id="tmpl-error">
+      <div class="is-column is-gap is-border is-padding">
+        <h4 class="is-error">Error</h4>
+        <p id="error-msg"></p>
+        <div class="is-row is-gap">
+          <button id="error-btn" class="btn" type="button">Ok</button>
+        </div>
+      </div>
     </template>
 
     <script type="module" src="/src/main.ts"></script>

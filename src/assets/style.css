@@ -39,11 +39,12 @@
   --transition: 300ms;
 
   --padding-x: 1.8rem;
+  --padding-y: 1.8rem;
 
   --gap: 1.4rem;
 
   --font-weight-bold: 600;
-  --shadow: var(--shadow-md);
+  --shadow: var(--shadow-lg);
 
   /*
    * Colors
@@ -56,6 +57,10 @@
 
   --color-reverse: #ffffff;
   --color-error: #700000;
+
+  --color-table-header: var(--color-gray-600);
+  --color-table-hl: var(--color-gray-50);
+  --color-table-icon: var(--color-gray-200);
 
   /*
    * Border
@@ -170,16 +175,33 @@ textarea:hover {
   outline: 0px;
 }
 
+/* -------------------- */
+
 .icon {
   height: 2.5rem;
-  color: var(--color-reverse);
   padding: 0.3rem;
+  transition: var(--transition);
 }
 
 .icon:hover {
+  border-radius: var(--border-radius);
+}
+
+.nav-item > .icon {
+  color: var(--color-reverse);
+}
+
+.nav-item > .icon:hover {
   background-color: var(--color-primary-hl);
-  border-radius: 50%;
-  padding: 0.35rem;
+}
+
+.action > .icon {
+  color: var(--color-primary);
+}
+
+.action > .icon:hover {
+  color: var(--color-primary-hl);
+  background-color: var(--color-table-icon);
 }
 
 /* -------------------- */
@@ -195,10 +217,11 @@ td {
 
 tr {
   border-bottom: var(--border);
+  transition: var(--transition);
 }
 
-tr:last-child {
-  padding-right: 0;
+tr:hover {
+  background-color: var(--color-table-hl);
 }
 
 /* ------------------------------- */
@@ -223,7 +246,26 @@ nav {
   box-shadow: var(--shadow);
 }
 
-.px {
+.is-border {
+  border: var(--border-size) solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+/* TODO: padding*/
+
+.is-padding {
+  padding-left: var(--padding-x);
+  padding-right: var(--padding-x);
+  padding-top: var(--padding-y);
+  padding-bottom: var(--padding-y);
+}
+
+.is-padding-x {
+  padding-left: var(--padding-x);
+  padding-right: var(--padding-x);
+}
+
+.is-padding-y {
   padding-left: var(--padding-x);
   padding-right: var(--padding-x);
 }

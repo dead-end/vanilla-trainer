@@ -1,5 +1,7 @@
 import { adminGet } from '../../lib/admin';
-import { bookListing } from '../../lib/model/book';
+import { errorGlobal } from '../../lib/error';
+import { bookDelete, bookListing } from '../../lib/model/book';
+import { githubConfigGet } from '../../lib/model/githubConfig';
 import { $, tmplClone } from '../../lib/utils';
 
 export class BookListPage extends HTMLElement {
@@ -38,6 +40,9 @@ export class BookListPage extends HTMLElement {
         $('[data-id="id"]', tmpl).textContent = b.id;
         $('[data-id="title"]', tmpl).textContent = b.title;
         $('[data-id="desc"]', tmpl).textContent = b.description;
+        $('[data-icon="delete"]', tmpl).onclick = this.onDelete(b.id).bind(
+          this
+        );
 
         arr.push(tmpl);
       });
@@ -45,5 +50,22 @@ export class BookListPage extends HTMLElement {
       this._tbody.replaceChildren(...arr);
       console.log(books);
     }
+  }
+
+  onDelete(id: string) {
+    return async () => {
+      const githubConfig = await githubConfigGet();
+      if (!githubConfig) {
+        errorGlobal('Unable to get github config!');
+        return;
+      }
+      const result = await bookDelete(githubConfig, id);
+      if (result.hasError()) {
+        errorGlobal(`Unable to delete the book: ${id}`);
+        return;
+      }
+
+      this.render();
+    };
   }
 }
