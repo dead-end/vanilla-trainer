@@ -44,6 +44,13 @@ export class BookListPage extends HTMLElement {
           this
         );
 
+        $('[data-icon="update"]', tmpl).onclick = () => {
+          window.location.hash = `#/book/update/${b.id}`;
+        };
+
+        $('[data-icon="list"]', tmpl).onclick = () => {
+          console.log('##################### list');
+        };
         arr.push(tmpl);
       });
 

@@ -82,7 +82,7 @@
         <td data-id="actions">
           <div class="is-row is-gap-small">
             <ui-icons class="action" data-icon="delete"></ui-icons>
-            <ui-icons class="action" data-icon="edit"></ui-icons>
+            <ui-icons class="action" data-icon="update"></ui-icons>
             <ui-icons class="action" data-icon="list"></ui-icons>
           </div>
         </td>
@@ -97,7 +97,20 @@
         <ui-textarea data-id="desc" data-label="Description"></ui-textarea>
         <div class="is-row is-gap">
           <a href="#/books" class="btn">Cancel</a>
-          <button class="btn" type="submit">Save</button>
+          <button class="btn" type="submit">Create</button>
+        </div>
+      </form>
+    </template>
+
+    <template id="page-book-update">
+      <page-header data-title="Update Book"></page-header>
+      <form class="is-column is-gap">
+        <ui-input data-id="id" data-label="Id" data-type="text"></ui-input>
+        <ui-input data-id="title" data-label="Title"></ui-input>
+        <ui-textarea data-id="desc" data-label="Description"></ui-textarea>
+        <div class="is-row is-gap">
+          <a href="#/books" class="btn">Cancel</a>
+          <button class="btn" type="submit">Update</button>
         </div>
       </form>
     </template>
