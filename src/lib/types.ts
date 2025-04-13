@@ -1,5 +1,5 @@
 export type TNav = {
-  hash: string;
+  regex: RegExp;
   page: string;
 };
 
