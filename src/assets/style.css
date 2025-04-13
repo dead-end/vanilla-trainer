@@ -161,6 +161,7 @@ textarea {
   border: var(--border);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-xs);
+  transition: var(--transition);
 }
 
 input:focus,
@@ -173,6 +174,12 @@ input:hover,
 textarea:hover {
   border: var(--border-size) solid var(--border-color-hover);
   outline: 0px;
+}
+
+input[disabled],
+textarea[disabled],
+.disabled {
+  opacity: 0.6;
 }
 
 /* -------------------- */
