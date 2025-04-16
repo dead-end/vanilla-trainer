@@ -7,6 +7,7 @@ import {
 import { bookGet, bookUpdate } from '../../lib/model/book';
 import { githubConfigGet } from '../../lib/model/githubConfig';
 import { getRouteParam } from '../../lib/route';
+import { STYLE_SHEETS } from '../../lib/stylesheets';
 import { $, tmplClone } from '../../lib/utils';
 
 export class BookUpdatePage extends HTMLElement {
@@ -16,9 +17,12 @@ export class BookUpdatePage extends HTMLElement {
   _desc: HTMLTextAreaElement | undefined;
   _id: HTMLInputElement | undefined;
   _title: HTMLInputElement | undefined;
+  shadow: ShadowRoot;
 
   constructor() {
     super();
+    this.shadow = this.attachShadow({ mode: 'open' });
+    this.shadow.adoptedStyleSheets = STYLE_SHEETS;
   }
 
   connectedCallback() {
@@ -27,7 +31,7 @@ export class BookUpdatePage extends HTMLElement {
 
       this._form = $<HTMLFormElement>('form', tmpl);
       this._form.onsubmit = this.handleSubmit.bind(this);
-      this.appendChild(tmpl);
+      this.shadow.appendChild(tmpl);
 
       this._id = $<HTMLInputElement>('#id', this._form);
       this._title = $<HTMLInputElement>('#title', this._form);

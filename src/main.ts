@@ -1,5 +1,7 @@
+/*
 import './assets/reset.css';
 import './assets/style.css';
+*/
 import { Icons } from './components/Icons';
 import { Navigation } from './components/Navigation';
 import { PageHeader } from './components/PageHeader';
@@ -14,8 +16,11 @@ import { BookCreatePage } from './pages/book/BookCreatePage';
 import { UiTextarea } from './components/ui/UiTextarea';
 import { ErrorMsg } from './components/ErrorMsg';
 import { BookUpdatePage } from './pages/book/BookUpdatePage';
+import { STYLE_SHEETS } from './lib/stylesheets';
 
 console.log('Started');
+
+document.adoptedStyleSheets = STYLE_SHEETS;
 
 routeRegister(/^#\/$/, 'index-page');
 routeRegister(/^#\/admin$/, 'admin-page');
