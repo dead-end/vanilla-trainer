@@ -177,7 +177,9 @@ textarea:hover {
 }
 
 input[disabled],
+input:read-only,
 textarea[disabled],
+textarea:read-only
 .disabled {
   opacity: 0.6;
 }

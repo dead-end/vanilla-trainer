@@ -20,6 +20,7 @@ export class UiTextarea extends HTMLElement {
 
       labelElem.htmlFor = id;
       areaElem.id = id;
+      areaElem.name = id
       errElem.setAttribute('data-error', id);
 
       labelElem.textContent = this.getAttribute('data-label') || 'no-label';
