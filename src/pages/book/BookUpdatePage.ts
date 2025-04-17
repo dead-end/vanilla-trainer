@@ -17,11 +17,11 @@ export class BookUpdatePage extends HTMLElement {
   _desc: HTMLTextAreaElement | undefined;
   _id: HTMLInputElement | undefined;
   _title: HTMLInputElement | undefined;
- // shadow: ShadowRoot;
+  shadow: ShadowRoot;
 
   constructor() {
     super();
-  //  this.shadow = this.attachShadow({ mode: 'open' });
+    this.shadow = this.attachShadow({ mode: 'open' });
   //  this.shadow.adoptedStyleSheets = STYLE_SHEETS;
   }
 
@@ -31,8 +31,8 @@ export class BookUpdatePage extends HTMLElement {
 
       this._form = $<HTMLFormElement>('form', tmpl);
       this._form.onsubmit = this.handleSubmit.bind(this);
-    //  this.shadow.appendChild(tmpl);
-      this.appendChild(tmpl)
+      this.shadow.appendChild(tmpl);
+    //  this.appendChild(tmpl)
 
       this._id = $<HTMLInputElement>('#id', this._form);
       this._title = $<HTMLInputElement>('#title', this._form);
