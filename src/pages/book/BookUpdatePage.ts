@@ -77,8 +77,13 @@ export class BookUpdatePage extends HTMLElement {
 
   async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
+    if (!e.target ||  !(e.target instanceof HTMLFormElement)) {
+      return
+    }
 
-    const formData = new FormData($<HTMLFormElement>('form', this))
+    console.log('target', e.target)
+
+    const formData = new FormData(e.target)
     console.log('id', formData.get('id'), 'title', formData.get('title'), 'desc', formData.get('desc'))
 
     if (!this._id || !this._title || !this._desc) {
