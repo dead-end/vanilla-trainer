@@ -32,22 +32,17 @@
     <template id="page-admin">
       <page-header data-title="Administration"></page-header>
       <form class="is-column is-gap">
-        <ui-input
-          data-id="user"
-          data-label="Github User"
-          data-type="text"
-        ></ui-input>
-        <ui-input
-          data-id="repo"
-          data-label="Github Repository"
-          data-type="text"
-        ></ui-input>
-        <ui-input
-          data-id="token"
-          data-label="Token"
-          data-type="password"
-        ></ui-input>
+        <ui-field data-id="user" data-label="Github User">
+          <input id="user" name="user" type="text" />
+        </ui-field>
 
+        <ui-field data-id="repo" data-label="Github Repository">
+          <input id="repo" name="repo" type="text" />
+        </ui-field>
+
+        <ui-field data-id="token" data-label="Token">
+          <input id="token" name="token" type="password" />
+        </ui-field>
         <div class="is-row is-gap">
           <button class="btn" type="submit">Save</button>
         </div>
@@ -92,9 +87,15 @@
     <template id="page-book-create">
       <page-header data-title="Create Book"></page-header>
       <form class="is-column is-gap">
-        <ui-input data-id="id" data-label="Id" data-type="text"></ui-input>
-        <ui-input data-id="title" data-label="Title"></ui-input>
-        <ui-textarea data-id="desc" data-label="Description"></ui-textarea>
+        <ui-field data-id="id" data-label="Id">
+          <input id="id" name="id" type="text" />
+        </ui-field>
+        <ui-field data-id="title" data-label="Title">
+          <input id="title" name="title" type="text" id="title" />
+        </ui-field>
+        <ui-field data-id="desc" data-label="Description">
+          <textarea id="desc" name="desc" rows="4"></textarea>
+        </ui-field>
         <div class="is-row is-gap">
           <a href="#/books" class="btn">Cancel</a>
           <button class="btn" type="submit">Create</button>
@@ -105,9 +106,15 @@
     <template id="page-book-update">
       <page-header data-title="Update Book"></page-header>
       <form class="is-column is-gap">
-        <ui-input data-id="id" data-label="Id" data-type="text"></ui-input>
-        <ui-input data-id="title" data-label="Title"></ui-input>
-        <ui-textarea data-id="desc" data-label="Description"></ui-textarea>
+        <ui-field data-id="id" data-label="Id">
+          <input id="id" name="id" type="text" readonly />
+        </ui-field>
+        <ui-field data-id="title" data-label="Title">
+          <input id="title" name="title" type="text" id="title" />
+        </ui-field>
+        <ui-field data-id="desc" data-label="Description">
+          <textarea id="desc" name="desc" rows="4"></textarea>
+        </ui-field>
         <div class="is-row is-gap">
           <a href="#/books" class="btn">Cancel</a>
           <button class="btn" type="submit">Update</button>
@@ -139,23 +146,13 @@
       </nav>
     </template>
 
-    <template id="tmpl-ui-input">
+    <template id="tmpl-ui-field">
       <div class="is-column is-gap-small">
         <label class="is-small is-text-bold" for="default-id"
           >Default Label</label
         >
-        <input id="default-id" type="text" />
-        <p class="is-error is-small" data-error="default-id"></p>
-      </div>
-    </template>
-
-    <template id="tmpl-ui-textarea">
-      <div class="is-column is-gap-small">
-        <label class="is-small is-text-bold" for="default-id"
-          >Default Label</label
-        >
-        <textarea id="default-id" type="text" rows="4"></textarea>
-        <p class="is-error is-small" data-error="default-id"></p>
+        <slot></slot>
+        <p class="is-error is-small" id="error"></p>
       </div>
     </template>
 

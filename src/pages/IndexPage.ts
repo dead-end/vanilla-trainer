@@ -1,4 +1,4 @@
-import { STYLES } from '../lib/stylesheets';
+import { STYLES } from '../lib/ui/stylesheets';
 import { $, tmplClone } from '../lib/utils';
 
 export class IndexPage extends HTMLElement {
