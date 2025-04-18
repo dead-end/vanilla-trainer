@@ -25,7 +25,7 @@ export class BookUpdatePage extends HTMLElement {
     this._id = $<HTMLInputElement>('#id', this._form);
     this._title = $<HTMLInputElement>('#title', this._form);
     this._desc = $<HTMLTextAreaElement>('#desc', this._form);
-    this._button = $<HTMLButtonElement>('button');
+    this._button = $<HTMLButtonElement>('button', this._form);
 
     this._form.onsubmit = this.handleSubmit.bind(this);
 
