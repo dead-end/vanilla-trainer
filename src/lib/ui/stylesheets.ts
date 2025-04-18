@@ -1,4 +1,3 @@
-/*
 import reset from '../assets/reset.css?raw';
 import style from '../assets/style.css?raw';
 
@@ -8,6 +7,4 @@ cssReset.replace(reset);
 const cssStyles = new CSSStyleSheet();
 cssStyles.replace(style);
 
-
-export const STYLE_SHEETS = [cssReset, cssStyles];
-*/
+export const STYLES = [cssReset, cssStyles];
