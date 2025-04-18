@@ -21,7 +21,7 @@ export const $$ = <T extends HTMLElement>(
     root = document;
   }
 
-  const arr = [...root.querySelectorAll(query)]
+  const arr = [...root.querySelectorAll(query)];
 
   if (arr.length === 0) {
     throw new Error(`Unable to find: ${query}`);
@@ -37,4 +37,9 @@ export const tmplCreate = (str: string) => {
   const tmpl = document.createElement('template');
   tmpl.innerHTML = str;
   return tmpl;
+};
+
+export const errorGlobal = (msg: string) => {
+  const event = new CustomEvent('error-msg', { detail: msg });
+  document.dispatchEvent(event);
 };
