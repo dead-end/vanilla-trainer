@@ -1,11 +1,6 @@
-
-import './assets/reset.css';
-import './assets/style.css';
-
 import { Icons } from './components/Icons';
 import { Navigation } from './components/Navigation';
 import { PageHeader } from './components/PageHeader';
-import { UiInput } from './components/ui/UiInput';
 import { adminInit } from './lib/admin';
 import { routeInit, routeRegister } from './lib/route';
 import { IndexPage } from './pages/IndexPage';
@@ -13,14 +8,14 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { AdminPage } from './pages/AdminPage';
 import { BookListPage } from './pages/book/BookListPage';
 import { BookCreatePage } from './pages/book/BookCreatePage';
-import { UiTextarea } from './components/ui/UiTextarea';
 import { ErrorMsg } from './components/ErrorMsg';
 import { BookUpdatePage } from './pages/book/BookUpdatePage';
-//import { STYLE_SHEETS } from './lib/stylesheets';
+import { UiField } from './components/ui/UiField';
+import { STYLES } from './lib/ui/stylesheets';
 
 console.log('Started');
 
-//document.adoptedStyleSheets = STYLE_SHEETS;
+document.adoptedStyleSheets = STYLES;
 
 routeRegister(/^#\/$/, 'index-page');
 routeRegister(/^#\/admin$/, 'admin-page');
@@ -33,8 +28,7 @@ customElements.define('navi-gation', Navigation);
 customElements.define('page-header', PageHeader);
 customElements.define('error-msg', ErrorMsg);
 
-customElements.define('ui-input', UiInput);
-customElements.define('ui-textarea', UiTextarea);
+customElements.define('ui-field', UiField);
 customElements.define('ui-icons', Icons);
 
 customElements.define('not-found-page', NotFoundPage);
