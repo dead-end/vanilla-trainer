@@ -56,18 +56,10 @@ export class Icons extends HTMLElement {
     list: Icons.TMPL_LIST,
   };
 
-  initialized = false;
-
   constructor() {
     super();
-  }
-
-  connectedCallback() {
-    if (!this.initialized) {
-      const name = this.getAttribute('data-icon') || 'login';
-      const tmpl = tmplClone(Icons.ICONS[name]);
-      this.appendChild(tmpl);
-      this.initialized = true;
-    }
+    const name = this.getAttribute('data-icon') || 'login';
+    const tmpl = tmplClone(Icons.ICONS[name]);
+    this.appendChild(tmpl);
   }
 }
