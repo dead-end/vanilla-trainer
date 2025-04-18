@@ -18,157 +18,18 @@
       <footer>Copyright Volker Senkel 2025</footer>
     </div>
 
-    <!-- Pages -->
+    <load src="src/pages/IndexPage.html" />
+    <load src="src/pages/NotFoundPage.html" />
+    <load src="src/pages/AdminPage.html" />
 
-    <template id="page-index">
-      <page-header data-title="Welcome to Vanilla Trainer"></page-header>
-    </template>
+    <load src="src/pages/book/BookCreatePage.html" />
+    <load src="src/pages/book/BookUpdatePage.html" />
+    <load src="src/pages/book/BookListPage.html" />
 
-    <template id="page-not-found">
-      <page-header data-title="Page not found"></page-header>
-      <p class="is-error">Sorry, the page was not found!</p>
-    </template>
-
-    <template id="page-admin">
-      <page-header data-title="Administration"></page-header>
-      <form class="is-column is-gap">
-        <ui-field data-id="user" data-label="Github User">
-          <input id="user" name="user" type="text" />
-        </ui-field>
-
-        <ui-field data-id="repo" data-label="Github Repository">
-          <input id="repo" name="repo" type="text" />
-        </ui-field>
-
-        <ui-field data-id="token" data-label="Token">
-          <input id="token" name="token" type="password" />
-        </ui-field>
-        <div class="is-row is-gap">
-          <button class="btn" type="submit">Save</button>
-        </div>
-      </form>
-    </template>
-
-    <template id="page-book-list">
-      <page-header data-title="Book list"></page-header>
-      <div class="is-column is-gap">
-        <table>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div class="is-row is-gap">
-          <a href="#/books/create" class="btn">Create</a>
-        </div>
-      </div>
-    </template>
-
-    <template id="tmpl-book-list">
-      <tr>
-        <td data-id="id">Id</td>
-        <td data-id="title">Title</td>
-        <td data-id="desc">Description</td>
-        <td data-id="actions">
-          <div class="is-row is-gap-small">
-            <ui-icons class="action" data-icon="delete"></ui-icons>
-            <ui-icons class="action" data-icon="update"></ui-icons>
-            <ui-icons class="action" data-icon="list"></ui-icons>
-          </div>
-        </td>
-      </tr>
-    </template>
-
-    <template id="page-book-create">
-      <page-header data-title="Create Book"></page-header>
-      <form class="is-column is-gap">
-        <ui-field data-id="id" data-label="Id">
-          <input id="id" name="id" type="text" />
-        </ui-field>
-        <ui-field data-id="title" data-label="Title">
-          <input id="title" name="title" type="text" id="title" />
-        </ui-field>
-        <ui-field data-id="desc" data-label="Description">
-          <textarea id="desc" name="desc" rows="4"></textarea>
-        </ui-field>
-        <div class="is-row is-gap">
-          <a href="#/books" class="btn">Cancel</a>
-          <button class="btn" type="submit">Create</button>
-        </div>
-      </form>
-    </template>
-
-    <template id="page-book-update">
-      <page-header data-title="Update Book"></page-header>
-      <form class="is-column is-gap">
-        <ui-field data-id="id" data-label="Id">
-          <input id="id" name="id" type="text" readonly />
-        </ui-field>
-        <ui-field data-id="title" data-label="Title">
-          <input id="title" name="title" type="text" id="title" />
-        </ui-field>
-        <ui-field data-id="desc" data-label="Description">
-          <textarea id="desc" name="desc" rows="4"></textarea>
-        </ui-field>
-        <div class="is-row is-gap">
-          <a href="#/books" class="btn">Cancel</a>
-          <button class="btn" type="submit">Update</button>
-        </div>
-      </form>
-    </template>
-
-    <!-- Components -->
-
-    <template id="tmpl-navigation">
-      <nav>
-        <div class="nav is-padding-x">
-          <h1 class="is-text-reverse">Vanilla Trainer</h1>
-          <div id="nav-items" class="is-row is-gap">
-            <a href="#/">
-              <ui-icons class="nav-item" data-icon="home" />
-            </a>
-            <a href="#/books">
-              <ui-icons class="nav-item" data-icon="book" />
-            </a>
-            <a href="#/admin">
-              <ui-icons class="nav-item" data-icon="admin" />
-            </a>
-            <a href="#/admin" id="logout">
-              <ui-icons class="nav-item" data-icon="logout" />
-            </a>
-          </div>
-        </div>
-      </nav>
-    </template>
-
-    <template id="tmpl-ui-field">
-      <div class="is-column is-gap-small">
-        <label class="is-small is-text-bold" for="default-id"
-          >Default Label</label
-        >
-        <slot></slot>
-        <p class="is-error is-small" id="error"></p>
-      </div>
-    </template>
-
-    <template id="tmpl-page-header">
-      <h3 class="page-header" data-id="title">Book list</h3>
-    </template>
-
-    <template id="tmpl-error">
-      <div class="is-column is-gap is-border is-padding">
-        <h4 class="is-error">Error</h4>
-        <p id="error-msg"></p>
-        <div class="is-row is-gap">
-          <button id="error-btn" class="btn" type="button">Ok</button>
-        </div>
-      </div>
-    </template>
+    <load src="src/components/ui/UiField.html" />
+    <load src="src/components/Navigation.html" />
+    <load src="src/components/ErrorMsg.html" />
+    <load src="src/components/PageHeader.html" />
 
     <script type="module" src="/src/main.ts"></script>
   </body>

@@ -1,0 +1,19 @@
+<template id="page-admin">
+  <page-header data-title="Administration"></page-header>
+  <form class="is-column is-gap">
+    <ui-field data-id="user" data-label="Github User">
+      <input id="user" name="user" type="text" />
+    </ui-field>
+
+    <ui-field data-id="repo" data-label="Github Repository">
+      <input id="repo" name="repo" type="text" />
+    </ui-field>
+
+    <ui-field data-id="token" data-label="Token">
+      <input id="token" name="token" type="password" />
+    </ui-field>
+    <div class="is-row is-gap">
+      <button class="btn" type="submit">Save</button>
+    </div>
+  </form>
+</template>

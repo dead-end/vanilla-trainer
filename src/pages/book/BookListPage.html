@@ -1,0 +1,34 @@
+<template id="page-book-list">
+  <page-header data-title="Book list"></page-header>
+  <div class="is-column is-gap">
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="is-row is-gap">
+      <a href="#/books/create" class="btn">Create</a>
+    </div>
+  </div>
+</template>
+
+<template id="tmpl-book-list">
+  <tr>
+    <td data-id="id">Id</td>
+    <td data-id="title">Title</td>
+    <td data-id="desc">Description</td>
+    <td data-id="actions">
+      <div class="is-row is-gap-small">
+        <ui-icons class="action" data-icon="delete"></ui-icons>
+        <ui-icons class="action" data-icon="update"></ui-icons>
+        <ui-icons class="action" data-icon="list"></ui-icons>
+      </div>
+    </td>
+  </tr>
+</template>
