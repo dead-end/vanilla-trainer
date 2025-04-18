@@ -1,5 +1,5 @@
 import { adminIsLogin } from './admin';
-import { errorGlobal } from './error';
+import { errorGlobal } from './utils';
 import { TNav } from './types';
 import { $ } from './utils';
 

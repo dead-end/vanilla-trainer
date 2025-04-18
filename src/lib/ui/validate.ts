@@ -1,4 +1,4 @@
-import { fieldErrorSet } from '../error';
+import { fieldErrorSet } from './fieldError';
 
 export const fieldRequired = (root: HTMLElement, id: string, value: string) => {
   if (!value) {
