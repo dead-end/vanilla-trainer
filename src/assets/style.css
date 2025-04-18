@@ -179,8 +179,7 @@ textarea:hover {
 input[disabled],
 input:read-only,
 textarea[disabled],
-textarea:read-only
-.disabled {
+textarea:read-only .disabled {
   opacity: 0.6;
 }
 
@@ -194,14 +193,6 @@ textarea:read-only
 
 .icon:hover {
   border-radius: var(--border-radius);
-}
-
-.nav-item > .icon {
-  color: var(--color-reverse);
-}
-
-.nav-item > .icon:hover {
-  background-color: var(--color-primary-hl);
 }
 
 .action > .icon {
@@ -234,26 +225,6 @@ tr:hover {
 }
 
 /* ------------------------------- */
-.nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  background-color: var(--color-primary);
-
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
-
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-
-  margin-bottom: var(--gap);
-}
-
-nav {
-  box-shadow: var(--shadow);
-}
 
 .is-border {
   border: var(--border-size) solid var(--border-color);

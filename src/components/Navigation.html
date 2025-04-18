@@ -1,4 +1,35 @@
 <template id="tmpl-navigation">
+  <style>
+    nav {
+      box-shadow: var(--shadow);
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      background-color: var(--color-primary);
+
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
+
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+
+      margin-bottom: var(--gap);
+    }
+
+    .nav-item > .icon {
+      color: var(--color-reverse);
+    }
+
+    .nav-item > .icon:hover {
+      background-color: var(--color-primary-hl);
+    }
+  </style>
+
   <nav>
     <div class="nav is-padding-x">
       <h1 class="is-text-reverse">Vanilla Trainer</h1>
