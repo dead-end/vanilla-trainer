@@ -114,8 +114,13 @@ body {
   box-shadow: var(--shadow);
 }
 
-.page-header {
-  margin-bottom: var(--gap);
+/******************************************************************************
+ * Simple classes without components
+ *****************************************************************************/
+
+.page-title {
+  font-weight: var(--font-weight-bold);
+  font-size: x-large;
 }
 
 footer {

@@ -1,6 +1,5 @@
 import { Icons } from './components/Icons';
 import { Navigation } from './components/Navigation';
-import { PageHeader } from './components/PageHeader';
 import { adminInit } from './lib/admin';
 import { routeInit, routeRegister } from './lib/route';
 import { IndexPage } from './pages/IndexPage';
@@ -25,7 +24,6 @@ routeRegister(/^#\/book\/update\/(?<bookId>[^\/]+)$/, 'book-update-page');
 routeRegister(/.*/, 'not-found-page');
 
 customElements.define('navi-gation', Navigation);
-customElements.define('page-header', PageHeader);
 customElements.define('error-msg', ErrorMsg);
 
 customElements.define('ui-field', UiField);
