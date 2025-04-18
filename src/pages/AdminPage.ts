@@ -1,67 +1,54 @@
 import { adminGet, adminLogin } from '../lib/admin';
-import { errorExists, errorReset, errorSet } from '../lib/error';
+import { fieldErrorExists, fieldErrorReset } from '../lib/ui/fieldError';
+import { STYLES } from '../lib/ui/stylesheets';
 import { $, tmplClone } from '../lib/utils';
+import { fieldRequired } from '../lib/ui/validate';
 
 export class AdminPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-admin');
 
-  _form: HTMLFormElement | undefined;
-  _user: HTMLInputElement | undefined;
-  _repo: HTMLInputElement | undefined;
-  _token: HTMLInputElement | undefined;
+  _form: HTMLFormElement;
+  _user: HTMLInputElement;
+  _repo: HTMLInputElement;
+  _token: HTMLInputElement;
 
   constructor() {
     super();
+
+    this.attachShadow({ mode: 'open' }).adoptedStyleSheets = STYLES;
+
+    const tmpl = tmplClone(AdminPage.TMPL);
+
+    this._form = $<HTMLFormElement>('form', tmpl);
+    this._user = $<HTMLInputElement>('#user', this._form);
+    this._repo = $<HTMLInputElement>('#repo', this._form);
+    this._token = $<HTMLInputElement>('#token', this._form);
+
+    this._form.onsubmit = this.handleSubmit.bind(this);
+    document.addEventListener('logout', this.onLogout.bind(this));
+
+    this.shadowRoot?.appendChild(tmpl);
   }
 
   connectedCallback() {
-    if (!this._form) {
-      const tmpl = tmplClone(AdminPage.TMPL);
-
-      this._form = $<HTMLFormElement>('form', tmpl);
-      this._form.onsubmit = this.handleSubmit.bind(this);
-
-      this.appendChild(tmpl);
-
-      this._user = $<HTMLInputElement>('#user', this._form);
-      this._repo = $<HTMLInputElement>('#repo', this._form);
-      this._token = $<HTMLInputElement>('#token', this._form);
-
-      document.addEventListener('logout', this.onLogout.bind(this));
-
-      this.getAdmin();
-    }
+    this.getAdmin();
   }
 
   handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
-    if (!this._user || !this._repo || !this._token) {
-      throw new Error('Not initialized!');
-    }
+    fieldErrorReset(this._form);
 
-    errorReset(this);
+    fieldRequired(this._form, 'user', this._user.value);
+    fieldRequired(this._form, 'repo', this._repo.value);
+    fieldRequired(this._form, 'token', this._token.value);
 
-    if (!this._user.value) {
-      errorSet(this, 'user', 'Please enter a value!');
-    }
-    if (!this._repo.value) {
-      errorSet(this, 'repo', 'Please enter a value!');
-    }
-    if (!this._token.value) {
-      errorSet(this, 'token', 'Please enter a value!');
-    }
-
-    if (!errorExists(this)) {
+    if (!fieldErrorExists(this._form)) {
       adminLogin(this._user.value, this._repo.value, this._token.value);
     }
   }
 
   async getAdmin() {
-    if (!this._user || !this._repo || !this._token) {
-      throw new Error('Not initialized!');
-    }
-
     const admin = await adminGet();
     this._user.value = admin.user;
     this._repo.value = admin.repo;

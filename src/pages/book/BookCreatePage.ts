@@ -1,69 +1,58 @@
-import {
-  errorExists,
-  errorGlobal,
-  errorReset,
-  errorSet,
-} from '../../lib/error';
+import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/fieldError';
 import { bookCreate } from '../../lib/model/book';
 import { githubConfigGet } from '../../lib/model/githubConfig';
-import { $, tmplClone } from '../../lib/utils';
+import { STYLES } from '../../lib/ui/stylesheets';
+import { $, errorGlobal, tmplClone } from '../../lib/utils';
+import { fieldId, fieldRequired } from '../../lib/ui/validate';
 
 export class BookCreatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-create');
 
-  _form: HTMLFormElement | undefined;
-  _desc: HTMLTextAreaElement | undefined;
-  _id: HTMLInputElement | undefined;
-  _title: HTMLInputElement | undefined;
+  _form: HTMLFormElement;
+  _desc: HTMLTextAreaElement;
+  _id: HTMLInputElement;
+  _title: HTMLInputElement;
+  _button: HTMLButtonElement;
 
   constructor() {
     super();
-  }
 
-  connectedCallback() {
-    if (!this._form) {
-      const tmpl = tmplClone(BookCreatePage.TMPL);
+    this.attachShadow({ mode: 'open' }).adoptedStyleSheets = STYLES;
 
-      this._form = $<HTMLFormElement>('form', tmpl);
-      this._form.onsubmit = this.handleSubmit.bind(this);
-      this.appendChild(tmpl);
+    const tmpl = tmplClone(BookCreatePage.TMPL);
 
-      this._id = $<HTMLInputElement>('#id', this._form);
-      this._title = $<HTMLInputElement>('#title', this._form);
-      this._desc = $<HTMLTextAreaElement>('#desc', this._form);
-    }
+    this._form = $<HTMLFormElement>('form', tmpl);
+    this._id = $<HTMLInputElement>('#id', this._form);
+    this._title = $<HTMLInputElement>('#title', this._form);
+    this._desc = $<HTMLTextAreaElement>('#desc', this._form);
+    this._button = $<HTMLButtonElement>('button');
+
+    this._form.onsubmit = this.handleSubmit.bind(this);
+
+    this.shadowRoot?.appendChild(tmpl);
   }
 
   async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
-    if (!this._id || !this._title || !this._desc) {
-      throw new Error('Not initialized!');
-    }
+    fieldErrorReset(this._form);
 
-    errorReset(this);
+    fieldRequired(this._form, 'id', this._id.value) &&
+      fieldId(this._form, 'id', this._id.value);
+    fieldRequired(this._form, 'title', this._title.value);
+    fieldRequired(this._form, 'desc', this._desc.value);
 
-    if (!this._id.value) {
-      errorSet(this, 'id', 'Please enter a value!');
-    }
-    if (!this._title.value) {
-      errorSet(this, 'title', 'Please enter a value!');
-    }
-    if (!this._desc.value) {
-      errorSet(this, 'desc', 'Please enter a value!');
-    }
-
-    if (!errorExists(this)) {
+    if (!fieldErrorExists(this._form)) {
       console.log('id', this._id, 'title', this._title, 'desc', this._desc);
 
-      $<HTMLButtonElement>('button').disabled = true;
+      this._button.disabled = true;
 
       this.doCreate(
         this._id.value,
         this._title.value,
         this._desc.value
       ).finally(() => {
-        $<HTMLButtonElement>('button').disabled = false;
+        this._button.disabled = false;
       });
     }
   }

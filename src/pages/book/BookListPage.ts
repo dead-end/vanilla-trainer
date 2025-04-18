@@ -1,32 +1,32 @@
 import { adminGet } from '../../lib/admin';
-import { errorGlobal } from '../../lib/error';
 import { bookDelete, bookListing } from '../../lib/model/book';
 import { githubConfigGet } from '../../lib/model/githubConfig';
-import { $, tmplClone } from '../../lib/utils';
+import { STYLES } from '../../lib/ui/stylesheets';
+import { $, errorGlobal, tmplClone } from '../../lib/utils';
 
 export class BookListPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-list');
   static TMPL_ROW = $<HTMLTemplateElement>('#tmpl-book-list');
 
-  _tbody: HTMLElement | undefined;
+  _tbody: HTMLElement;
 
   constructor() {
     super();
+
+    this.attachShadow({ mode: 'open' }).adoptedStyleSheets = STYLES;
+
+    const tmpl = tmplClone(BookListPage.TMPL);
+
+    this._tbody = $<HTMLElement>('tbody', tmpl);
+
+    this.shadowRoot?.appendChild(tmpl);
   }
 
   connectedCallback() {
-    if (!this._tbody) {
-      const tmpl = tmplClone(BookListPage.TMPL);
-      this._tbody = $<HTMLElement>('tbody', tmpl);
-      this.appendChild(tmpl);
-      this.render();
-    }
+    this.render();
   }
 
   async render() {
-    if (!this._tbody) {
-      return;
-    }
     const config = await adminGet();
     const result = await bookListing(config);
     if (result.isOk()) {
