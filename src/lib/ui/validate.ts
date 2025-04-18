@@ -9,7 +9,7 @@ export const fieldRequired = (root: HTMLElement, id: string, value: string) => {
 };
 
 export const fieldId = (root: HTMLElement, id: string, value: string) => {
-  if (!/^[_-a-zA-Z0-9]+$/.test(value)) {
+  if (!/^[-_a-zA-Z0-9]+$/.test(value)) {
     fieldErrorSet(root, id, 'Please enter an id value!');
     return false;
   }
