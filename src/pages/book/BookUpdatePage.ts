@@ -1,7 +1,6 @@
 import { bookGet, bookUpdate } from '../../lib/model/book';
 import { githubConfigGet } from '../../lib/model/githubConfig';
 import { getRouteParam } from '../../lib/route';
-import { STYLES } from '../../lib/ui/stylesheets';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/fieldError';
@@ -10,23 +9,16 @@ export class BookUpdatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-update');
 
   connectedCallback() {
-    if (!this.shadowRoot) {
+    if (!this.hasChildNodes()) {
       const tmpl = tmplClone(BookUpdatePage.TMPL);
       $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
-
-      const shadow = this.attachShadow({ mode: 'open' });
-      shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(tmpl);
+      this.appendChild(tmpl);
     }
 
     this.render();
   }
 
   async render() {
-    if (!this.shadowRoot) {
-      return;
-    }
-
     const bookId = getRouteParam('bookId');
     if (!bookId) {
       errorGlobal(`Unable to get book id from: ${window.location.hash}`);
@@ -47,9 +39,9 @@ export class BookUpdatePage extends HTMLElement {
 
     const book = result.getValue();
 
-    $<HTMLInputElement>('#id', this.shadowRoot).value = book.id;
-    $<HTMLInputElement>('#title', this.shadowRoot).value = book.title;
-    $<HTMLTextAreaElement>('#desc', this.shadowRoot).value = book.description;
+    $<HTMLInputElement>('#id').value = book.id;
+    $<HTMLInputElement>('#title').value = book.title;
+    $<HTMLTextAreaElement>('#desc').value = book.description;
   }
 
   async handleSubmit(e: SubmitEvent) {

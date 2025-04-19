@@ -1,6 +1,5 @@
 import { adminGet, adminLogin } from '../lib/admin';
 import { fieldErrorExists, fieldErrorReset } from '../lib/ui/fieldError';
-import { STYLES } from '../lib/ui/stylesheets';
 import { $, tmplClone } from '../lib/utils';
 import { fieldGet, fieldRequired } from '../lib/ui/field';
 
@@ -8,13 +7,11 @@ export class AdminPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-admin');
 
   connectedCallback() {
-    if (!this.shadowRoot) {
+    if (!this.hasChildNodes()) {
       const tmpl = tmplClone(AdminPage.TMPL);
       $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
 
-      const shadow = this.attachShadow({ mode: 'open' });
-      shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(tmpl);
+      this.appendChild(tmpl);
 
       document.addEventListener('logout', this.onLogout.bind(this));
     }
@@ -50,12 +47,10 @@ export class AdminPage extends HTMLElement {
   }
 
   async getAdmin() {
-    if (this.shadowRoot) {
-      const admin = await adminGet();
-      $<HTMLInputElement>('#user', this.shadowRoot).value = admin.user;
-      $<HTMLInputElement>('#repo', this.shadowRoot).value = admin.repo;
-      $<HTMLInputElement>('#token', this.shadowRoot).value = admin.token;
-    }
+    const admin = await adminGet();
+    $<HTMLInputElement>('#user').value = admin.user;
+    $<HTMLInputElement>('#repo').value = admin.repo;
+    $<HTMLInputElement>('#token').value = admin.token;
   }
 
   onLogout() {

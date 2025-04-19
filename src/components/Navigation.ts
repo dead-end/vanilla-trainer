@@ -8,7 +8,7 @@ export class Navigation extends HTMLElement {
   connectedCallback() {
     if (!this.shadowRoot) {
       const tmpl = tmplClone(Navigation.TMPL);
-      $('#logout', tmpl).onclick = this.doLogout;
+      $<HTMLElement>('#logout', tmpl).onclick = this.doLogout;
 
       const shadow = this.attachShadow({ mode: 'open' });
       shadow.adoptedStyleSheets = STYLES;

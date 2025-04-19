@@ -1,7 +1,6 @@
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/fieldError';
 import { bookCreate } from '../../lib/model/book';
 import { githubConfigGet } from '../../lib/model/githubConfig';
-import { STYLES } from '../../lib/ui/stylesheets';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldId, fieldRequired } from '../../lib/ui/field';
 
@@ -9,13 +8,10 @@ export class BookCreatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-create');
 
   connectedCallback() {
-    if (!this.shadowRoot) {
+    if (!this.hasChildNodes()) {
       const tmpl = tmplClone(BookCreatePage.TMPL);
       $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
-
-      const shadow = this.attachShadow({ mode: 'open' });
-      shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(tmpl);
+      this.appendChild(tmpl);
     }
   }
 

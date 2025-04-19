@@ -1,4 +1,4 @@
-export const $ = <T extends HTMLElement>(
+export const $ = <T extends Element>(
   query: string,
   root?: Document | DocumentFragment | HTMLElement
 ) => {
@@ -13,7 +13,7 @@ export const $ = <T extends HTMLElement>(
   return result as T;
 };
 
-export const $$ = <T extends HTMLElement>(
+export const $$ = <T extends Element>(
   query: string,
   root?: Document | DocumentFragment | HTMLElement
 ) => {
@@ -28,6 +28,15 @@ export const $$ = <T extends HTMLElement>(
   }
   return arr as T[];
 };
+
+/*
+export const $id = <T extends HTMLElement>(id: string) => {
+  const result = document.getElementById(id);
+  if (!result) {
+    throw new Error(`Unable to find id: ${id}`);
+  }
+  return result as T;
+};*/
 
 export const tmplClone = (template: HTMLTemplateElement) => {
   return template.content.cloneNode(true) as DocumentFragment;

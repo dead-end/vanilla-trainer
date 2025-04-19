@@ -7,7 +7,7 @@ export class ErrorMsg extends HTMLElement {
   connectedCallback() {
     if (!this.shadowRoot) {
       const tmpl = tmplClone(ErrorMsg.TMPL);
-      $('#error-btn', tmpl).onclick = this.onOk.bind(this);
+      $<HTMLElement>('#error-btn', tmpl).onclick = this.onOk.bind(this);
 
       const shadow = this.attachShadow({ mode: 'open' });
       shadow.adoptedStyleSheets = STYLES;
