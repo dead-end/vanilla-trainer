@@ -37,3 +37,8 @@ export type TQuestion = {
   answer: string;
   details?: string;
 };
+
+export type TField = {
+  id: string;
+  value: string;
+};
