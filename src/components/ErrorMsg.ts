@@ -1,32 +1,35 @@
+import { STYLES } from '../lib/ui/stylesheets';
 import { $, tmplClone } from '../lib/utils';
 
 export class ErrorMsg extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#tmpl-error');
 
-  _error: HTMLElement;
+  connectedCallback() {
+    if (!this.shadowRoot) {
+      const tmpl = tmplClone(ErrorMsg.TMPL);
+      $('#error-btn', tmpl).onclick = this.onOk.bind(this);
 
-  constructor() {
-    super();
+      const shadow = this.attachShadow({ mode: 'open' });
+      shadow.adoptedStyleSheets = STYLES;
+      shadow.appendChild(tmpl);
 
-    const tmpl = tmplClone(ErrorMsg.TMPL);
-    this._error = $('#error-msg', tmpl);
-    $('#error-btn', tmpl).onclick = this.onOk.bind(this);
-
-    this.shadowRoot?.appendChild(tmpl);
-
-    document.addEventListener('error-msg', this.onError.bind(this));
-
-    this.style.display = 'none';
+      document.addEventListener('error-msg', this.onError.bind(this));
+      this.style.display = 'none';
+    }
   }
 
   onError(e: Event) {
-    const detail = (e as CustomEvent).detail;
-    this._error.textContent = detail;
-    this.style.display = 'block';
+    if (this.shadowRoot) {
+      const detail = (e as CustomEvent).detail;
+      $('#error-msg', this.shadowRoot).textContent = detail;
+      this.style.display = 'block';
+    }
   }
 
   onOk() {
-    this._error.textContent = '';
-    this.style.display = 'none';
+    if (this.shadowRoot) {
+      $('#error-msg', this.shadowRoot).textContent = '';
+      this.style.display = 'none';
+    }
   }
 }
