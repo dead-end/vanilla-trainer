@@ -157,6 +157,10 @@ a {
   background-color: var(--color-primary-hl);
 }
 
+.btn:disabled {
+  opacity: 0.6;
+}
+
 input,
 textarea {
   color: inherit;
