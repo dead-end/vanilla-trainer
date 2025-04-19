@@ -3,56 +3,47 @@ import { bookCreate } from '../../lib/model/book';
 import { githubConfigGet } from '../../lib/model/githubConfig';
 import { STYLES } from '../../lib/ui/stylesheets';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
-import { fieldId, fieldRequired } from '../../lib/ui/validate';
+import { fieldGet, fieldId, fieldRequired } from '../../lib/ui/field';
 
 export class BookCreatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-create');
 
-  _form: HTMLFormElement;
-  _desc: HTMLTextAreaElement;
-  _id: HTMLInputElement;
-  _title: HTMLInputElement;
-  _button: HTMLButtonElement;
+  connectedCallback() {
+    if (!this.shadowRoot) {
+      const tmpl = tmplClone(BookCreatePage.TMPL);
+      $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
 
-  constructor() {
-    super();
-
-    this.attachShadow({ mode: 'open' }).adoptedStyleSheets = STYLES;
-
-    const tmpl = tmplClone(BookCreatePage.TMPL);
-
-    this._form = $<HTMLFormElement>('form', tmpl);
-    this._id = $<HTMLInputElement>('#id', this._form);
-    this._title = $<HTMLInputElement>('#title', this._form);
-    this._desc = $<HTMLTextAreaElement>('#desc', this._form);
-    this._button = $<HTMLButtonElement>('button');
-
-    this._form.onsubmit = this.handleSubmit.bind(this);
-
-    this.shadowRoot?.appendChild(tmpl);
+      const shadow = this.attachShadow({ mode: 'open' });
+      shadow.adoptedStyleSheets = STYLES;
+      shadow.appendChild(tmpl);
+    }
   }
 
   async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
-    fieldErrorReset(this._form);
+    const form = e.target as HTMLFormElement;
 
-    fieldRequired(this._form, 'id', this._id.value) &&
-      fieldId(this._form, 'id', this._id.value);
-    fieldRequired(this._form, 'title', this._title.value);
-    fieldRequired(this._form, 'desc', this._desc.value);
+    const formData = new FormData(form);
+    const id = fieldGet(formData, 'id');
+    const title = fieldGet(formData, 'title');
+    const desc = fieldGet(formData, 'desc');
 
-    if (!fieldErrorExists(this._form)) {
-      console.log('id', this._id, 'title', this._title, 'desc', this._desc);
+    fieldErrorReset(form);
 
-      this._button.disabled = true;
+    fieldRequired(form, id) && fieldId(form, id);
+    fieldRequired(form, title);
+    fieldRequired(form, desc);
 
-      this.doCreate(
-        this._id.value,
-        this._title.value,
-        this._desc.value
-      ).finally(() => {
-        this._button.disabled = false;
+    const button = $<HTMLButtonElement>('button', form);
+
+    if (!fieldErrorExists(form)) {
+      console.log('id', id, 'title', title, 'desc', desc);
+
+      button.disabled = true;
+
+      this.doCreate(id.value, title.value, desc.value).finally(() => {
+        button.disabled = false;
       });
     }
   }

@@ -3,40 +3,30 @@ import { githubConfigGet } from '../../lib/model/githubConfig';
 import { getRouteParam } from '../../lib/route';
 import { STYLES } from '../../lib/ui/stylesheets';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
-import { fieldRequired } from '../../lib/ui/validate';
+import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/fieldError';
 
 export class BookUpdatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-update');
 
-  _form: HTMLFormElement;
-  _id: HTMLInputElement;
-  _title: HTMLInputElement;
-  _desc: HTMLTextAreaElement;
-  _button: HTMLButtonElement;
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' }).adoptedStyleSheets = STYLES;
-
-    const tmpl = tmplClone(BookUpdatePage.TMPL);
-
-    this._form = $<HTMLFormElement>('form', tmpl);
-    this._id = $<HTMLInputElement>('#id', this._form);
-    this._title = $<HTMLInputElement>('#title', this._form);
-    this._desc = $<HTMLTextAreaElement>('#desc', this._form);
-    this._button = $<HTMLButtonElement>('button', this._form);
-
-    this._form.onsubmit = this.handleSubmit.bind(this);
-
-    this.shadowRoot?.appendChild(tmpl);
-  }
-
   connectedCallback() {
+    if (!this.shadowRoot) {
+      const tmpl = tmplClone(BookUpdatePage.TMPL);
+      $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
+
+      const shadow = this.attachShadow({ mode: 'open' });
+      shadow.adoptedStyleSheets = STYLES;
+      shadow.appendChild(tmpl);
+    }
+
     this.render();
   }
 
   async render() {
+    if (!this.shadowRoot) {
+      return;
+    }
+
     const bookId = getRouteParam('bookId');
     if (!bookId) {
       errorGlobal(`Unable to get book id from: ${window.location.hash}`);
@@ -57,28 +47,33 @@ export class BookUpdatePage extends HTMLElement {
 
     const book = result.getValue();
 
-    this._id.value = book.id;
-    this._title.value = book.title;
-    this._desc.value = book.description;
+    $<HTMLInputElement>('#id', this.shadowRoot).value = book.id;
+    $<HTMLInputElement>('#title', this.shadowRoot).value = book.title;
+    $<HTMLTextAreaElement>('#desc', this.shadowRoot).value = book.description;
   }
 
   async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
-    fieldErrorReset(this._form);
+    const form = e.target as HTMLFormElement;
 
-    fieldRequired(this._form, 'title', this._title.value);
-    fieldRequired(this._form, 'desc', this._desc.value);
+    const formData = new FormData(form);
+    const id = fieldGet(formData, 'id');
+    const title = fieldGet(formData, 'title');
+    const desc = fieldGet(formData, 'desc');
 
-    if (!fieldErrorExists(this._form)) {
-      this._button.disabled = true;
+    fieldErrorReset(form);
 
-      this.doUpdate(
-        this._id.value,
-        this._title.value,
-        this._desc.value
-      ).finally(() => {
-        this._button.disabled = false;
+    fieldRequired(form, title);
+    fieldRequired(form, desc);
+
+    const button = $<HTMLButtonElement>('button', form);
+
+    if (!fieldErrorExists(form)) {
+      button.disabled = true;
+
+      this.doUpdate(id.value, title.value, desc.value).finally(() => {
+        button.disabled = false;
       });
     }
   }

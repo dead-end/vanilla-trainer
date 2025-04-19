@@ -2,57 +2,60 @@ import { adminGet, adminLogin } from '../lib/admin';
 import { fieldErrorExists, fieldErrorReset } from '../lib/ui/fieldError';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $, tmplClone } from '../lib/utils';
-import { fieldRequired } from '../lib/ui/validate';
+import { fieldGet, fieldRequired } from '../lib/ui/field';
 
 export class AdminPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-admin');
 
-  _form: HTMLFormElement;
-  _user: HTMLInputElement;
-  _repo: HTMLInputElement;
-  _token: HTMLInputElement;
-
-  constructor() {
-    super();
-
-    this.attachShadow({ mode: 'open' }).adoptedStyleSheets = STYLES;
-
-    const tmpl = tmplClone(AdminPage.TMPL);
-
-    this._form = $<HTMLFormElement>('form', tmpl);
-    this._user = $<HTMLInputElement>('#user', this._form);
-    this._repo = $<HTMLInputElement>('#repo', this._form);
-    this._token = $<HTMLInputElement>('#token', this._form);
-
-    this._form.onsubmit = this.handleSubmit.bind(this);
-    document.addEventListener('logout', this.onLogout.bind(this));
-
-    this.shadowRoot?.appendChild(tmpl);
-  }
-
   connectedCallback() {
+    if (!this.shadowRoot) {
+      const tmpl = tmplClone(AdminPage.TMPL);
+      $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
+
+      const shadow = this.attachShadow({ mode: 'open' });
+      shadow.adoptedStyleSheets = STYLES;
+      shadow.appendChild(tmpl);
+
+      document.addEventListener('logout', this.onLogout.bind(this));
+    }
+
     this.getAdmin();
   }
 
   handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
-    fieldErrorReset(this._form);
+    const form = e.target as HTMLFormElement;
 
-    fieldRequired(this._form, 'user', this._user.value);
-    fieldRequired(this._form, 'repo', this._repo.value);
-    fieldRequired(this._form, 'token', this._token.value);
+    const formData = new FormData(form);
+    const user = fieldGet(formData, 'user');
+    const repo = fieldGet(formData, 'repo');
+    const token = fieldGet(formData, 'token');
 
-    if (!fieldErrorExists(this._form)) {
-      adminLogin(this._user.value, this._repo.value, this._token.value);
+    fieldErrorReset(form);
+
+    fieldRequired(form, user);
+    fieldRequired(form, repo);
+    fieldRequired(form, token);
+
+    const button = $<HTMLButtonElement>('button', form);
+
+    if (!fieldErrorExists(form)) {
+      button.disabled = true;
+
+      adminLogin(user.value, repo.value, token.value).finally(() => {
+        button.disabled = false;
+      });
     }
   }
 
   async getAdmin() {
-    const admin = await adminGet();
-    this._user.value = admin.user;
-    this._repo.value = admin.repo;
-    this._token.value = admin.token;
+    if (this.shadowRoot) {
+      const admin = await adminGet();
+      $<HTMLInputElement>('#user', this.shadowRoot).value = admin.user;
+      $<HTMLInputElement>('#repo', this.shadowRoot).value = admin.repo;
+      $<HTMLInputElement>('#token', this.shadowRoot).value = admin.token;
+    }
   }
 
   onLogout() {
