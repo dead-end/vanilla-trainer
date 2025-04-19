@@ -8,25 +8,22 @@ export class BookListPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-list');
   static TMPL_ROW = $<HTMLTemplateElement>('#tmpl-book-list');
 
-  _tbody: HTMLElement;
-
-  constructor() {
-    super();
-
-    this.attachShadow({ mode: 'open' }).adoptedStyleSheets = STYLES;
-
-    const tmpl = tmplClone(BookListPage.TMPL);
-
-    this._tbody = $<HTMLElement>('tbody', tmpl);
-
-    this.shadowRoot?.appendChild(tmpl);
-  }
-
   connectedCallback() {
+    if (!this.shadowRoot) {
+      const tmpl = tmplClone(BookListPage.TMPL);
+
+      const shadow = this.attachShadow({ mode: 'open' });
+      shadow.adoptedStyleSheets = STYLES;
+      shadow.appendChild(tmpl);
+    }
+
     this.render();
   }
 
   async render() {
+    if (!this.shadowRoot) {
+      return;
+    }
     const config = await adminGet();
     const result = await bookListing(config);
     if (result.isOk()) {
@@ -54,7 +51,7 @@ export class BookListPage extends HTMLElement {
         arr.push(tmpl);
       });
 
-      this._tbody.replaceChildren(...arr);
+      $<HTMLElement>('tbody', this.shadowRoot).replaceChildren(...arr);
       console.log(books);
     }
   }
