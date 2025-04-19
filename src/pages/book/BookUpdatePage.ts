@@ -3,7 +3,7 @@ import { githubConfigGet } from '../../lib/model/githubConfig';
 import { getRouteParam } from '../../lib/route';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
-import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/fieldError';
+import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 
 export class BookUpdatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-update');

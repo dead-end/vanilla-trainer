@@ -1,5 +1,5 @@
 import { TField } from '../types';
-import { fieldErrorSet } from './fieldError';
+import { $, $$ } from '../utils';
 
 export const fieldGet = (formData: FormData, id: string): TField => {
   const value = formData.get(id);
@@ -11,6 +11,20 @@ export const fieldGet = (formData: FormData, id: string): TField => {
     };
   }
   throw new Error(`Unknown value: ${value} for key: ${id}`);
+};
+
+export const fieldErrorReset = (root: HTMLElement) => {
+  $$('ui-field', root).forEach((f) => {
+    f.removeAttribute('data-error');
+  });
+};
+
+const fieldErrorSet = (root: HTMLElement, name: string, msg: string) => {
+  $(`ui-field[data-id="${name}"]`, root).setAttribute('data-error', msg);
+};
+
+export const fieldErrorExists = (root: HTMLElement) => {
+  return $$('ui-field', root).find((f) => f.hasAttribute('data-error'));
 };
 
 export const fieldRequired = (root: HTMLElement, field: TField) => {

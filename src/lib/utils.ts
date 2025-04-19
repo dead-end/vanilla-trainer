@@ -29,15 +29,6 @@ export const $$ = <T extends Element>(
   return arr as T[];
 };
 
-/*
-export const $id = <T extends HTMLElement>(id: string) => {
-  const result = document.getElementById(id);
-  if (!result) {
-    throw new Error(`Unable to find id: ${id}`);
-  }
-  return result as T;
-};*/
-
 export const tmplClone = (template: HTMLTemplateElement) => {
   return template.content.cloneNode(true) as DocumentFragment;
 };

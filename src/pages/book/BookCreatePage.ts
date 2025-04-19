@@ -1,4 +1,4 @@
-import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/fieldError';
+import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { bookCreate } from '../../lib/model/book';
 import { githubConfigGet } from '../../lib/model/githubConfig';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';

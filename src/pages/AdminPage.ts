@@ -1,5 +1,5 @@
 import { adminGet, adminLogin } from '../lib/admin';
-import { fieldErrorExists, fieldErrorReset } from '../lib/ui/fieldError';
+import { fieldErrorExists, fieldErrorReset } from '../lib/ui/field';
 import { $, tmplClone } from '../lib/utils';
 import { fieldGet, fieldRequired } from '../lib/ui/field';
 
