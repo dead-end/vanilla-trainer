@@ -1,4 +1,5 @@
-import { tmplClone, tmplCreate } from '../lib/utils';
+import { STYLES } from '../lib/ui/stylesheets';
+import { $, tmplClone, tmplCreate } from '../lib/utils';
 
 export class Icons extends HTMLElement {
   static TMPL_LOGOUT = tmplCreate(`
@@ -56,10 +57,20 @@ export class Icons extends HTMLElement {
     list: Icons.TMPL_LIST,
   };
 
-  constructor() {
-    super();
-    const name = this.getAttribute('data-icon') || 'login';
-    const tmpl = tmplClone(Icons.ICONS[name]);
-    this.appendChild(tmpl);
+  static TMPL = $<HTMLTemplateElement>('#tmpl-icon');
+
+  connectedCallback() {
+    if (!this.shadowRoot) {
+      const name = this.getAttribute('data-icon') || 'login';
+
+      const tmpl = tmplClone(Icons.TMPL);
+
+      const tmplIcon = tmplClone(Icons.ICONS[name]);
+      tmpl.appendChild(tmplIcon);
+
+      const shadow = this.attachShadow({ mode: 'open' });
+      shadow.adoptedStyleSheets = STYLES;
+      shadow.appendChild(tmpl);
+    }
   }
 }

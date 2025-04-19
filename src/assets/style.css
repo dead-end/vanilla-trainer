@@ -193,27 +193,6 @@ textarea:read-only .disabled {
 }
 
 /* -------------------- */
-
-.icon {
-  height: 2.5rem;
-  padding: 0.3rem;
-  transition: var(--transition);
-}
-
-.icon:hover {
-  border-radius: var(--border-radius);
-}
-
-.action > .icon {
-  color: var(--color-primary);
-}
-
-.action > .icon:hover {
-  color: var(--color-primary-hl);
-  background-color: var(--color-table-icon);
-}
-
-/* -------------------- */
 table {
   border-collapse: collapse;
 }
