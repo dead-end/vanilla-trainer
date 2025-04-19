@@ -4,13 +4,13 @@ import { $, tmplClone } from '../lib/utils';
 export class IndexPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-index');
 
-  constructor() {
-    super();
+  connectedCallback() {
+    if (!this.shadowRoot) {
+      const tmpl = tmplClone(IndexPage.TMPL);
 
-    this.attachShadow({ mode: 'open' }).adoptedStyleSheets = STYLES;
-
-    const tmpl = tmplClone(IndexPage.TMPL);
-
-    this.shadowRoot?.appendChild(tmpl);
+      const shadow = this.attachShadow({ mode: 'open' });
+      shadow.adoptedStyleSheets = STYLES;
+      shadow.appendChild(tmpl);
+    }
   }
 }
