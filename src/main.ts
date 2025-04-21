@@ -21,7 +21,6 @@ routeRegister(/^#\/admin$/, 'admin-page');
 routeRegister(/^#\/books$/, 'book-list-page');
 routeRegister(/^#\/books\/create$/, 'book-create-page');
 routeRegister(/^#\/book\/update\/(?<bookId>[^\/]+)$/, 'book-update-page');
-routeRegister(/.*/, 'not-found-page');
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
@@ -36,6 +35,6 @@ customElements.define('book-list-page', BookListPage);
 customElements.define('book-create-page', BookCreatePage);
 customElements.define('book-update-page', BookUpdatePage);
 
-routeInit('#/', '#/admin');
+routeInit('#/', '#/admin', 'not-found-page');
 
 adminInit();

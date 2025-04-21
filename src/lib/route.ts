@@ -7,26 +7,35 @@ const routes: TNav[] = [];
 let routeParams: RegExpExecArray | null;
 let indexHash: string;
 let adminHash: string;
+let notFound: string;
+
+const cache = new Map<string, HTMLElement>();
 
 /**
  * The function returns a route parameter with a given name. If creates an
  * error if the parameter does not exist.
  */
 export const getRouteParam = (name: string) => {
-  if (!routeParams) {
+  if (!routeParams || !routeParams.groups) {
     errorGlobal(
       `Route parameter: ${name} - No parameters found: ${window.location.hash}`
     );
     return null;
   }
-  if (!routeParams.groups) {
-    errorGlobal(
-      `Route parameter: ${name} - This parameter not found: ${window.location.hash}`
-    );
-    return null;
-  }
 
   return routeParams.groups[name];
+};
+
+/**
+ * We use a cache for the HTMLElements of the pages.
+ */
+const getPageElement = (page: string) => {
+  let element = cache.get(page);
+  if (!element) {
+    element = document.createElement(page);
+    cache.set(page, element);
+  }
+  return element;
 };
 
 /**
@@ -41,11 +50,15 @@ const handleHashChange = async () => {
     return;
   }
 
-  const nav = routes.find((n) => n.regex.test(window.location.hash)) as TNav;
+  const nav = routes.find((n) => n.regex.test(hash));
+  if (nav) {
+    routeParams = nav.regex.exec(window.location.hash);
+  }
 
-  routeParams = nav.regex.exec(window.location.hash);
+  const page = nav ? nav.page : notFound;
 
-  const element = document.createElement(nav.page);
+  let element = getPageElement(page);
+
   $('main').replaceChildren(element);
 };
 
@@ -61,9 +74,15 @@ export const routeRegister = (regex: RegExp, page: string) => {
 /**
  * Initialize the routes with the index and admin hash.
  */
-export const routeInit = (idxHash: string, admhash: string) => {
-  indexHash = idxHash;
-  adminHash = admhash;
+export const routeInit = (
+  _indexHash: string,
+  _adminHash: string,
+  _notFound: string
+) => {
+  indexHash = _indexHash;
+  adminHash = _adminHash;
+  notFound = _notFound;
+
   window.addEventListener('hashchange', handleHashChange);
   window.addEventListener('DOMContentLoaded', handleHashChange);
 };
