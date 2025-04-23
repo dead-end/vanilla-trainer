@@ -1,4 +1,5 @@
 import { adminGet } from '../../lib/admin';
+import { hashBookUpdate, hashChapterList } from '../../lib/hash';
 import { bookDelete, bookListing } from '../../lib/model/book';
 import { githubConfigGet } from '../../lib/model/githubConfig';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
@@ -35,11 +36,11 @@ export class BookListPage extends HTMLElement {
         ).bind(this);
 
         $<HTMLElement>('[data-icon="update"]', tmpl).onclick = () => {
-          window.location.hash = `#/book/update/${b.id}`;
+          window.location.hash = hashBookUpdate(b.id);
         };
 
         $<HTMLElement>('[data-icon="list"]', tmpl).onclick = () => {
-          console.log('##################### list');
+          window.location.hash = hashChapterList(b.id);
         };
         arr.push(tmpl);
       });

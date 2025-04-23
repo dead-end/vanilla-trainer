@@ -4,6 +4,7 @@ import { getRouteParam } from '../../lib/route';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
+import { hashBookList } from '../../lib/hash';
 
 export class BookUpdatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-update');
@@ -84,6 +85,6 @@ export class BookUpdatePage extends HTMLElement {
       return;
     }
 
-    window.location.hash = '#/books';
+    window.location.hash = hashBookList();
   }
 }

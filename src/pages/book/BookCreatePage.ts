@@ -3,6 +3,7 @@ import { bookCreate } from '../../lib/model/book';
 import { githubConfigGet } from '../../lib/model/githubConfig';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldId, fieldRequired } from '../../lib/ui/field';
+import { hashBookList } from '../../lib/hash';
 
 export class BookCreatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#page-book-create');
@@ -62,6 +63,6 @@ export class BookCreatePage extends HTMLElement {
       return;
     }
 
-    window.location.hash = '#/books';
+    window.location.hash = hashBookList();
   }
 }
