@@ -1,5 +1,4 @@
 import { adminIsLogin } from './admin';
-import { errorGlobal } from './utils';
 import { TNav } from './types';
 import { $ } from './utils';
 
@@ -17,10 +16,8 @@ const cache = new Map<string, HTMLElement>();
  */
 export const getRouteParam = (name: string) => {
   if (!routeParams || !routeParams.groups) {
-    errorGlobal(
-      `Route parameter: ${name} - No parameters found: ${window.location.hash}`
-    );
-    return null;
+    const msg = `Route parameter: ${name} - No parameters found: ${window.location.hash}`;
+    throw new Error(msg);
   }
 
   return routeParams.groups[name];
