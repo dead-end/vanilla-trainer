@@ -20,10 +20,6 @@ export class BookUpdatePage extends HTMLElement {
 
   async render() {
     const bookId = getRouteParam('bookId');
-    if (!bookId) {
-      errorGlobal(`Unable to get book id from: ${window.location.hash}`);
-      return;
-    }
 
     const githubConfig = await githubConfigGet();
     if (!githubConfig) {
