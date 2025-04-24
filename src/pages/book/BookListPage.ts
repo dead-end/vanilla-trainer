@@ -5,7 +5,7 @@ import { githubConfigGet } from '../../lib/model/githubConfig';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
 
 export class BookListPage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#page-book-list');
+  static TMPL = $<HTMLTemplateElement>('#book-list-page');
   static TMPL_ROW = $<HTMLTemplateElement>('#tmpl-book-list');
 
   connectedCallback() {

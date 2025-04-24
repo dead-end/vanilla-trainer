@@ -6,7 +6,7 @@ import { fieldGet, fieldId, fieldRequired } from '../../lib/ui/field';
 import { hashBookList } from '../../lib/hash';
 
 export class BookCreatePage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#page-book-create');
+  static TMPL = $<HTMLTemplateElement>('#book-create-page');
 
   connectedCallback() {
     if (!this.hasChildNodes()) {

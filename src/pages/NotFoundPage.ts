@@ -1,7 +1,7 @@
 import { $, tmplClone } from '../lib/utils';
 
 export class NotFoundPage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#page-not-found');
+  static TMPL = $<HTMLTemplateElement>('#not-found-page');
 
   connectedCallback() {
     if (!this.hasChildNodes()) {

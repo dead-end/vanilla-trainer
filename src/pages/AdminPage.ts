@@ -4,7 +4,7 @@ import { $, tmplClone } from '../lib/utils';
 import { fieldGet, fieldRequired } from '../lib/ui/field';
 
 export class AdminPage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#page-admin');
+  static TMPL = $<HTMLTemplateElement>('#admin-page');
 
   connectedCallback() {
     if (!this.hasChildNodes()) {

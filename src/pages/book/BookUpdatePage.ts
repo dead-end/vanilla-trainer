@@ -7,7 +7,7 @@ import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { hashBookList } from '../../lib/hash';
 
 export class BookUpdatePage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#page-book-update');
+  static TMPL = $<HTMLTemplateElement>('#book-update-page');
 
   connectedCallback() {
     if (!this.hasChildNodes()) {
