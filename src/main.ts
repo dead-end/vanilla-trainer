@@ -14,6 +14,7 @@ import { STYLES } from './lib/ui/stylesheets';
 import { ChapterListPage } from './pages/chapter/ChapterListPage';
 import { ChapterCreatePage } from './pages/chapter/ChapterCreatePage';
 import { ChapterUpdatePage } from './pages/chapter/ChapterUpdatePage';
+import { ConfirmDialog } from './components/ConfirmDialog';
 
 console.log('Started');
 
@@ -36,6 +37,7 @@ routeRegister(
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
+customElements.define('confirm-dialog', ConfirmDialog);
 
 customElements.define('ui-field', UiField);
 customElements.define('ui-icons', Icons);

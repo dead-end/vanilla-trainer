@@ -1,3 +1,4 @@
+import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { adminGet } from '../../lib/admin';
 import { hashChapterCreate, hashChapterUpdate } from '../../lib/hash';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
@@ -18,12 +19,9 @@ export class ChapterListPage extends HTMLElement {
     this.render();
   }
 
-  disconnectedCallback() {
-    $<HTMLElement>('tbody').replaceChildren(...[]);
-  }
-
   async render() {
     const bookId = getRouteParam('bookId');
+    const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
 
     $<HTMLAnchorElement>('#chapter-create-link').href =
       hashChapterCreate(bookId);
@@ -41,6 +39,7 @@ export class ChapterListPage extends HTMLElement {
         $('[data-id="id"]', tmpl).textContent = chap.id;
         $('[data-id="title"]', tmpl).textContent = chap.title;
         $<HTMLElement>('[data-icon="delete"]', tmpl).onclick = this.onDelete(
+          confirmDialog,
           bookId,
           chap.id
         ).bind(this);
@@ -60,7 +59,17 @@ export class ChapterListPage extends HTMLElement {
     }
   }
 
-  onDelete(bookId: string, chapterId: string) {
+  onDelete(confirmDialog: ConfirmDialog, bookId: string, chapterId: string) {
+    return () => {
+      confirmDialog.activate(
+        'Delete Chapter',
+        `Do you realy want to delete the chapter: ${chapterId}?`,
+        this.getDeleteFct(bookId, chapterId)
+      );
+    };
+  }
+
+  getDeleteFct(bookId: string, chapterId: string) {
     return async () => {
       const githubConfig = await githubConfigGet();
       if (!githubConfig) {
