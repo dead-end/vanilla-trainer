@@ -1,3 +1,4 @@
+import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { adminGet } from '../../lib/admin';
 import { hashBookUpdate, hashChapterList } from '../../lib/hash';
 import { bookDelete, bookListing } from '../../lib/model/book';
@@ -22,6 +23,7 @@ export class BookListPage extends HTMLElement {
     const result = await bookListing(config);
     if (result.isOk()) {
       const arr: DocumentFragment[] = [];
+      const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
 
       const books = result.getValue();
 
@@ -32,6 +34,7 @@ export class BookListPage extends HTMLElement {
         $('[data-id="title"]', tmpl).textContent = b.title;
         $('[data-id="desc"]', tmpl).textContent = b.description;
         $<HTMLElement>('[data-icon="delete"]', tmpl).onclick = this.onDelete(
+          confirmDialog,
           b.id
         ).bind(this);
 
@@ -50,16 +53,26 @@ export class BookListPage extends HTMLElement {
     }
   }
 
-  onDelete(id: string) {
+  onDelete(confirmDialog: ConfirmDialog, bookId: string) {
+    return () => {
+      confirmDialog.activate(
+        'Delete Book',
+        `Do you realy want to delete the book: ${bookId}?`,
+        this.getDeleteFct(bookId)
+      );
+    };
+  }
+
+  getDeleteFct(bookId: string) {
     return async () => {
       const githubConfig = await githubConfigGet();
       if (!githubConfig) {
         errorGlobal('Unable to get github config!');
         return;
       }
-      const result = await bookDelete(githubConfig, id);
+      const result = await bookDelete(githubConfig, bookId);
       if (result.hasError()) {
-        errorGlobal(`Unable to delete the book: ${id}`);
+        errorGlobal(`Unable to delete the book: ${bookId}`);
         return;
       }
 
