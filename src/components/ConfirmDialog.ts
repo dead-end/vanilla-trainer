@@ -28,8 +28,11 @@ export class ConfirmDialog extends HTMLElement {
 
   async onOk() {
     if (this.shadowRoot && this.fct) {
+      const btn = $<HTMLButtonElement>('#btn-ok', this.shadowRoot);
+      btn.disabled = true;
       this.fct().finally(() => {
         this.style.display = 'none';
+        btn.disabled = false;
       });
     }
   }
