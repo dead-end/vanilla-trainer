@@ -11,6 +11,9 @@ import { ErrorMsg } from './components/ErrorMsg';
 import { BookUpdatePage } from './pages/book/BookUpdatePage';
 import { UiField } from './components/ui/UiField';
 import { STYLES } from './lib/ui/stylesheets';
+import { ChapterListPage } from './pages/chapter/ChapterListPage';
+import { ChapterCreatePage } from './pages/chapter/ChapterCreatePage';
+import { ChapterUpdatePage } from './pages/chapter/ChapterUpdatePage';
 
 console.log('Started');
 
@@ -20,7 +23,16 @@ routeRegister(/^#\/$/, 'index-page');
 routeRegister(/^#\/admin$/, 'admin-page');
 routeRegister(/^#\/books$/, 'book-list-page');
 routeRegister(/^#\/books\/create$/, 'book-create-page');
-routeRegister(/^#\/book\/update\/(?<bookId>[^\/]+)$/, 'book-update-page');
+routeRegister(/^#\/books\/update\/(?<bookId>[^\/]+)$/, 'book-update-page');
+routeRegister(/^#\/book\/(?<bookId>[^\/]+)\/chapters$/, 'chapter-list-page');
+routeRegister(
+  /^#\/book\/(?<bookId>[^\/]+)\/chapters\/create$/,
+  'chapter-create-page'
+);
+routeRegister(
+  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/update$/,
+  'chapter-update-page'
+);
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
@@ -31,9 +43,14 @@ customElements.define('ui-icons', Icons);
 customElements.define('not-found-page', NotFoundPage);
 customElements.define('index-page', IndexPage);
 customElements.define('admin-page', AdminPage);
+
 customElements.define('book-list-page', BookListPage);
 customElements.define('book-create-page', BookCreatePage);
 customElements.define('book-update-page', BookUpdatePage);
+
+customElements.define('chapter-list-page', ChapterListPage);
+customElements.define('chapter-create-page', ChapterCreatePage);
+customElements.define('chapter-update-page', ChapterUpdatePage);
 
 routeInit('#/', '#/admin', 'not-found-page');
 
