@@ -17,3 +17,15 @@ export const hashChapterCreate = (bookId: string) => {
 export const hashChapterUpdate = (bookId: string, chapterId: string) => {
   return `#/book/${bookId}/chapter/${chapterId}/update`;
 };
+
+export const hashQuestionList = (bookId: string, chapterId: string) => {
+  return `#/book/${bookId}/chapter/${chapterId}/questions`;
+};
+
+export const hashQuestionUpdate = (
+  bookId: string,
+  chapterId: string,
+  idx: number
+) => {
+  return `#/book/${bookId}/chapter/${chapterId}/question/${idx}/update`;
+};
