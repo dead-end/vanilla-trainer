@@ -1,18 +1,20 @@
 <template id="book-create-page">
-  <div class="page-title">Create Book</div>
-  <form class="is-column is-gap">
-    <ui-field data-id="id" data-label="Id">
-      <input id="id" name="id" type="text" />
-    </ui-field>
-    <ui-field data-id="title" data-label="Title">
-      <input id="title" name="title" type="text" id="title" />
-    </ui-field>
-    <ui-field data-id="desc" data-label="Description">
-      <textarea id="desc" name="desc" rows="4"></textarea>
-    </ui-field>
-    <div class="is-row is-gap">
-      <a href="#/books" class="btn">Cancel</a>
-      <button class="btn" type="submit">Create</button>
-    </div>
-  </form>
+  <div class="is-column is-gap">
+    <div class="page-title">Create Book</div>
+    <form class="is-column is-gap">
+      <ui-field data-id="id" data-label="Id">
+        <input id="id" name="id" type="text" />
+      </ui-field>
+      <ui-field data-id="title" data-label="Title">
+        <input id="title" name="title" type="text" id="title" />
+      </ui-field>
+      <ui-field data-id="desc" data-label="Description">
+        <textarea id="desc" name="desc" rows="4"></textarea>
+      </ui-field>
+      <div class="is-row is-gap">
+        <a href="#/books" class="btn">Cancel</a>
+        <button class="btn" type="submit">Create</button>
+      </div>
+    </form>
+  </div>
 </template>

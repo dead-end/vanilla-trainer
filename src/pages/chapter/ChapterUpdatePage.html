@@ -1,15 +1,17 @@
 <template id="chapter-update-page">
-  <div class="page-title">Update Chapter</div>
-  <form class="is-column is-gap">
-    <ui-field data-id="id" data-label="Id">
-      <input id="id" name="id" type="text" readonly />
-    </ui-field>
-    <ui-field data-id="title" data-label="Title">
-      <input id="title" name="title" type="text" id="title" />
-    </ui-field>
-    <div class="is-row is-gap">
-      <a href="#/books" class="btn" id="chapter-list-link">Cancel</a>
-      <button class="btn" type="submit" id="btn-submit">Update</button>
-    </div>
-  </form>
+  <div class="is-column is-gap">
+    <div class="page-title">Update Chapter</div>
+    <form class="is-column is-gap">
+      <ui-field data-id="id" data-label="Id">
+        <input id="id" name="id" type="text" readonly />
+      </ui-field>
+      <ui-field data-id="title" data-label="Title">
+        <input id="title" name="title" type="text" id="title" />
+      </ui-field>
+      <div class="is-row is-gap">
+        <a href="#/books" class="btn" id="chapter-list-link">Cancel</a>
+        <button class="btn" type="submit" id="btn-submit">Update</button>
+      </div>
+    </form>
+  </div>
 </template>
