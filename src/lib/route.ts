@@ -8,8 +8,6 @@ let indexHash: string;
 let adminHash: string;
 let notFound: string;
 
-const cache = new Map<string, HTMLElement>();
-
 /**
  * The function returns a route parameter with a given name. If creates an
  * error if the parameter does not exist.
@@ -21,18 +19,6 @@ export const getRouteParam = (name: string) => {
   }
 
   return routeParams.groups[name];
-};
-
-/**
- * We use a cache for the HTMLElements of the pages.
- */
-const getPageElement = (page: string) => {
-  let element = cache.get(page);
-  if (!element) {
-    element = document.createElement(page);
-    cache.set(page, element);
-  }
-  return element;
 };
 
 /**
@@ -54,7 +40,10 @@ const handleHashChange = async () => {
 
   const page = nav ? nav.page : notFound;
 
-  let element = getPageElement(page);
+  //
+  // Caching pages is easy, but the you have to reset all forms.
+  //
+  const element = document.createElement(page);
 
   $('main').replaceChildren(element);
 };
