@@ -17,6 +17,8 @@ import { ChapterUpdatePage } from './pages/chapter/ChapterUpdatePage';
 import { ConfirmDialog } from './components/ConfirmDialog';
 import { QuestionListPage } from './pages/question/QuestionListPage';
 import { QuestionShow } from './components/QuestionShow';
+import { QuestionCreatePage } from './pages/question/QuestionCreatePage';
+import { QuestionUpdatePage } from './pages/question/QuestionUpdatePage';
 
 console.log('Started');
 
@@ -40,6 +42,14 @@ routeRegister(
   /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/questions$/,
   'question-list-page'
 );
+routeRegister(
+  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/questions\/create$/,
+  'question-create-page'
+);
+routeRegister(
+  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/question\/(?<idx>[^\/]+)\/update$/,
+  'question-update-page'
+);
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
@@ -62,6 +72,8 @@ customElements.define('chapter-create-page', ChapterCreatePage);
 customElements.define('chapter-update-page', ChapterUpdatePage);
 
 customElements.define('question-list-page', QuestionListPage);
+customElements.define('question-create-page', QuestionCreatePage);
+customElements.define('question-update-page', QuestionUpdatePage);
 
 routeInit('#/', '#/admin', 'not-found-page');
 
