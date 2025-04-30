@@ -7,7 +7,7 @@ export const fieldGet = (formData: FormData, id: string): TField => {
   if (typeof value === 'string') {
     return {
       id: id,
-      value: value,
+      value: value.trim(),
     };
   }
   throw new Error(`Unknown value: ${value} for key: ${id}`);
