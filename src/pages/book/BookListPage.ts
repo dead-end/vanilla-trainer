@@ -1,5 +1,4 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
-import { adminGet } from '../../lib/admin';
 import { hashBookUpdate, hashChapterList } from '../../lib/hash';
 import { bookDelete, bookListing } from '../../lib/model/book';
 import { githubConfigGet } from '../../lib/model/githubConfig';
@@ -19,7 +18,7 @@ export class BookListPage extends HTMLElement {
   }
 
   async render() {
-    const config = await adminGet();
+    const config = await githubConfigGet();
     const result = await bookListing(config);
     if (result.isOk()) {
       const arr: DocumentFragment[] = [];
@@ -66,10 +65,6 @@ export class BookListPage extends HTMLElement {
   getDeleteFct(bookId: string) {
     return async () => {
       const githubConfig = await githubConfigGet();
-      if (!githubConfig) {
-        errorGlobal('Unable to get github config!');
-        return;
-      }
       const result = await bookDelete(githubConfig, bookId);
       if (result.hasError()) {
         errorGlobal(`Unable to delete the book: ${bookId}`);

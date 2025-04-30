@@ -47,11 +47,6 @@ export class BookCreatePage extends HTMLElement {
 
   async doCreate(id: string, title: string, desc: string) {
     const githubConfig = await githubConfigGet();
-    if (!githubConfig) {
-      errorGlobal('Unable to get github config!');
-      return;
-    }
-
     const result = await bookCreate(githubConfig, {
       id: id,
       title: title,

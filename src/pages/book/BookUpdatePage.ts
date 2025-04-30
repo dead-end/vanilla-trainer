@@ -23,11 +23,6 @@ export class BookUpdatePage extends HTMLElement {
     const bookId = getRouteParam('bookId');
 
     const githubConfig = await githubConfigGet();
-    if (!githubConfig) {
-      errorGlobal('Unable to get github config!');
-      return;
-    }
-
     const result = await bookGet(githubConfig, bookId);
     if (!result.isOk()) {
       errorGlobal(`Unable to get book id: ${bookId}`);
@@ -69,11 +64,6 @@ export class BookUpdatePage extends HTMLElement {
 
   async doUpdate(id: string, title: string, desc: string) {
     const githubConfig = await githubConfigGet();
-    if (!githubConfig) {
-      errorGlobal('Unable to get github config!');
-      return;
-    }
-
     const result = await bookUpdate(githubConfig, {
       id: id,
       title: title,
