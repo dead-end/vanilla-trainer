@@ -36,6 +36,8 @@ export class QuestionShow extends HTMLElement {
         $('#answer', tmpl).innerHTML = mdToHtml(this.question.answer);
         if (this.question.details) {
           $('#details', tmpl).innerHTML = mdToHtml(this.question.details);
+        } else {
+          $<HTMLElement>('#details', tmpl).parentElement!.hidden = true;
         }
       }
 

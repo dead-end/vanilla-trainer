@@ -4,45 +4,33 @@
       font-weight: bold;
       padding-bottom: 0.5rem;
     }
-
-    .icons {
-      padding-top: 0.5rem;
-    }
-
-    .content {
-      padding: var(--padding-input);
-    }
-
-    .layout {
-      display: grid;
-      grid-gap: var(--gap);
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    /* sm: 640px md: 960px */
-    @media (max-width: 960px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-    }
   </style>
-  <div>
-    <div class="layout">
+  <div class="is-column is-gap-small">
+    <div class="is-grid-3">
       <div>
         <div class="label" id="label">Question</div>
-        <div id="quest" class="is-border content">Default Question</div>
+        <div
+          id="quest"
+          class="is-border is-shadow is-padding-input is-multiline"
+        ></div>
       </div>
       <div>
         <div class="label">Answer</div>
-        <div id="answer" class="is-border content">Default Answer</div>
+        <div
+          id="answer"
+          class="is-border is-shadow is-padding-input is-multiline"
+        ></div>
       </div>
       <div>
         <div class="label">Details</div>
-        <div id="details" class="is-border content">Default Details</div>
+        <div
+          id="details"
+          class="is-border is-shadow is-padding-input is-multiline"
+        ></div>
       </div>
     </div>
 
-    <div class="is-row is-end is-gap-small icons">
+    <div class="is-row is-end is-gap-small">
       <ui-icons data-icon="delete"></ui-icons>
       <ui-icons data-icon="update"></ui-icons>
     </div>
