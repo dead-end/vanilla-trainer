@@ -1,7 +1,7 @@
 import {
   githubConfigDelete,
-  githubConfigGet,
   githubConfigPut,
+  githubConfigUnsure,
 } from './model/githubConfig';
 import { TGithubConfig } from './types';
 
@@ -10,7 +10,7 @@ import { TGithubConfig } from './types';
  */
 const STORE_ID = 'github';
 
-let configPromise = githubConfigGet();
+let configPromise = githubConfigUnsure();
 
 export const adminInit = async () => {
   document.dispatchEvent(

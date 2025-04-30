@@ -5,6 +5,15 @@ const STORE = 'admin';
 
 export const githubConfigGet = async () => {
   const store = await storeTx(STORE, 'readonly');
+  const result = await storeGet<TGithubConfig>(store, 'github');
+  if (result === undefined) {
+    throw new Error('Unable to get github config.');
+  }
+  return result;
+};
+
+export const githubConfigUnsure = async () => {
+  const store = await storeTx(STORE, 'readonly');
   return storeGet<TGithubConfig>(store, 'github');
 };
 
