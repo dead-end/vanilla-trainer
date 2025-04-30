@@ -27,11 +27,6 @@ export class ChapterUpdatePage extends HTMLElement {
     $<HTMLAnchorElement>('#chapter-list-link', this).href = link;
 
     const githubConfig = await githubConfigGet();
-    if (!githubConfig) {
-      errorGlobal('Unable to get github config!');
-      return;
-    }
-
     const result = await chapterGet(githubConfig, bookId, chapterId);
     if (!result.isOk()) {
       errorGlobal(`Unable to get chapter id: ${bookId}`);
@@ -71,16 +66,10 @@ export class ChapterUpdatePage extends HTMLElement {
 
   async doUpdate(bookId: string, id: string, title: string) {
     const githubConfig = await githubConfigGet();
-    if (!githubConfig) {
-      errorGlobal('Unable to get github config!');
-      return;
-    }
-
     const result = await chapterUpdate(githubConfig, bookId, {
       id: id,
       title: title,
     });
-
     if (result.hasError()) {
       errorGlobal(
         `Unable to update the chapter: ${id} - ${result.getMessage()}`

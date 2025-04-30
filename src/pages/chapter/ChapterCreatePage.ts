@@ -53,16 +53,10 @@ export class ChapterCreatePage extends HTMLElement {
 
   async doCreate(bookId: string, id: string, title: string) {
     const githubConfig = await githubConfigGet();
-    if (!githubConfig) {
-      errorGlobal('Unable to get github config!');
-      return;
-    }
-
     const result = await chapterCreate(githubConfig, bookId, {
       id,
       title,
     });
-
     if (result.hasError()) {
       errorGlobal(`Unable to create a new chapter: ${result.getMessage()}`);
       return;

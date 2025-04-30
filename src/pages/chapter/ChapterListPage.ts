@@ -1,6 +1,9 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
-import { adminGet } from '../../lib/admin';
-import { hashChapterCreate, hashChapterUpdate } from '../../lib/hash';
+import {
+  hashChapterCreate,
+  hashChapterUpdate,
+  hashQuestionList,
+} from '../../lib/hash';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
 import { githubConfigGet } from '../../lib/model/githubConfig';
 import { getRouteParam } from '../../lib/route';
@@ -26,7 +29,7 @@ export class ChapterListPage extends HTMLElement {
     $<HTMLAnchorElement>('#chapter-create-link').href =
       hashChapterCreate(bookId);
 
-    const config = await adminGet();
+    const config = await githubConfigGet();
     const result = await chapterListing(config, bookId);
     if (result.isOk()) {
       const arr: DocumentFragment[] = [];
@@ -49,7 +52,7 @@ export class ChapterListPage extends HTMLElement {
         };
 
         $<HTMLElement>('[data-icon="list"]', tmpl).onclick = () => {
-          console.log('##################### list');
+          window.location.hash = hashQuestionList(bookId, chap.id);
         };
         arr.push(tmpl);
       });
@@ -72,10 +75,6 @@ export class ChapterListPage extends HTMLElement {
   getDeleteFct(bookId: string, chapterId: string) {
     return async () => {
       const githubConfig = await githubConfigGet();
-      if (!githubConfig) {
-        errorGlobal('Unable to get github config!');
-        return;
-      }
       const result = await chapterDelete(githubConfig, bookId, chapterId);
       if (result.hasError()) {
         errorGlobal(`Unable to delete the chapter: ${chapterId}`);
