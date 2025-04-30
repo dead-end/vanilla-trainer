@@ -144,3 +144,22 @@ export const questionDelete = async (
 
   return result.setOk(questions);
 };
+
+/**
+ * Create a TQuestion instance. I do not want a details property if it is
+ * undefined. I want a minimal json to store at github.
+ */
+export const questionInst = (
+  quest: string,
+  answer: string,
+  details: string | undefined
+) => {
+  const result: TQuestion = {
+    quest: quest,
+    answer: answer,
+  };
+  if (details) {
+    result.details = details;
+  }
+  return result;
+};
