@@ -22,6 +22,10 @@ export const hashQuestionList = (bookId: string, chapterId: string) => {
   return `#/book/${bookId}/chapter/${chapterId}/questions`;
 };
 
+export const hashQuestionCreate = (bookId: string, chapterId: string) => {
+  return `#/book/${bookId}/chapter/${chapterId}/questions/create`;
+};
+
 export const hashQuestionUpdate = (
   bookId: string,
   chapterId: string,
