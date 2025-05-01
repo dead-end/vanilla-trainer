@@ -41,6 +41,8 @@
   --padding-x: 1.8rem;
   --padding-y: 1.8rem;
 
+  --padding-input: 0.8rem;
+
   --gap: 1.4rem;
 
   --font-weight-bold: 600;
@@ -166,7 +168,7 @@ textarea {
   color: inherit;
 
   min-width: 20rem;
-  padding: 0.5rem 0.5rem;
+  padding: var(--padding-input);
   border: var(--border);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-xs);
@@ -188,35 +190,31 @@ textarea:hover {
 input[disabled],
 input:read-only,
 textarea[disabled],
-textarea:read-only .disabled {
+textarea:read-only,
+.disabled {
   opacity: 0.6;
+  background-color: var(--color-gray-50);
 }
 
 /* -------------------- */
-table {
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 1.2rem;
-  text-align: left;
-}
-
-tr {
-  border-bottom: var(--border);
-  transition: var(--transition);
-}
-
-tr:hover {
-  background-color: var(--color-table-hl);
-}
 
 /* ------------------------------- */
 
 .is-border {
   border: var(--border-size) solid var(--border-color);
   border-radius: var(--border-radius);
+}
+
+.is-shadow {
+  box-shadow: var(--shadow-xs);
+}
+
+.is-multiline {
+  white-space: pre-wrap;
+}
+
+.is-padding-input {
+  padding: var(--padding-input);
 }
 
 /* TODO: padding*/
@@ -233,11 +231,12 @@ tr:hover {
   padding-right: var(--padding-x);
 }
 
+/*
 .is-padding-y {
   padding-left: var(--padding-x);
   padding-right: var(--padding-x);
 }
-
+*/
 /******************************************************************************
  * 
  *****************************************************************************/
@@ -265,8 +264,12 @@ tr:hover {
   align-items: center;
 }
 
+.is-end {
+  justify-content: flex-end;
+}
+
 /******************************************************************************
- * 
+ * Basic text styling.
  *****************************************************************************/
 
 .is-error {
@@ -283,6 +286,69 @@ tr:hover {
 
 .is-text-reverse {
   color: var(--color-reverse);
+}
+
+/******************************************************************************
+ * Grid.
+ *****************************************************************************/
+
+.is-grid-2 {
+  display: grid;
+  grid-gap: var(--gap);
+  grid-template-columns: 1fr 1fr;
+}
+
+.is-grid-3 {
+  display: grid;
+  grid-gap: var(--gap);
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 960px) {
+  .is-grid-2,
+  .is-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/******************************************************************************
+ * Styling of markdown.
+ *****************************************************************************/
+
+.md-em {
+  color: var(--color-error);
+}
+
+.md-it {
+  color: var(--color-primary);
+  font-style: italic;
+}
+
+.md-right {
+  padding-right: 0.5rem;
+}
+
+/******************************************************************************
+ * Styling of tables.
+ *****************************************************************************/
+
+table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 1.2rem;
+  text-align: left;
+}
+
+tr {
+  border-bottom: var(--border);
+  transition: var(--transition);
+}
+
+tr:hover {
+  background-color: var(--color-table-hl);
 }
 
 /******************************************************************************
@@ -354,29 +420,12 @@ h6,
   .container {
     max-width: var(--break-point-lg);
   }
-
-  .hide-lg {
-    display: none;
-  }
-
-  .input {
-    width: 30rem;
-  }
 }
 
 /* medium: md */
 @media (max-width: 960px) {
   .container {
     width: 100%;
-  }
-
-  .hide-md,
-  .hide-lg {
-    display: none;
-  }
-
-  .input {
-    width: 25rem;
   }
 
   #app {
@@ -387,16 +436,6 @@ h6,
 /* small: sl */
 @media (max-width: 640px) {
   .container {
-    width: 100%;
-  }
-
-  .hide-sm,
-  .hide-md,
-  .hide-lg {
-    display: none;
-  }
-
-  .input {
     width: 100%;
   }
 
