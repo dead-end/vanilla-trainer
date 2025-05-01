@@ -19,6 +19,7 @@ import { QuestionListPage } from './pages/question/QuestionListPage';
 import { QuestionShow } from './components/QuestionShow';
 import { QuestionCreatePage } from './pages/question/QuestionCreatePage';
 import { QuestionUpdatePage } from './pages/question/QuestionUpdatePage';
+import { PreviewField } from './components/ui/PreviewField';
 
 console.log('Started');
 
@@ -57,6 +58,7 @@ customElements.define('confirm-dialog', ConfirmDialog);
 customElements.define('question-show', QuestionShow);
 
 customElements.define('ui-field', UiField);
+customElements.define('preview-field', PreviewField);
 customElements.define('ui-icons', Icons);
 
 customElements.define('not-found-page', NotFoundPage);
