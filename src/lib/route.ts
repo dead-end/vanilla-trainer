@@ -21,6 +21,10 @@ export const getRouteParam = (name: string) => {
   return routeParams.groups[name];
 };
 
+export const getRouteParams = (...names: string[]) => {
+  return names.map((name) => getRouteParam(name));
+};
+
 /**
  * The function handles has changes. It only works if we have not found page
  * with an appropriate regex at the end of the nav list.
