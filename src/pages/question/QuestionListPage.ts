@@ -1,6 +1,5 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { QuestionShow } from '../../components/QuestionShow';
-import { adminGet } from '../../lib/admin';
 import { hashChapterList, hashQuestionCreate } from '../../lib/hash';
 import { githubConfigGet } from '../../lib/model/githubConfig';
 import { questionDelete, questionListing } from '../../lib/model/question';
@@ -27,7 +26,7 @@ export class QuestionListPage extends HTMLElement {
     );
     $<HTMLAnchorElement>('#chapter-list-link').href = hashChapterList(bookId);
 
-    const config = await adminGet();
+    const config = await githubConfigGet();
     const result = await questionListing(config, bookId, chapterId);
     if (result.isOk()) {
       const arr: QuestionShow[] = [];

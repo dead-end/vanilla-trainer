@@ -40,19 +40,3 @@ export const adminLogout = async () => {
     document.dispatchEvent(new Event('logout'));
   }
 };
-
-export const adminGet = async () => {
-  const config = await configPromise;
-  if (!config) {
-    const defaultConfig: TGithubConfig = {
-      id: STORE_ID,
-      user: '',
-      repo: '',
-      token: '',
-    };
-
-    return defaultConfig;
-  }
-
-  return config;
-};
