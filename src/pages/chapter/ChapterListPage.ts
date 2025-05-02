@@ -2,6 +2,7 @@ import { ConfirmDialog } from '../../components/ConfirmDialog';
 import {
   hashChapterCreate,
   hashChapterUpdate,
+  hashLessionPrepare,
   hashQuestionList,
 } from '../../lib/hash';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
@@ -53,6 +54,10 @@ export class ChapterListPage extends HTMLElement {
 
         $<HTMLElement>('[data-icon="list"]', tmpl).onclick = () => {
           window.location.hash = hashQuestionList(bookId, chap.id);
+        };
+
+        $<HTMLElement>('[data-icon="start"]', tmpl).onclick = () => {
+          window.location.hash = hashLessionPrepare(bookId, chap.id);
         };
         arr.push(tmpl);
       });

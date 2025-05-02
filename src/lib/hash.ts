@@ -33,3 +33,7 @@ export const hashQuestionUpdate = (
 ) => {
   return `#/book/${bookId}/chapter/${chapterId}/question/${idx}/update`;
 };
+
+export const hashLessionPrepare = (bookId: string, chapterId: string) => {
+  return `#/book/${bookId}/chapter/${chapterId}/lession-prepare`;
+};
