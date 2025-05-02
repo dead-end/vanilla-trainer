@@ -37,3 +37,7 @@ export const hashQuestionUpdate = (
 export const hashLessionPrepare = (bookId: string, chapterId: string) => {
   return `#/book/${bookId}/chapter/${chapterId}/lession-prepare`;
 };
+
+export const hashLessionProcess = (bookId: string, chapterId: string) => {
+  return `#/book/${bookId}/chapter/${chapterId}/lession-process`;
+};
