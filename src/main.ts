@@ -22,7 +22,7 @@ import { QuestionUpdatePage } from './pages/question/QuestionUpdatePage';
 import { PreviewField } from './components/ui/PreviewField';
 import { LessionPreparePage } from './pages/lession/LessionPreparePage';
 import { LessionProcessPage } from './pages/lession/LessionProcessPage';
-import { LessionStatus } from './components/LessionStatus';
+import { InfoTable } from './components/InfoTable';
 
 console.log('Started');
 
@@ -67,7 +67,7 @@ customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
 customElements.define('confirm-dialog', ConfirmDialog);
 customElements.define('question-show', QuestionShow);
-customElements.define('lession-status', LessionStatus);
+customElements.define('info-table', InfoTable);
 
 customElements.define('ui-field', UiField);
 customElements.define('preview-field', PreviewField);
