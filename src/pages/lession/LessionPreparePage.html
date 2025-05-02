@@ -1,3 +1,29 @@
 <template id="lession-prepare-page">
-  <div class="page-title">Lession prepare</div>
+  <div class="is-column is-gap">
+    <div class="page-title">Lession prepare</div>
+
+    <info-table id="info-prepare"></info-table>
+
+    <form class="is-column is-gap">
+      <ui-field data-id="correct" data-label="Correct Answers">
+        <select name="correct" id="correct">
+          <option value="0">0</option>
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </ui-field>
+      <ui-field data-id="reverse" data-label="Reverse Answers">
+        <select name="reverse" id="reverse">
+          <option value="true">True</option>
+          <option value="false" selected>False</option>
+        </select>
+      </ui-field>
+
+      <div class="is-row is-gap">
+        <a href="#" class="btn" id="chapter-list-link">Cancel</a>
+        <button class="btn" type="submit" id="btn-start">Start</button>
+      </div>
+    </form>
+  </div>
 </template>
