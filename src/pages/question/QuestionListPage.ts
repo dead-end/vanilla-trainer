@@ -1,7 +1,7 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { QuestionShow } from '../../components/QuestionShow';
 import { adminGet } from '../../lib/admin';
-import { hashQuestionCreate } from '../../lib/hash';
+import { hashChapterList, hashQuestionCreate } from '../../lib/hash';
 import { githubConfigGet } from '../../lib/model/githubConfig';
 import { questionDelete, questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
@@ -25,6 +25,7 @@ export class QuestionListPage extends HTMLElement {
       bookId,
       chapterId
     );
+    $<HTMLAnchorElement>('#chapter-list-link').href = hashChapterList(bookId);
 
     const config = await adminGet();
     const result = await questionListing(config, bookId, chapterId);
