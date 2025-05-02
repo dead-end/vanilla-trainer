@@ -10,6 +10,7 @@ export class Icons extends HTMLElement {
     delete: $<HTMLTemplateElement>('#tmpl-icon-delete'),
     update: $<HTMLTemplateElement>('#tmpl-icon-update'),
     list: $<HTMLTemplateElement>('#tmpl-icon-list'),
+    start: $<HTMLTemplateElement>('#tmpl-icon-start'),
   };
 
   static TMPL = $<HTMLTemplateElement>('#tmpl-icon');
