@@ -21,6 +21,7 @@ import { QuestionCreatePage } from './pages/question/QuestionCreatePage';
 import { QuestionUpdatePage } from './pages/question/QuestionUpdatePage';
 import { PreviewField } from './components/ui/PreviewField';
 import { LessionPreparePage } from './pages/lession/LessionPreparePage';
+import { LessionProcessPage } from './pages/lession/LessionProcessPage';
 
 console.log('Started');
 
@@ -56,6 +57,10 @@ routeRegister(
   /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/lession-prepare$/,
   'lession-prepare-page'
 );
+routeRegister(
+  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/lession-process$/,
+  'lession-process-page'
+);
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
@@ -83,6 +88,7 @@ customElements.define('question-create-page', QuestionCreatePage);
 customElements.define('question-update-page', QuestionUpdatePage);
 
 customElements.define('lession-prepare-page', LessionPreparePage);
+customElements.define('lession-process-page', LessionProcessPage);
 
 routeInit('#/', '#/admin', 'not-found-page');
 
