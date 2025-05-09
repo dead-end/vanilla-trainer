@@ -164,8 +164,10 @@ a {
 }
 
 input,
-textarea {
+textarea,
+select {
   color: inherit;
+  background-color: var(--color-bg);
 
   min-width: 20rem;
   padding: var(--padding-input);
@@ -173,18 +175,22 @@ textarea {
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-xs);
   transition: var(--transition);
+
+  outline: none;
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   border: var(--border-size) solid var(--border-color-focus);
-  outline: 0px;
+  /* outline: 0px;*/
 }
 
 input:hover,
-textarea:hover {
+textarea:hover,
+select:hover {
   border: var(--border-size) solid var(--border-color-hover);
-  outline: 0px;
+  /*  outline: 0px;*/
 }
 
 input[disabled],
@@ -338,7 +344,7 @@ table {
 
 th,
 td {
-  padding: 1.2rem;
+  padding: 1.2rem 1.2rem;
   text-align: left;
 }
 
@@ -349,6 +355,11 @@ tr {
 
 tr:hover {
   background-color: var(--color-table-hl);
+}
+
+.dense td,
+.dense th {
+  padding: 0.4rem 1rem;
 }
 
 /******************************************************************************
