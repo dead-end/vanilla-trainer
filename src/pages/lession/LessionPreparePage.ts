@@ -4,6 +4,7 @@ import { githubConfigGet } from '../../lib/model/githubConfig';
 import { lessionCreate } from '../../lib/model/lession';
 import { questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
+import { TQuestionId } from '../../lib/types';
 import { fieldGet } from '../../lib/ui/field';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
 
@@ -61,12 +62,17 @@ export class LessionPreparePage extends HTMLElement {
       errorGlobal(`Unable to get questions: ${result.getMessage()}`);
       return;
     }
+
+    const questionIds: TQuestionId[] = result
+      .getValue()
+      .map((_q, i) => ({ bookId, chapterId, idx: i }));
+
     lessionCreate(
-      result.getValue(),
+      questionIds,
       parseInt(correct.value),
       reverse.value === 'true'
     );
 
-    window.location.hash = hashLessionProcess(bookId, chapterId);
+    window.location.hash = hashLessionProcess();
   }
 }
