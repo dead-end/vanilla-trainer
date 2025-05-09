@@ -9,6 +9,7 @@ export class IndexPage extends HTMLElement {
     if (!this.hasChildNodes()) {
       const tmpl = tmplClone(IndexPage.TMPL);
 
+      // TODO: maybe better in navigation
       if (lessionExists()) {
         $<HTMLButtonElement>('#btn-continue', tmpl).onclick =
           this.onContinue.bind(this);
