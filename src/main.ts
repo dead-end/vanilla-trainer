@@ -58,10 +58,7 @@ routeRegister(
   /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/lession-prepare$/,
   'lession-prepare-page'
 );
-routeRegister(
-  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/lession-process$/,
-  'lession-process-page'
-);
+routeRegister(/^#\/lession-process$/, 'lession-process-page');
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
