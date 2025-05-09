@@ -42,3 +42,20 @@ export type TField = {
   id: string;
   value: string;
 };
+
+export type TQuestionId = {
+  bookId: string;
+  chapterId: string;
+  idx: number;
+};
+
+export type TQuestionProgress = {
+  questionId: TQuestionId;
+  progress: number;
+};
+
+export type TLession = {
+  learning: TQuestionProgress[];
+  learned: TQuestionProgress[];
+  reverse: boolean;
+};
