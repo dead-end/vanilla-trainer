@@ -1,0 +1,46 @@
+<template id="lession-process-page">
+  <div class="is-column is-gap">
+    <div class="page-title">Lession Process</div>
+
+    <div class="is-row is-gap">
+      <info-table id="info-question"></info-table>
+      <info-table id="info-progress"></info-table>
+    </div>
+
+    <div class="is-grid-3">
+      <div>
+        <div class="label" id="label">Question</div>
+        <div
+          id="quest"
+          class="is-border is-shadow is-padding-input is-multiline"
+        ></div>
+      </div>
+      <div data-show="show" hidden>
+        <div class="label">Answer</div>
+        <div
+          id="answer"
+          class="is-border is-shadow is-padding-input is-multiline"
+        ></div>
+      </div>
+      <div data-show="show" hidden>
+        <div class="label">Details</div>
+        <div
+          id="details"
+          class="is-border is-shadow is-padding-input is-multiline"
+        ></div>
+      </div>
+    </div>
+
+    <!-- TODO: DISPLAY="block" ????? -->
+    <div data-display="block">
+      <div class="is-row is-gap">
+        <button class="btn" id="btn-correct" data-show="show">Correct</button>
+        <button class="btn" id="btn-wrong" data-show="show">Wrong</button>
+        <button class="btn" id="btn-skip" data-show="show">Skip</button>
+        <button class="btn" id="btn-learned" data-show="show">Learned</button>
+        <button class="btn" id="btn-show" data-show="ask">Show</button>
+        <button class="btn" id="btn-stop">Stop</button>
+      </div>
+    </div>
+  </div>
+</template>
