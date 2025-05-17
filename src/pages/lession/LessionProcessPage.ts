@@ -17,7 +17,6 @@ import { $, $$, errorGlobal, tmplClone } from '../../lib/utils';
 export class LessionProcessPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#lession-process-page');
 
-  isEnd = false;
   lession: TLession | undefined;
   questionProgress: TQuestionProgress | undefined;
 
@@ -39,40 +38,53 @@ export class LessionProcessPage extends HTMLElement {
       this.appendChild(tmpl);
 
       this.load();
-      this.toggle(true);
     }
   }
 
   load() {
     this.lession = lessionLoad();
     if (!this.lession) {
+      this.toggleRunning(false);
       errorGlobal('No lession found!');
       return;
     }
 
+    this.toggleRunning(true);
     this.next();
   }
 
+  /**
+   * The function removes the current question form the learing list and sets
+   * up the info tables.
+   */
   next() {
-    const tmp = this.lession!.learning.shift();
+    if (this.lession) {
+      this.infoTableProgress(lessionGetProcess(this.lession));
+      const tmp = this.lession!.learning.shift();
 
-    if (tmp) {
-      this.questionProgress = tmp;
-      this.toggle(true);
-      this.setQuestion();
+      if (tmp) {
+        this.questionProgress = tmp;
+        this.setQuestion();
+        this.toggleQuestion(true);
+      } else {
+        this.toggleRunning(false);
+        return;
+      }
 
-      if (this.lession && this.questionProgress) {
-        this.infoTableProgress(lessionGetProcess(this.lession));
+      if (this.questionProgress) {
         this.infoTableQuestion(
           this.questionProgress.questionId,
           this.questionProgress.progress
         );
       }
-    } else {
-      this.isEnd = true;
     }
   }
 
+  /**
+   * The function adds the current question to the learning or learned array
+   * and saves the result. The next() function removes the current question
+   * from the learning array, so it has to be added before saving.
+   */
   async update(progress: number) {
     if (this.questionProgress && this.lession) {
       this.questionProgress.progress = progress;
@@ -83,17 +95,14 @@ export class LessionProcessPage extends HTMLElement {
         this.lession.learned.push(this.questionProgress);
       }
 
-      if (!lessionUpdate(this.lession)) {
-        this.isEnd = true;
-        return;
-      }
+      lessionUpdate(this.lession);
 
       this.next();
     }
   }
 
   onShow() {
-    this.toggle(false);
+    this.toggleQuestion(false);
   }
 
   onCorrect = () => {
@@ -116,13 +125,24 @@ export class LessionProcessPage extends HTMLElement {
     window.location.hash = hashHome();
   }
 
-  toggle(asking: boolean) {
-    $$<HTMLElement>('[data-show="ask"]').forEach((e) => {
-      e.style.display = asking ? 'block' : 'none';
-    });
+  toggleQuestion(asking: boolean) {
+    this.doShow('[data-show="ask"]', asking);
+    this.doShow('[data-show="show"]', !asking);
+  }
 
-    $$<HTMLElement>('[data-show="show"]').forEach((e) => {
-      e.style.display = asking ? 'none' : 'block';
+  toggleRunning(running: boolean) {
+    this.doShow('[data-show="running"]', running);
+
+    if (!running) {
+      this.doShow('[data-show="ask"]', false);
+      this.doShow('[data-show="show"]', false);
+    }
+  }
+
+  doShow(tag: string, show: boolean) {
+    $$<HTMLElement>(tag).forEach((e) => {
+      const display = e.dataset.display || 'block';
+      e.style.display = show ? display : 'none';
     });
   }
 
