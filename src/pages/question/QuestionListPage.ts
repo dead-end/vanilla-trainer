@@ -33,7 +33,13 @@ export class QuestionListPage extends HTMLElement {
 
       const questions = result.getValue();
       questions.forEach((q, idx) => {
-        arr.push(QuestionShow.instance(idx, q, this.doDelete.bind(this)));
+        arr.push(
+          QuestionShow.instance(
+            { bookId, chapterId, idx },
+            q,
+            this.doDelete.bind(this)
+          )
+        );
       });
 
       $<HTMLElement>('[data-id="questions"]').replaceChildren(...arr);
