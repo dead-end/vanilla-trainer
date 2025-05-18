@@ -23,7 +23,7 @@ enum ResultStatus {
  */
 export default class Result<V> {
   private status = ResultStatus.UNDEF;
-  private message?: string;
+  private _message?: string;
   //
   // The wrapper is used to ensure that we can check if the value is set and
   // return the value as V, even if the value is undefined.
@@ -54,20 +54,26 @@ export default class Result<V> {
    * The function returns the error message. This reqires that the status is
    * ERROR.
    */
+  // TODO: deprecated
   public getMessage() {
     if (this.status !== ResultStatus.ERROR) {
       throw new Error('Status is not ERROR!');
     }
-    if (!this.message) {
+    if (!this._message) {
       throw new Error('Status is ERROR but no message is set!');
     }
-    return this.message;
+    return this._message;
+  }
+
+  public get message() {
+    return this.getMessage();
   }
 
   /**
    * The function returns the value. This requires that the status is OK and
    * the value is set.
    */
+  // TODO: deprecated
   public getValue() {
     if (this.status !== ResultStatus.OK) {
       throw new Error('Status is not OK!');
@@ -76,6 +82,10 @@ export default class Result<V> {
       throw new Error('Value not set!');
     }
     return this.wrapper.value;
+  }
+
+  public get value() {
+    return this.getValue();
   }
 
   /**
@@ -96,9 +106,9 @@ export default class Result<V> {
       if (!data.hasError()) {
         throw new Error('Result has not an error!');
       }
-      this.message = data.message;
+      this._message = data._message;
     } else {
-      this.message = data;
+      this._message = data;
     }
 
     this.status = ResultStatus.ERROR;
