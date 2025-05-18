@@ -19,14 +19,10 @@ export class QuestionShow extends HTMLElement {
     doDelete: TDoDelete
   ) {
     const instance = document.createElement('question-show') as QuestionShow;
-    return instance.setup(questionId, question, doDelete);
-  }
-
-  setup(questionId: TQuestionId, question: TQuestion, doDelete: TDoDelete) {
-    this.questionId = questionId;
-    this.question = question;
-    this.doDelete = doDelete;
-    return this;
+    instance.questionId = questionId;
+    instance.question = question;
+    instance.doDelete = doDelete;
+    return instance;
   }
 
   connectedCallback() {
@@ -63,15 +59,20 @@ export class QuestionShow extends HTMLElement {
         );
       };
 
-      $<HTMLElement>('[data-icon="delete"]', this.shadowRoot).onclick = () => {
-        if (this.doDelete) {
-          this.doDelete(
-            questionId.bookId,
-            questionId.chapterId,
-            questionId.idx
-          );
-        }
-      };
+      const elem = $<HTMLElement>('[data-icon="delete"]', this.shadowRoot);
+      if (this.doDelete) {
+        elem.onclick = () => {
+          if (this.doDelete) {
+            this.doDelete(
+              questionId.bookId,
+              questionId.chapterId,
+              questionId.idx
+            );
+          }
+        };
+      } else {
+        elem.style.display = 'none';
+      }
     }
   }
 
