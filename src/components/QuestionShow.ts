@@ -2,7 +2,7 @@ import { hashQuestionUpdate } from '../lib/hash';
 import { mdToHtml } from '../lib/markdown';
 import { TQuestion, TQuestionId } from '../lib/types';
 import { STYLES } from '../lib/ui/stylesheets';
-import { $, tmplClone } from '../lib/utils';
+import { $, $$, tmplClone } from '../lib/utils';
 
 type TDoDelete = (bookId: string, chapterId: string, idx: number) => void;
 
@@ -72,6 +72,14 @@ export class QuestionShow extends HTMLElement {
           );
         }
       };
+    }
+  }
+
+  show(showAnswer: boolean) {
+    if (this.shadowRoot) {
+      $$<HTMLElement>('[data-show="answer"]', this.shadowRoot).forEach((e) => {
+        e.style.display = showAnswer ? 'flex' : 'none';
+      });
     }
   }
 }
