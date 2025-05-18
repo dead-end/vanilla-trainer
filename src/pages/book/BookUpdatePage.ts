@@ -1,7 +1,6 @@
 import { bookGet, bookUpdate } from '../../lib/model/book';
-import { githubConfigGet } from '../../lib/model/githubConfig';
 import { getRouteParam } from '../../lib/route';
-import { $, errorGlobal, tmplClone } from '../../lib/utils';
+import { $, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { hashBookList } from '../../lib/hash';
@@ -21,15 +20,7 @@ export class BookUpdatePage extends HTMLElement {
 
   async render() {
     const bookId = getRouteParam('bookId');
-
-    const githubConfig = await githubConfigGet();
-    const result = await bookGet(githubConfig, bookId);
-    if (!result.isOk()) {
-      errorGlobal(`Unable to get book id: ${bookId}`);
-      return;
-    }
-
-    const book = result.getValue();
+    const book = await bookGet(bookId);
 
     $<HTMLInputElement>('#id').value = book.id;
     $<HTMLInputElement>('#title').value = book.title;
@@ -56,25 +47,17 @@ export class BookUpdatePage extends HTMLElement {
     if (!fieldErrorExists(form)) {
       button.disabled = true;
 
-      this.doUpdate(id.value, title.value, desc.value).finally(() => {
-        button.disabled = false;
-      });
+      bookUpdate({
+        id: id.value,
+        title: title.value,
+        description: desc.value,
+      })
+        .then(() => {
+          window.location.hash = hashBookList();
+        })
+        .finally(() => {
+          button.disabled = false;
+        });
     }
-  }
-
-  async doUpdate(id: string, title: string, desc: string) {
-    const githubConfig = await githubConfigGet();
-    const result = await bookUpdate(githubConfig, {
-      id: id,
-      title: title,
-      description: desc,
-    });
-
-    if (result.hasError()) {
-      errorGlobal(`Unable to update the book: ${id} - ${result.getMessage()}`);
-      return;
-    }
-
-    window.location.hash = hashBookList();
   }
 }

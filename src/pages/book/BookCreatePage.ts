@@ -1,7 +1,6 @@
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { bookCreate } from '../../lib/model/book';
-import { githubConfigGet } from '../../lib/model/githubConfig';
-import { $, errorGlobal, tmplClone } from '../../lib/utils';
+import { $, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldId, fieldRequired } from '../../lib/ui/field';
 import { hashBookList } from '../../lib/hash';
 
@@ -39,25 +38,17 @@ export class BookCreatePage extends HTMLElement {
 
       button.disabled = true;
 
-      this.doCreate(id.value, title.value, desc.value).finally(() => {
-        button.disabled = false;
-      });
+      bookCreate({
+        id: id.value,
+        title: title.value,
+        description: desc.value,
+      })
+        .then(() => {
+          window.location.hash = hashBookList();
+        })
+        .finally(() => {
+          button.disabled = false;
+        });
     }
-  }
-
-  async doCreate(id: string, title: string, desc: string) {
-    const githubConfig = await githubConfigGet();
-    const result = await bookCreate(githubConfig, {
-      id: id,
-      title: title,
-      description: desc,
-    });
-
-    if (result.hasError()) {
-      errorGlobal(`Unable to create a new book: ${result.getMessage()}`);
-      return;
-    }
-
-    window.location.hash = hashBookList();
   }
 }

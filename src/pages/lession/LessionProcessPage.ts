@@ -164,18 +164,6 @@ export class LessionProcessPage extends HTMLElement {
     return result.getValue();
   }
 
-  async getBook(questionId: TQuestionId) {
-    const config = await githubConfigGet();
-    const result = await bookGet(config, questionId.bookId);
-    if (result.hasError()) {
-      const msg = `Unable to get question - ${result.getMessage()}`;
-      errorGlobal(msg);
-      throw new Error(msg);
-    }
-
-    return result.getValue();
-  }
-
   async getChapter(questionId: TQuestionId) {
     const config = await githubConfigGet();
     const result = await chapterGet(
@@ -208,8 +196,8 @@ export class LessionProcessPage extends HTMLElement {
   }
 
   async infoTableQuestion(questionId: TQuestionId, progress: number) {
-    const book = await this.getBook(questionId);
-    const chapter = await this.getBook(questionId);
+    const book = await bookGet(questionId.bookId);
+    const chapter = await bookGet(questionId.bookId); // TODO: chapter not book
 
     $<InfoTable>('#info-question').update([
       { key: 'Books', value: book.title },
