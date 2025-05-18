@@ -1,6 +1,6 @@
 import { InfoTable } from '../../components/InfoTable';
+import { QuestionShow } from '../../components/QuestionShow';
 import { hashHome } from '../../lib/hash';
-import { mdToHtml } from '../../lib/markdown';
 import { bookGet } from '../../lib/model/book';
 import { chapterGet } from '../../lib/model/chapter';
 import { githubConfigGet } from '../../lib/model/githubConfig';
@@ -44,12 +44,12 @@ export class LessionProcessPage extends HTMLElement {
   load() {
     this.lession = lessionLoad();
     if (!this.lession) {
-      this.toggleRunning(false);
+      this.setStateRunning(false);
       errorGlobal('No lession found!');
       return;
     }
 
-    this.toggleRunning(true);
+    this.setStateRunning(true);
     this.next();
   }
 
@@ -64,10 +64,10 @@ export class LessionProcessPage extends HTMLElement {
 
       if (tmp) {
         this.questionProgress = tmp;
-        this.setQuestion();
-        this.toggleQuestion(true);
+        this.setQuestion(this.questionProgress.questionId);
+        this.setStateQuestion(true);
       } else {
-        this.toggleRunning(false);
+        this.setStateRunning(false);
         return;
       }
 
@@ -102,7 +102,7 @@ export class LessionProcessPage extends HTMLElement {
   }
 
   onShow() {
-    this.toggleQuestion(false);
+    this.setStateQuestion(false);
   }
 
   onCorrect = () => {
@@ -125,12 +125,13 @@ export class LessionProcessPage extends HTMLElement {
     window.location.hash = hashHome();
   }
 
-  toggleQuestion(asking: boolean) {
+  setStateQuestion(asking: boolean) {
     this.doShow('[data-show="ask"]', asking);
     this.doShow('[data-show="show"]', !asking);
+    $<QuestionShow>('#question-show').show(!asking);
   }
 
-  toggleRunning(running: boolean) {
+  setStateRunning(running: boolean) {
     this.doShow('[data-show="running"]', running);
 
     if (!running) {
@@ -191,14 +192,9 @@ export class LessionProcessPage extends HTMLElement {
     return result.getValue();
   }
 
-  async setQuestion() {
-    if (this.questionProgress) {
-      const question = await this.getQuestion(this.questionProgress.questionId);
-
-      $('#quest').innerHTML = mdToHtml(question.quest);
-      $('#answer').innerHTML = mdToHtml(question.answer);
-      $('#quest').innerHTML = question.quest ? mdToHtml(question.quest) : '';
-    }
+  async setQuestion(questionId: TQuestionId) {
+    const question = await this.getQuestion(questionId);
+    $<QuestionShow>('#question-show').render(questionId, question);
   }
 
   infoTableProgress(progress: number[]) {
