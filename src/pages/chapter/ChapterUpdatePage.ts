@@ -1,6 +1,5 @@
-import { githubConfigGet } from '../../lib/model/githubConfig';
 import { getRouteParam } from '../../lib/route';
-import { $, errorGlobal, tmplClone } from '../../lib/utils';
+import { $, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { chapterGet, chapterUpdate } from '../../lib/model/chapter';
@@ -26,14 +25,7 @@ export class ChapterUpdatePage extends HTMLElement {
     const link = hashChapterList(bookId);
     $<HTMLAnchorElement>('#chapter-list-link', this).href = link;
 
-    const githubConfig = await githubConfigGet();
-    const result = await chapterGet(githubConfig, bookId, chapterId);
-    if (!result.isOk()) {
-      errorGlobal(`Unable to get chapter id: ${bookId}`);
-      return;
-    }
-
-    const chapter = result.getValue();
+    const chapter = await chapterGet(bookId, chapterId);
 
     $<HTMLInputElement>('#id').value = chapter.id;
     $<HTMLInputElement>('#title').value = chapter.title;
@@ -58,25 +50,16 @@ export class ChapterUpdatePage extends HTMLElement {
       const button = $<HTMLButtonElement>('#btn-submit', form);
       button.disabled = true;
 
-      this.doUpdate(bookId, id.value, title.value).finally(() => {
-        button.disabled = false;
-      });
+      chapterUpdate(bookId, {
+        id: id.value,
+        title: title.value,
+      })
+        .then(() => {
+          window.location.hash = hashChapterList(bookId);
+        })
+        .finally(() => {
+          button.disabled = false;
+        });
     }
-  }
-
-  async doUpdate(bookId: string, id: string, title: string) {
-    const githubConfig = await githubConfigGet();
-    const result = await chapterUpdate(githubConfig, bookId, {
-      id: id,
-      title: title,
-    });
-    if (result.hasError()) {
-      errorGlobal(
-        `Unable to update the chapter: ${id} - ${result.getMessage()}`
-      );
-      return;
-    }
-
-    window.location.hash = hashChapterList(bookId);
   }
 }

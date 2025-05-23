@@ -1,6 +1,5 @@
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
-import { githubConfigGet } from '../../lib/model/githubConfig';
-import { $, errorGlobal, tmplClone } from '../../lib/utils';
+import { $, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldId, fieldRequired } from '../../lib/ui/field';
 import { chapterCreate } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';
@@ -45,23 +44,16 @@ export class ChapterCreatePage extends HTMLElement {
       const button = $<HTMLButtonElement>('#btn-submit', form);
       button.disabled = true;
 
-      this.doCreate(bookId, id.value, title.value).finally(() => {
-        button.disabled = false;
-      });
+      chapterCreate(bookId, {
+        id: id.value,
+        title: title.value,
+      })
+        .then(() => {
+          window.location.hash = hashChapterList(bookId);
+        })
+        .finally(() => {
+          button.disabled = false;
+        });
     }
-  }
-
-  async doCreate(bookId: string, id: string, title: string) {
-    const githubConfig = await githubConfigGet();
-    const result = await chapterCreate(githubConfig, bookId, {
-      id,
-      title,
-    });
-    if (result.hasError()) {
-      errorGlobal(`Unable to create a new chapter: ${result.getMessage()}`);
-      return;
-    }
-
-    window.location.hash = hashChapterList(bookId);
   }
 }

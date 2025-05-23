@@ -6,9 +6,8 @@ import {
   hashQuestionList,
 } from '../../lib/hash';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
-import { githubConfigGet } from '../../lib/model/githubConfig';
 import { getRouteParam } from '../../lib/route';
-import { $, errorGlobal, tmplClone } from '../../lib/utils';
+import { $, tmplClone } from '../../lib/utils';
 
 export class ChapterListPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#chapter-list-page');
@@ -30,41 +29,36 @@ export class ChapterListPage extends HTMLElement {
     $<HTMLAnchorElement>('#chapter-create-link').href =
       hashChapterCreate(bookId);
 
-    const config = await githubConfigGet();
-    const result = await chapterListing(config, bookId);
-    if (result.isOk()) {
-      const arr: DocumentFragment[] = [];
+    const arr: DocumentFragment[] = [];
 
-      const chapters = result.getValue();
+    const chapters = await chapterListing(bookId);
 
-      chapters.forEach((chap) => {
-        const tmpl = tmplClone(ChapterListPage.TMPL_ROW);
+    chapters.forEach((chap) => {
+      const tmpl = tmplClone(ChapterListPage.TMPL_ROW);
 
-        $('[data-id="id"]', tmpl).textContent = chap.id;
-        $('[data-id="title"]', tmpl).textContent = chap.title;
-        $<HTMLElement>('[data-icon="delete"]', tmpl).onclick = this.onDelete(
-          confirmDialog,
-          bookId,
-          chap.id
-        ).bind(this);
+      $('[data-id="id"]', tmpl).textContent = chap.id;
+      $('[data-id="title"]', tmpl).textContent = chap.title;
+      $<HTMLElement>('[data-icon="delete"]', tmpl).onclick = this.onDelete(
+        confirmDialog,
+        bookId,
+        chap.id
+      ).bind(this);
 
-        $<HTMLElement>('[data-icon="update"]', tmpl).onclick = () => {
-          window.location.hash = hashChapterUpdate(bookId, chap.id);
-        };
+      $<HTMLElement>('[data-icon="update"]', tmpl).onclick = () => {
+        window.location.hash = hashChapterUpdate(bookId, chap.id);
+      };
 
-        $<HTMLElement>('[data-icon="list"]', tmpl).onclick = () => {
-          window.location.hash = hashQuestionList(bookId, chap.id);
-        };
+      $<HTMLElement>('[data-icon="list"]', tmpl).onclick = () => {
+        window.location.hash = hashQuestionList(bookId, chap.id);
+      };
 
-        $<HTMLElement>('[data-icon="start"]', tmpl).onclick = () => {
-          window.location.hash = hashLessionPrepare(bookId, chap.id);
-        };
-        arr.push(tmpl);
-      });
+      $<HTMLElement>('[data-icon="start"]', tmpl).onclick = () => {
+        window.location.hash = hashLessionPrepare(bookId, chap.id);
+      };
+      arr.push(tmpl);
+    });
 
-      $<HTMLElement>('tbody').replaceChildren(...arr);
-      console.log(chapters);
-    }
+    $<HTMLElement>('tbody').replaceChildren(...arr);
   }
 
   onDelete(confirmDialog: ConfirmDialog, bookId: string, chapterId: string) {
@@ -79,14 +73,9 @@ export class ChapterListPage extends HTMLElement {
 
   getDeleteFct(bookId: string, chapterId: string) {
     return async () => {
-      const githubConfig = await githubConfigGet();
-      const result = await chapterDelete(githubConfig, bookId, chapterId);
-      if (result.hasError()) {
-        errorGlobal(`Unable to delete the chapter: ${chapterId}`);
-        return;
-      }
-
-      this.render();
+      chapterDelete(bookId, chapterId).then(() => {
+        this.render();
+      });
     };
   }
 }

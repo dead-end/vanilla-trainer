@@ -2,7 +2,6 @@ import { InfoTable } from '../../components/InfoTable';
 import { QuestionShow } from '../../components/QuestionShow';
 import { hashHome } from '../../lib/hash';
 import { bookGet } from '../../lib/model/book';
-import { chapterGet } from '../../lib/model/chapter';
 import { githubConfigGet } from '../../lib/model/githubConfig';
 import {
   lessionGetProcess,
@@ -154,22 +153,6 @@ export class LessionProcessPage extends HTMLElement {
       questionId.bookId,
       questionId.chapterId,
       questionId.idx
-    );
-    if (result.hasError()) {
-      const msg = `Unable to get question - ${result.getMessage()}`;
-      errorGlobal(msg);
-      throw new Error(msg);
-    }
-
-    return result.getValue();
-  }
-
-  async getChapter(questionId: TQuestionId) {
-    const config = await githubConfigGet();
-    const result = await chapterGet(
-      config,
-      questionId.bookId,
-      questionId.chapterId
     );
     if (result.hasError()) {
       const msg = `Unable to get question - ${result.getMessage()}`;
