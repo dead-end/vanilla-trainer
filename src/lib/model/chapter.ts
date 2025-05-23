@@ -1,7 +1,6 @@
 import { GlobalError } from '../GlobalError';
 import { pathChaptersGet, pathQuestionsGet } from '../path';
 import { cacheDeletePath, cachedGetPath, cachePutPath } from '../remote/cache';
-import { githubGetHash, githubGetUrl } from '../remote/github';
 import { TChapter, TQuestion } from '../types';
 import { githubConfigGet } from './githubConfig';
 
@@ -149,28 +148,12 @@ export const chapterCreate = async (bookId: string, chapter: TChapter) => {
     throw new GlobalError(resPut.message);
   }
 
-  //
-  // Get the hash value of the chapter list from github. This is void if the
-  // file does not exist.
-  //
-  // TODO: Why github funtion is used here?
-  // TODO: This is error handling. If the file, that we want to create already exists!
   const pathQuestions = pathQuestionsGet(bookId, chapter.id);
-  const url = githubGetUrl(config.user, config.repo, pathQuestions);
-  const resHash = await githubGetHash(url, config.token);
-  if (resHash.hasError) {
-    throw new GlobalError(resHash.message);
-  }
-
-  //
-  // Write the empty list of questions for that chapter for the new file.
-  //
-  // TODO: Is the the question list?
   const resultChap = await cachePutPath<TQuestion[]>(
     config,
     pathQuestions,
     [],
-    resHash.value,
+    undefined,
     'Creating chapters!'
   );
   if (resultChap.hasError) {

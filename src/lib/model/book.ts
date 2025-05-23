@@ -1,7 +1,6 @@
 import { GlobalError } from '../GlobalError';
 import { pathBooksGet, pathChaptersGet } from '../path';
 import { cacheDeletePath, cachedGetPath, cachePutPath } from '../remote/cache';
-import { githubGetHash, githubGetUrl } from '../remote/github';
 import { TBook, TChapter } from '../types';
 import { githubConfigGet } from './githubConfig';
 
@@ -66,19 +65,12 @@ export const bookCreate = async (book: TBook) => {
     throw new GlobalError(resPut.message);
   }
 
-  // TODO: Why github funtion is used here?
   const path = pathChaptersGet(book.id);
-  const url = githubGetUrl(config.user, config.repo, path);
-  const resHash = await githubGetHash(url, config.token);
-  if (resHash.hasError) {
-    throw new GlobalError(resHash.message);
-  }
-
   const resultChap = await cachePutPath<TChapter[]>(
     config,
     path,
     [],
-    resHash.value,
+    undefined,
     'Creating chapters!'
   );
   if (resultChap.hasError) {
