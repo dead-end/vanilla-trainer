@@ -1,6 +1,5 @@
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
-import { githubConfigGet } from '../../lib/model/githubConfig';
-import { $, errorGlobal, tmplClone } from '../../lib/utils';
+import { $, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { getRouteParams } from '../../lib/route';
 import { hashQuestionList } from '../../lib/hash';
@@ -9,7 +8,6 @@ import {
   questionInst,
   questionUpdate,
 } from '../../lib/model/question';
-import { TQuestion } from '../../lib/types';
 
 export class QuestionUpdatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#question-update-page');
@@ -36,19 +34,8 @@ export class QuestionUpdatePage extends HTMLElement {
       chapterId
     );
 
-    const githubConfig = await githubConfigGet();
-    const result = await questionGet(
-      githubConfig,
-      bookId,
-      chapterId,
-      parseInt(idx)
-    );
-    if (result.hasError()) {
-      errorGlobal(`Unable to update a new chapter: ${result.getMessage()}`);
-      return;
-    }
+    const question = await questionGet(bookId, chapterId, parseInt(idx));
 
-    const question = result.getValue();
     this.setValue('#quest', question.quest);
     this.setValue('#answer', question.answer);
     this.setValue('#details', question.details || '');
@@ -87,31 +74,13 @@ export class QuestionUpdatePage extends HTMLElement {
 
       const question = questionInst(quest.value, answer.value, details.value);
 
-      this.doUpdate(bookId, chapterId, parseInt(idx), question).finally(() => {
-        button.disabled = false;
-      });
+      questionUpdate(bookId, chapterId, parseInt(idx), question)
+        .then(() => {
+          window.location.hash = hashQuestionList(bookId, chapterId);
+        })
+        .finally(() => {
+          button.disabled = false;
+        });
     }
-  }
-
-  async doUpdate(
-    bookId: string,
-    chapterId: string,
-    idx: number,
-    question: TQuestion
-  ) {
-    const githubConfig = await githubConfigGet();
-    const result = await questionUpdate(
-      githubConfig,
-      bookId,
-      chapterId,
-      idx,
-      question
-    );
-    if (result.hasError()) {
-      errorGlobal(`Unable to update a new chapter: ${result.getMessage()}`);
-      return;
-    }
-
-    window.location.hash = hashQuestionList(bookId, chapterId);
   }
 }

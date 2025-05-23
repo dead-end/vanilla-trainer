@@ -2,7 +2,6 @@ import { InfoTable } from '../../components/InfoTable';
 import { QuestionShow } from '../../components/QuestionShow';
 import { hashHome } from '../../lib/hash';
 import { bookGet } from '../../lib/model/book';
-import { githubConfigGet } from '../../lib/model/githubConfig';
 import {
   lessionGetProcess,
   lessionLoad,
@@ -146,25 +145,12 @@ export class LessionProcessPage extends HTMLElement {
     });
   }
 
-  async getQuestion(questionId: TQuestionId) {
-    const config = await githubConfigGet();
-    const result = await questionGet(
-      config,
+  async setQuestion(questionId: TQuestionId) {
+    const question = await questionGet(
       questionId.bookId,
       questionId.chapterId,
       questionId.idx
     );
-    if (result.hasError()) {
-      const msg = `Unable to get question - ${result.getMessage()}`;
-      errorGlobal(msg);
-      throw new Error(msg);
-    }
-
-    return result.getValue();
-  }
-
-  async setQuestion(questionId: TQuestionId) {
-    const question = await this.getQuestion(questionId);
     $<QuestionShow>('#question-show').render(questionId, question);
   }
 

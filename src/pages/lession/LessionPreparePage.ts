@@ -1,6 +1,5 @@
 import { InfoTable } from '../../components/InfoTable';
 import { hashLessionProcess } from '../../lib/hash';
-import { githubConfigGet } from '../../lib/model/githubConfig';
 import { lessionCreate } from '../../lib/model/lession';
 import { questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
@@ -24,14 +23,8 @@ export class LessionPreparePage extends HTMLElement {
   async render() {
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
 
-    const config = await githubConfigGet();
-    const result = await questionListing(config, bookId, chapterId);
-    if (result.hasError()) {
-      errorGlobal(`Unable to get questions: ${result.getMessage()}`);
-      return;
-    }
-
-    const len = result.getValue().length;
+    const questions = await questionListing(bookId, chapterId);
+    const len = questions.length;
     if (len === 0) {
       errorGlobal('The chapter has no questions!');
       $<HTMLButtonElement>('#btn-start').disabled = true;
@@ -56,16 +49,12 @@ export class LessionPreparePage extends HTMLElement {
 
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
 
-    const config = await githubConfigGet();
-    const result = await questionListing(config, bookId, chapterId);
-    if (result.hasError()) {
-      errorGlobal(`Unable to get questions: ${result.getMessage()}`);
-      return;
-    }
-
-    const questionIds: TQuestionId[] = result
-      .getValue()
-      .map((_q, i) => ({ bookId, chapterId, idx: i }));
+    const questions = await questionListing(bookId, chapterId);
+    const questionIds: TQuestionId[] = questions.map((_q, i) => ({
+      bookId,
+      chapterId,
+      idx: i,
+    }));
 
     lessionCreate(
       questionIds,

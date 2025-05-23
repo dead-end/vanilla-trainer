@@ -1,10 +1,9 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { QuestionShow } from '../../components/QuestionShow';
 import { hashChapterList, hashQuestionCreate } from '../../lib/hash';
-import { githubConfigGet } from '../../lib/model/githubConfig';
 import { questionDelete, questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
-import { $, errorGlobal, tmplClone } from '../../lib/utils';
+import { $, tmplClone } from '../../lib/utils';
 
 export class QuestionListPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#question-list-page');
@@ -26,24 +25,20 @@ export class QuestionListPage extends HTMLElement {
     );
     $<HTMLAnchorElement>('#chapter-list-link').href = hashChapterList(bookId);
 
-    const config = await githubConfigGet();
-    const result = await questionListing(config, bookId, chapterId);
-    if (result.isOk()) {
-      const arr: QuestionShow[] = [];
+    const questions = await questionListing(bookId, chapterId);
+    const arr: QuestionShow[] = [];
 
-      const questions = result.getValue();
-      questions.forEach((q, idx) => {
-        arr.push(
-          QuestionShow.instance(
-            { bookId, chapterId, idx },
-            q,
-            this.doDelete.bind(this)
-          )
-        );
-      });
+    questions.forEach((q, idx) => {
+      arr.push(
+        QuestionShow.instance(
+          { bookId, chapterId, idx },
+          q,
+          this.doDelete.bind(this)
+        )
+      );
+    });
 
-      $<HTMLElement>('[data-id="questions"]').replaceChildren(...arr);
-    }
+    $<HTMLElement>('[data-id="questions"]').replaceChildren(...arr);
   }
 
   doDelete(bookId: string, chapterId: string, idx: number) {
@@ -56,14 +51,9 @@ export class QuestionListPage extends HTMLElement {
 
   getDeleteFct(bookId: string, chapterId: string, idx: number) {
     return async () => {
-      const githubConfig = await githubConfigGet();
-      const result = await questionDelete(githubConfig, bookId, chapterId, idx);
-      if (result.hasError()) {
-        errorGlobal(`Unable to delete the chapter: ${chapterId}`);
-        return;
-      }
-
-      this.render();
+      questionDelete(bookId, chapterId, idx).then(() => {
+        this.render();
+      });
     };
   }
 }

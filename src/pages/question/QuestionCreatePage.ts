@@ -1,11 +1,9 @@
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
-import { githubConfigGet } from '../../lib/model/githubConfig';
-import { $, errorGlobal, tmplClone } from '../../lib/utils';
+import { $, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { getRouteParams } from '../../lib/route';
 import { hashQuestionList } from '../../lib/hash';
 import { questionCreate, questionInst } from '../../lib/model/question';
-import { TQuestion } from '../../lib/types';
 
 export class QuestionCreatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#question-create-page');
@@ -51,25 +49,13 @@ export class QuestionCreatePage extends HTMLElement {
 
       const question = questionInst(quest.value, answer.value, details.value);
 
-      this.doCreate(bookId, chapterId, question).finally(() => {
-        button.disabled = false;
-      });
+      questionCreate(bookId, chapterId, question)
+        .then(() => {
+          window.location.hash = hashQuestionList(bookId, chapterId);
+        })
+        .finally(() => {
+          button.disabled = false;
+        });
     }
-  }
-
-  async doCreate(bookId: string, chapterId: string, question: TQuestion) {
-    const githubConfig = await githubConfigGet();
-    const result = await questionCreate(
-      githubConfig,
-      bookId,
-      chapterId,
-      question
-    );
-    if (result.hasError()) {
-      errorGlobal(`Unable to create a new chapter: ${result.getMessage()}`);
-      return;
-    }
-
-    window.location.hash = hashQuestionList(bookId, chapterId);
   }
 }

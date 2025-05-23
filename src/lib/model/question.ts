@@ -1,148 +1,129 @@
+import { GlobalError } from '../GlobalError';
 import { pathQuestionsGet } from '../path';
 import { cachedGetPath, cachePutPath } from '../remote/cache';
-import Result from '../result';
-import { TGithubConfig, TQuestion } from '../types';
+import { TQuestion } from '../types';
+import { githubConfigGet } from './githubConfig';
 
 /**
  * The function returns the list of questions for the chapter.
  */
-export const questionListing = async (
-  config: TGithubConfig,
-  bookId: string,
-  chapterId: string
-) => {
-  const result = new Result<TQuestion[]>();
+export const questionListing = async (bookId: string, chapterId: string) => {
+  const config = await githubConfigGet();
+  const path = pathQuestionsGet(bookId, chapterId);
 
-  const resCache = await cachedGetPath<TQuestion[]>(
-    config,
-    pathQuestionsGet(bookId, chapterId)
-  );
+  const resCache = await cachedGetPath<TQuestion[]>(config, path);
   if (resCache.hasError()) {
-    return result.setError(resCache);
+    throw new GlobalError(resCache.message);
   }
 
-  return result.setOk(resCache.getValue().data);
+  return resCache.value.data;
 };
 
 /**
  * The function returns a question from the cache or from github.
  */
 export const questionGet = async (
-  config: TGithubConfig,
   bookId: string,
   chapterId: string,
   idx: number
 ) => {
-  const result = new Result<TQuestion>();
-
-  const resList = await questionListing(config, bookId, chapterId);
-  if (resList.hasError()) {
-    return result.setError(resList);
-  }
-
-  return result.setOk(resList.getValue()[idx]);
+  const questions = await questionListing(bookId, chapterId);
+  return questions[idx];
 };
 
 /**
  * The function updates a question and writes the result to github.
  */
 export const questionUpdate = async (
-  config: TGithubConfig,
   bookId: string,
   chapterId: string,
   idx: number,
   question: TQuestion
 ) => {
-  const result = new Result<void>();
+  const config = await githubConfigGet();
   const pathQuestions = pathQuestionsGet(bookId, chapterId);
 
   const resCache = await cachedGetPath<TQuestion[]>(config, pathQuestions);
   if (resCache.hasError()) {
-    return result.setError(resCache);
+    throw new GlobalError(resCache.message);
   }
 
-  const questions = resCache.getValue().data;
+  const questions = resCache.value.data;
   questions[idx] = question;
 
   const resPut = await cachePutPath<TQuestion[]>(
     config,
     pathQuestions,
     questions,
-    resCache.getValue().hash,
+    resCache.value.hash,
     'Updating question!'
   );
   if (resPut.hasError()) {
-    return result.setError(resPut);
+    throw new GlobalError(resPut.message);
   }
-
-  return result.setOk();
 };
 
 /**
  * The function creates a question and writes the result to github.
  */
 export const questionCreate = async (
-  config: TGithubConfig,
   bookId: string,
   chapterId: string,
   question: TQuestion
 ) => {
-  const result = new Result<void>();
-  const pathQuestions = pathQuestionsGet(bookId, chapterId);
+  const config = await githubConfigGet();
+  const path = pathQuestionsGet(bookId, chapterId);
 
-  const resCache = await cachedGetPath<TQuestion[]>(config, pathQuestions);
+  const resCache = await cachedGetPath<TQuestion[]>(config, path);
   if (resCache.hasError()) {
-    return result.setError(resCache);
+    throw new GlobalError(resCache.message);
   }
 
-  const questions = resCache.getValue().data;
+  const questions = resCache.value.data;
   questions.push(question);
 
   const resPut = await cachePutPath<TQuestion[]>(
     config,
-    pathQuestions,
+    path,
     questions,
-    resCache.getValue().hash,
+    resCache.value.hash,
     'Adding question!'
   );
   if (resPut.hasError()) {
-    return result.setError(resPut);
+    throw new GlobalError(resPut.message);
   }
-
-  return result.setOk();
 };
 
 /**
  * The function deletes a question and writes the result to github.
  */
 export const questionDelete = async (
-  config: TGithubConfig,
   bookId: string,
   chapterId: string,
   idx: number
 ) => {
-  const result = new Result<TQuestion[]>();
-  const pathQuestions = pathQuestionsGet(bookId, chapterId);
+  const config = await githubConfigGet();
+  const path = pathQuestionsGet(bookId, chapterId);
 
-  const resCache = await cachedGetPath<TQuestion[]>(config, pathQuestions);
+  const resCache = await cachedGetPath<TQuestion[]>(config, path);
   if (resCache.hasError()) {
-    return result.setError(resCache);
+    throw new GlobalError(resCache.message);
   }
 
-  const questions = resCache.getValue().data.filter((_v, i) => idx !== i);
+  const questions = resCache.value.data.filter((_v, i) => idx !== i);
 
   const resPut = await cachePutPath<TQuestion[]>(
     config,
-    pathQuestions,
+    path,
     questions,
-    resCache.getValue().hash,
+    resCache.value.hash,
     'Deleting question!'
   );
   if (resPut.hasError()) {
-    return result.setError(resPut);
+    throw new GlobalError(resPut.message);
   }
 
-  return result.setOk(questions);
+  return questions;
 };
 
 /**
