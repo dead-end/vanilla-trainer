@@ -13,7 +13,7 @@ export const chapterListing = async (bookId: string) => {
   const path = pathChaptersGet(bookId);
 
   const resCache = await cachedGetPath<TChapter[]>(config, path);
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -29,7 +29,7 @@ export const chapterGet = async (bookId: string, id: string) => {
   const path = pathChaptersGet(bookId);
 
   const resCache = await cachedGetPath<TChapter[]>(config, path);
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -50,7 +50,7 @@ export const chapterUpdate = async (bookId: string, chapter: TChapter) => {
   const path = pathChaptersGet(bookId);
 
   const resCache = await cachedGetPath<TChapter[]>(config, path);
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -83,7 +83,7 @@ export const chapterDelete = async (bookId: string, id: string) => {
   const path = pathChaptersGet(bookId);
 
   const resCache = await cachedGetPath<TChapter[]>(config, path);
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -101,7 +101,7 @@ export const chapterDelete = async (bookId: string, id: string) => {
     resCache.value.hash,
     `Deleting chapter ${id}`
   );
-  if (resPut.hasError()) {
+  if (resPut.hasError) {
     throw new GlobalError(resPut.message);
   }
 
@@ -110,7 +110,7 @@ export const chapterDelete = async (bookId: string, id: string) => {
     pathQuestionsGet(bookId, id),
     `Deleting file.`
   );
-  if (resDel.hasError()) {
+  if (resDel.hasError) {
     throw new GlobalError(resDel.message);
   }
 
@@ -128,7 +128,7 @@ export const chapterCreate = async (bookId: string, chapter: TChapter) => {
   const path = pathChaptersGet(bookId);
 
   const resCache = await cachedGetPath<TChapter[]>(config, path);
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -145,7 +145,7 @@ export const chapterCreate = async (bookId: string, chapter: TChapter) => {
     resCache.value.hash,
     `Adding chapter: ${chapter.id}`
   );
-  if (resPut.hasError()) {
+  if (resPut.hasError) {
     throw new GlobalError(resPut.message);
   }
 
@@ -158,7 +158,7 @@ export const chapterCreate = async (bookId: string, chapter: TChapter) => {
   const pathQuestions = pathQuestionsGet(bookId, chapter.id);
   const url = githubGetUrl(config.user, config.repo, pathQuestions);
   const resHash = await githubGetHash(url, config.token);
-  if (resHash.hasError()) {
+  if (resHash.hasError) {
     throw new GlobalError(resHash.message);
   }
 
@@ -173,7 +173,7 @@ export const chapterCreate = async (bookId: string, chapter: TChapter) => {
     resHash.value,
     'Creating chapters!'
   );
-  if (resultChap.hasError()) {
+  if (resultChap.hasError) {
     throw new GlobalError(resultChap.message);
   }
 

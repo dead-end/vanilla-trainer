@@ -43,7 +43,7 @@ export default class Result<V> {
   /**
    * The function checks if the status is ERROR
    */
-  public hasError() {
+  public get hasError() {
     if (this.status === ResultStatus.UNDEF) {
       throw new Error('Status not set!');
     }
@@ -54,8 +54,7 @@ export default class Result<V> {
    * The function returns the error message. This reqires that the status is
    * ERROR.
    */
-  // TODO: deprecated
-  public getMessage() {
+  public get message() {
     if (this.status !== ResultStatus.ERROR) {
       throw new Error('Status is not ERROR!');
     }
@@ -65,16 +64,11 @@ export default class Result<V> {
     return this._message;
   }
 
-  public get message() {
-    return this.getMessage();
-  }
-
   /**
    * The function returns the value. This requires that the status is OK and
    * the value is set.
    */
-  // TODO: deprecated
-  public getValue() {
+  public get value() {
     if (this.status !== ResultStatus.OK) {
       throw new Error('Status is not OK!');
     }
@@ -82,10 +76,6 @@ export default class Result<V> {
       throw new Error('Value not set!');
     }
     return this.wrapper.value;
-  }
-
-  public get value() {
-    return this.getValue();
   }
 
   /**
@@ -103,7 +93,7 @@ export default class Result<V> {
    */
   public setError(data: string | Result<any>) {
     if (data instanceof Result) {
-      if (!data.hasError()) {
+      if (!data.hasError) {
         throw new Error('Result has not an error!');
       }
       this._message = data._message;

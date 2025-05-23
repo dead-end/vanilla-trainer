@@ -12,7 +12,7 @@ export const questionListing = async (bookId: string, chapterId: string) => {
   const path = pathQuestionsGet(bookId, chapterId);
 
   const resCache = await cachedGetPath<TQuestion[]>(config, path);
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -44,7 +44,7 @@ export const questionUpdate = async (
   const pathQuestions = pathQuestionsGet(bookId, chapterId);
 
   const resCache = await cachedGetPath<TQuestion[]>(config, pathQuestions);
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -58,7 +58,7 @@ export const questionUpdate = async (
     resCache.value.hash,
     'Updating question!'
   );
-  if (resPut.hasError()) {
+  if (resPut.hasError) {
     throw new GlobalError(resPut.message);
   }
 };
@@ -75,7 +75,7 @@ export const questionCreate = async (
   const path = pathQuestionsGet(bookId, chapterId);
 
   const resCache = await cachedGetPath<TQuestion[]>(config, path);
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -89,7 +89,7 @@ export const questionCreate = async (
     resCache.value.hash,
     'Adding question!'
   );
-  if (resPut.hasError()) {
+  if (resPut.hasError) {
     throw new GlobalError(resPut.message);
   }
 };
@@ -106,7 +106,7 @@ export const questionDelete = async (
   const path = pathQuestionsGet(bookId, chapterId);
 
   const resCache = await cachedGetPath<TQuestion[]>(config, path);
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -119,7 +119,7 @@ export const questionDelete = async (
     resCache.value.hash,
     'Deleting question!'
   );
-  if (resPut.hasError()) {
+  if (resPut.hasError) {
     throw new GlobalError(resPut.message);
   }
 

@@ -33,9 +33,9 @@ export const cachedGetPath = async <T>(config: TGithubConfig, path: string) => {
     githubGetUrl(config.user, config.repo, path),
     config.token
   );
-  if (resultRead.hasError()) {
+  if (resultRead.hasError) {
     return result.setError(
-      `cachedGetPath - unable to read data: ${resultRead.getMessage()}`
+      `cachedGetPath - unable to read data: ${resultRead.message}`
     );
   }
 
@@ -44,8 +44,8 @@ export const cachedGetPath = async <T>(config: TGithubConfig, path: string) => {
   //
   const cache: TCache<T> = {
     path,
-    data: JSON.parse(resultRead.getValue().content),
-    hash: resultRead.getValue().hash,
+    data: JSON.parse(resultRead.value.content),
+    hash: resultRead.value.hash,
   };
 
   //
@@ -83,7 +83,7 @@ export const cachePutPath = async <T>(
     comment,
     config.token
   );
-  if (resultWrite.hasError()) {
+  if (resultWrite.hasError) {
     return result.setError(resultWrite);
   }
 
@@ -94,7 +94,7 @@ export const cachePutPath = async <T>(
   await storePut<TCache<T>>(store, {
     path,
     data,
-    hash: resultWrite.getValue(),
+    hash: resultWrite.value,
   });
 
   return result.setOk(data);
@@ -115,7 +115,7 @@ export const cacheDeletePath = async (
   // Get the has value from github.
   //
   const resultHash = await githubGetHash(url, config.token);
-  if (resultHash.hasError()) {
+  if (resultHash.hasError) {
     return result.setError(resultHash);
   }
 
@@ -123,14 +123,14 @@ export const cacheDeletePath = async (
   // If the hash exists, then delete the file on github.
   // If the hash does not exist, then the file does not exist.
   //
-  if (resultHash.getValue()) {
+  if (resultHash.value) {
     const resultDelete = await githubDelete(
       url,
-      resultHash.getValue(),
+      resultHash.value,
       comment,
       config.token
     );
-    if (resultDelete.hasError()) {
+    if (resultDelete.hasError) {
       return result.setError(resultDelete);
     }
   }

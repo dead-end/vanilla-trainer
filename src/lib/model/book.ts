@@ -12,7 +12,7 @@ export const bookListing = async () => {
   const config = await githubConfigGet();
 
   const resCache = await cachedGetPath<TBook[]>(config, pathBooksGet());
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -26,7 +26,7 @@ export const bookGet = async (id: string) => {
   const config = await githubConfigGet();
 
   const resCache = await cachedGetPath<TBook[]>(config, pathBooksGet());
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -45,7 +45,7 @@ export const bookCreate = async (book: TBook) => {
   const config = await githubConfigGet();
 
   const resCache = await cachedGetPath<TBook[]>(config, pathBooksGet());
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -62,7 +62,7 @@ export const bookCreate = async (book: TBook) => {
     resCache.value.hash,
     `Adding book: ${book.id}`
   );
-  if (resPut.hasError()) {
+  if (resPut.hasError) {
     throw new GlobalError(resPut.message);
   }
 
@@ -70,7 +70,7 @@ export const bookCreate = async (book: TBook) => {
   const path = pathChaptersGet(book.id);
   const url = githubGetUrl(config.user, config.repo, path);
   const resHash = await githubGetHash(url, config.token);
-  if (resHash.hasError()) {
+  if (resHash.hasError) {
     throw new GlobalError(resHash.message);
   }
 
@@ -81,7 +81,7 @@ export const bookCreate = async (book: TBook) => {
     resHash.value,
     'Creating chapters!'
   );
-  if (resultChap.hasError()) {
+  if (resultChap.hasError) {
     throw new GlobalError(resultChap.message);
   }
 
@@ -95,7 +95,7 @@ export const bookUpdate = async (book: TBook) => {
   const config = await githubConfigGet();
 
   const resCache = await cachedGetPath<TBook[]>(config, pathBooksGet());
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -113,7 +113,7 @@ export const bookUpdate = async (book: TBook) => {
     resCache.value.hash,
     `Updating book: ${book.id}`
   );
-  if (resPut.hasError()) {
+  if (resPut.hasError) {
     throw new GlobalError(resPut.message);
   }
 
@@ -128,7 +128,7 @@ export const bookDelete = async (id: string) => {
   const config = await githubConfigGet();
 
   const resCache = await cachedGetPath<TBook[]>(config, pathBooksGet());
-  if (resCache.hasError()) {
+  if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
 
@@ -146,7 +146,7 @@ export const bookDelete = async (id: string) => {
     resCache.value.hash,
     `Deleting book ${id}`
   );
-  if (resPut.hasError()) {
+  if (resPut.hasError) {
     throw new GlobalError(resPut.message);
   }
 
@@ -155,7 +155,7 @@ export const bookDelete = async (id: string) => {
     pathChaptersGet(id),
     `Deleting file for: ${id}`
   );
-  if (resDel.hasError()) {
+  if (resDel.hasError) {
     throw new GlobalError(resDel.message);
   }
 
