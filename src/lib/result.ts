@@ -33,7 +33,7 @@ export default class Result<V> {
   /**
    * The function checks if the status OK.
    */
-  public isOk() {
+  public get isOk() {
     if (this.status === ResultStatus.UNDEF) {
       throw new Error('Status not set!');
     }
