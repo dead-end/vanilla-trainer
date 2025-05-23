@@ -99,13 +99,12 @@ export const bookUpdate = async (book: TBook) => {
     throw new GlobalError(resCache.message);
   }
 
-  let books = resCache.value.data;
-  const len = books.length;
-  books = books.filter((b) => b.id !== book.id);
-  if (books.length === len) {
+  const books = resCache.value.data;
+  const idx = books.findIndex((b) => b.id === book.id);
+  if (idx < 0) {
     throw new GlobalError(`Book not found: ${book.id}`);
   }
-  books.push(book);
+  books[idx] = book;
 
   const resPut = await cachePutPath<TBook[]>(
     config,

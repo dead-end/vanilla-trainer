@@ -1,63 +1,152 @@
+import { GlobalError } from '../GlobalError';
 import { pathChaptersGet, pathQuestionsGet } from '../path';
 import { cacheDeletePath, cachedGetPath, cachePutPath } from '../remote/cache';
 import { githubGetHash, githubGetUrl } from '../remote/github';
-import Result from '../result';
-import { TChapter, TGithubConfig, TQuestion } from '../types';
+import { TChapter, TQuestion } from '../types';
+import { githubConfigGet } from './githubConfig';
 
-export const chapterListing = async (config: TGithubConfig, bookId: string) => {
-  const result = new Result<TChapter[]>();
+/**
+ * The function returns a list of chapters of a book from the cache.
+ */
+export const chapterListing = async (bookId: string) => {
+  const config = await githubConfigGet();
+  const path = pathChaptersGet(bookId);
 
-  //
-  // Get the chapter list, from cache or from github.
-  //
-  const resCache = await cachedGetPath<TChapter[]>(
-    config,
-    pathChaptersGet(bookId)
-  );
+  const resCache = await cachedGetPath<TChapter[]>(config, path);
   if (resCache.hasError()) {
-    return result.setError(resCache);
+    throw new GlobalError(resCache.message);
   }
 
-  return result.setOk(resCache.getValue().data);
+  return resCache.value.data;
 };
 
-export const chapterCreate = async (
-  config: TGithubConfig,
-  bookId: string,
-  chapter: TChapter
-) => {
-  const result = new Result<TChapter[]>();
-  const pathChapters = pathChaptersGet(bookId);
+/**
+ * The function returns a chapter of a book. All chapters are read from the
+ * cache and the required is got from this list.
+ */
+export const chapterGet = async (bookId: string, id: string) => {
+  const config = await githubConfigGet();
+  const path = pathChaptersGet(bookId);
 
-  //
-  // Get the book list, from cache or from github.
-  //
-  const resCache = await cachedGetPath<TChapter[]>(config, pathChapters);
+  const resCache = await cachedGetPath<TChapter[]>(config, path);
   if (resCache.hasError()) {
-    return result.setError(resCache);
+    throw new GlobalError(resCache.message);
   }
 
-  //
-  // Add the new book to the list
-  //
-  let chapters = resCache.getValue().data;
+  const chapter = resCache.value.data.find((c) => c.id === id);
+  if (!chapter) {
+    throw new GlobalError(`Not found: ${id}`);
+  }
+  return chapter;
+};
+
+/**
+ * The function update a chapter of a book. All chapters are load from the
+ * cache. Then the old chapter is removed from the list and the new is added
+ * to the array. Then all is written to the cache.
+ */
+export const chapterUpdate = async (bookId: string, chapter: TChapter) => {
+  const config = await githubConfigGet();
+  const path = pathChaptersGet(bookId);
+
+  const resCache = await cachedGetPath<TChapter[]>(config, path);
+  if (resCache.hasError()) {
+    throw new GlobalError(resCache.message);
+  }
+
+  const chapters = resCache.value.data;
+  const idx = chapters.findIndex((c) => c.id === chapter.id);
+  if (idx < 0) {
+    throw new GlobalError(`Chapter not found: ${chapter.id}`);
+  }
+  chapters[idx] = chapter;
+
+  const resPut = await cachePutPath<TChapter[]>(
+    config,
+    path,
+    chapters,
+    resCache.value.hash,
+    `Updating chapter: ${chapter.id}`
+  );
+
+  return resPut.value;
+};
+
+/**
+ * The function deletes a chapter of a book. All chapters of the book are read
+ * from the cache. The chapter is filtered out and the result is then written
+ * back to the cache. Additionally the file with the questions of the chapter
+ * is deleted.
+ */
+export const chapterDelete = async (bookId: string, id: string) => {
+  const config = await githubConfigGet();
+  const path = pathChaptersGet(bookId);
+
+  const resCache = await cachedGetPath<TChapter[]>(config, path);
+  if (resCache.hasError()) {
+    throw new GlobalError(resCache.message);
+  }
+
+  let chapters = resCache.value.data;
+  const len = chapters.length;
+  chapters = chapters.filter((c) => c.id !== id);
+  if (len === chapters.length) {
+    throw new GlobalError(`Not found: ${id}`);
+  }
+
+  const resPut = await cachePutPath<TChapter[]>(
+    config,
+    path,
+    chapters,
+    resCache.value.hash,
+    `Deleting chapter ${id}`
+  );
+  if (resPut.hasError()) {
+    throw new GlobalError(resPut.message);
+  }
+
+  const resDel = await cacheDeletePath(
+    config,
+    pathQuestionsGet(bookId, id),
+    `Deleting file.`
+  );
+  if (resDel.hasError()) {
+    throw new GlobalError(resDel.message);
+  }
+
+  return chapters;
+};
+
+/**
+ * The function creates a new chapter for a book. All chapters of the book are
+ * read from the cache. The chapter is added, if it does not already exist and
+ * then all is written to the cache. Additionally an empty file for the
+ * questions is added.
+ */
+export const chapterCreate = async (bookId: string, chapter: TChapter) => {
+  const config = await githubConfigGet();
+  const path = pathChaptersGet(bookId);
+
+  const resCache = await cachedGetPath<TChapter[]>(config, path);
+  if (resCache.hasError()) {
+    throw new GlobalError(resCache.message);
+  }
+
+  const chapters = resCache.value.data;
   if (chapters.find((c) => c.id === chapter.id)) {
-    return result.setError('Id already exists!');
+    throw new GlobalError(`Id already exists: ${chapter.id}`);
   }
   chapters.push(chapter);
 
-  //
-  // Write the new book list to github and update the cache.
-  //
   const resPut = await cachePutPath<TChapter[]>(
     config,
-    pathChapters,
+    path,
     chapters,
-    resCache.getValue().hash,
+    resCache.value.hash,
     `Adding chapter: ${chapter.id}`
   );
   if (resPut.hasError()) {
-    return result.setError(resPut);
+    throw new GlobalError(resPut.message);
   }
 
   //
@@ -70,7 +159,7 @@ export const chapterCreate = async (
   const url = githubGetUrl(config.user, config.repo, pathQuestions);
   const resHash = await githubGetHash(url, config.token);
   if (resHash.hasError()) {
-    return result.setError(resHash);
+    throw new GlobalError(resHash.message);
   }
 
   //
@@ -81,130 +170,12 @@ export const chapterCreate = async (
     config,
     pathQuestions,
     [],
-    resHash.getValue(),
+    resHash.value,
     'Creating chapters!'
   );
   if (resultChap.hasError()) {
-    return result.setError(resultChap);
+    throw new GlobalError(resultChap.message);
   }
 
-  return result.setOk(chapters);
-};
-
-export const chapterGet = async (
-  config: TGithubConfig,
-  bookId: string,
-  id: string
-) => {
-  const result = new Result<TChapter>();
-
-  //
-  // Get the book list, from cache or from github.
-  //
-  const resCache = await cachedGetPath<TChapter[]>(
-    config,
-    pathChaptersGet(bookId)
-  );
-  if (resCache.hasError()) {
-    return result.setError(resCache);
-  }
-
-  //
-  // Search the chapter.
-  //
-  const chapter = resCache.getValue().data.find((c) => c.id === id);
-  if (!chapter) {
-    return result.setError(`Not found: ${id}`);
-  }
-  return result.setOk(chapter);
-};
-
-export const chapterUpdate = async (
-  config: TGithubConfig,
-  bookId: string,
-  chapter: TChapter
-) => {
-  const result = new Result<TChapter[]>();
-  const pathChapters = pathChaptersGet(bookId);
-
-  //
-  // Get the book list, from cache or from github.
-  //
-  const resCache = await cachedGetPath<TChapter[]>(config, pathChapters);
-  if (resCache.hasError()) {
-    return result.setError(resCache);
-  }
-
-  //
-  // Remove the book from the list and add the new version.
-  //
-  let chapters = resCache.getValue().data;
-  chapters = chapters.filter((c) => c.id !== chapter.id);
-  chapters.push(chapter);
-
-  //
-  // Write the new book list to github and update the cache.
-  //
-  return await cachePutPath<TChapter[]>(
-    config,
-    pathChapters,
-    chapters,
-    resCache.getValue().hash,
-    `Updating chapter: ${chapter.id}`
-  );
-};
-
-export const chapterDelete = async (
-  config: TGithubConfig,
-  bookId: string,
-  id: string
-) => {
-  const result = new Result<TChapter[]>();
-  const pathChapters = pathChaptersGet(bookId);
-
-  //
-  // Get the book list, from cache or from github.
-  //
-  const resCache = await cachedGetPath<TChapter[]>(config, pathChapters);
-  if (resCache.hasError()) {
-    return result.setError(resCache);
-  }
-
-  //
-  // Remove the book from the list
-  //
-  let chapters = resCache.getValue().data;
-  const len = chapters.length;
-  chapters = chapters.filter((c) => c.id !== id);
-  if (len === chapters.length) {
-    return result.setError(`Not found: ${id}`);
-  }
-
-  //
-  // Write the new book list to github and update the cache.
-  //
-  const resPut = await cachePutPath<TChapter[]>(
-    config,
-    pathChapters,
-    chapters,
-    resCache.getValue().hash,
-    `Deleting chapter ${id}`
-  );
-  if (resPut.hasError()) {
-    return result.setError(resPut);
-  }
-
-  //
-  // Delete the chapter list of the book from github and from cache.
-  //
-  const resDel = await cacheDeletePath(
-    config,
-    pathQuestionsGet(bookId, id),
-    `Deleting file.`
-  );
-  if (resDel.hasError()) {
-    return result.setError(resDel);
-  }
-
-  return result.setOk(chapters);
+  return chapters;
 };
