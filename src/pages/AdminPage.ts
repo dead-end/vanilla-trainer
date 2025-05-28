@@ -4,6 +4,8 @@ import { $, tmplClone } from '../lib/utils';
 import { fieldGet, fieldRequired } from '../lib/ui/field';
 import { githubConfigGet } from '../lib/model/githubConfig';
 
+// TODO: move to admin folder and rename to ConfigPage
+
 export class AdminPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#admin-page');
 
