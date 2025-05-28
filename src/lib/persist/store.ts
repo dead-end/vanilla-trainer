@@ -1,3 +1,4 @@
+import { errorGlobal } from '../utils';
 import { db } from './db';
 
 /**
@@ -32,7 +33,8 @@ export const storeGet = <T>(store: IDBObjectStore, id: string) => {
     };
 
     request.onerror = (e) => {
-      reject(`Store: ${store.name} id: ${id} storeGet error: ${e}`);
+      errorGlobal(`Store: ${store.name} id: ${id} storeGet error: ${e}`);
+      reject();
     };
   });
 };
@@ -50,7 +52,8 @@ export const storePut = <T>(store: IDBObjectStore, obj: T) => {
     };
 
     request.onerror = (e) => {
-      reject(`Store: ${store.name} put: ${obj} error: ${e}`);
+      errorGlobal(`Store: ${store.name} put: ${obj} error: ${e}`);
+      reject();
     };
   });
 };
@@ -68,7 +71,24 @@ export const storeDel = (store: IDBObjectStore, id: IDBValidKey) => {
     };
 
     request.onerror = (e) => {
-      reject(`Store: ${store.name} delete: ${id} error: ${e}`);
+      errorGlobal(`Store: ${store.name} delete: ${id} error: ${e}`);
+      reject();
+    };
+  });
+};
+
+export const storeGetAll = <T>(store: IDBObjectStore) => {
+  return new Promise<T[]>((resolve, reject) => {
+    const request = store.getAll();
+
+    request.onsuccess = () => {
+      console.log('Store:', store.name, 'get all');
+      resolve(request.result);
+    };
+
+    request.onerror = (e) => {
+      errorGlobal(`Store: ${store.name} get all: ${e}`);
+      reject();
     };
   });
 };
