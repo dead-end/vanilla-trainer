@@ -7,9 +7,9 @@ import {
   githubWriteContent,
 } from './github';
 import Result from '../result';
-import { storeDel, storeGet, storePut, storeTx } from '../persist/store';
+import { cacheEntryDelete, cacheEntryGet, cacheEntryPut } from './cacheEntry';
 
-const STORE = 'cache';
+// TODO: file name is wrong
 
 /**
  * The function reads a path from the cache or from github.
@@ -18,10 +18,9 @@ export const cachedGetPath = async <T>(config: TGithubConfig, path: string) => {
   const result = new Result<TCache<T>>();
 
   //
-  // Get the file from the cache and return it if it exists.
+  // Read the file from the cache.
   //
-  const storeRead = await storeTx(STORE, 'readonly');
-  const data = await storeGet<TCache<T>>(storeRead, path);
+  const data = await cacheEntryGet<T>(path);
   if (data) {
     return result.setOk(data);
   }
@@ -39,24 +38,13 @@ export const cachedGetPath = async <T>(config: TGithubConfig, path: string) => {
     );
   }
 
-  //
-  // Create the result object.
-  //
   const cache: TCache<T> = {
     path,
     data: JSON.parse(resultRead.value.content),
     hash: resultRead.value.hash,
   };
 
-  //
-  // Update the cache.
-  //
-  const storeWrite = await storeTx(STORE, 'readwrite');
-  await storePut<TCache<T>>(storeWrite, {
-    path: cache.path,
-    data: cache.data,
-    hash: cache.hash,
-  });
+  cacheEntryPut(cache);
 
   return result.setOk(cache);
 };
@@ -87,11 +75,7 @@ export const cachePutPath = async <T>(
     return result.setError(resultWrite);
   }
 
-  //
-  // Update the cache.
-  //
-  const store = await storeTx(STORE, 'readwrite');
-  await storePut<TCache<T>>(store, {
+  cacheEntryPut({
     path,
     data,
     hash: resultWrite.value,
@@ -135,11 +119,7 @@ export const cacheDeletePath = async (
     }
   }
 
-  //
-  // Remove the file from the cache.
-  //
-  const store = await storeTx(STORE, 'readwrite');
-  await storeDel(store, path);
+  await cacheEntryDelete(path);
 
   return result.setOk();
 };
