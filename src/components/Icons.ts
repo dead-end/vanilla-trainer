@@ -12,6 +12,7 @@ export class Icons extends HTMLElement {
     list: $<HTMLTemplateElement>('#tmpl-icon-list'),
     start: $<HTMLTemplateElement>('#tmpl-icon-start'),
     cache: $<HTMLTemplateElement>('#tmpl-icon-cache'),
+    search: $<HTMLTemplateElement>('#tmpl-icon-search'),
   };
 
   static TMPL = $<HTMLTemplateElement>('#tmpl-icon');
