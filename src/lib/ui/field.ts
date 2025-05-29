@@ -42,3 +42,19 @@ export const fieldId = (root: HTMLElement, field: TField) => {
   }
   return true;
 };
+
+export const fieldMinLen = (
+  root: HTMLElement,
+  field: TField,
+  minLen: number
+) => {
+  if (field.value.length < minLen) {
+    fieldErrorSet(
+      root,
+      field.id,
+      `Input has to be at least ${minLen} characters!`
+    );
+    return false;
+  }
+  return true;
+};
