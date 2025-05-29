@@ -23,7 +23,7 @@ import { PreviewField } from './components/ui/PreviewField';
 import { LessionPreparePage } from './pages/lession/LessionPreparePage';
 import { LessionProcessPage } from './pages/lession/LessionProcessPage';
 import { InfoTable } from './components/InfoTable';
-import { CachePage } from './pages/admin/CachePage';
+import { CachePage } from './pages/utils/CachePage';
 
 console.log('Started');
 
@@ -31,7 +31,6 @@ document.adoptedStyleSheets = STYLES;
 
 routeRegister(/^#\/$/, 'index-page');
 routeRegister(/^#\/admin$/, 'admin-page');
-routeRegister(/^#\/admin\/cache$/, 'cache-page');
 routeRegister(/^#\/books$/, 'book-list-page');
 routeRegister(/^#\/books\/create$/, 'book-create-page');
 routeRegister(/^#\/books\/update\/(?<bookId>[^\/]+)$/, 'book-update-page');
@@ -61,6 +60,7 @@ routeRegister(
   'lession-prepare-page'
 );
 routeRegister(/^#\/lession-process$/, 'lession-process-page');
+routeRegister(/^#\/admin\/cache$/, 'cache-page');
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
@@ -75,6 +75,7 @@ customElements.define('ui-icons', Icons);
 customElements.define('not-found-page', NotFoundPage);
 customElements.define('index-page', IndexPage);
 customElements.define('admin-page', AdminPage);
+
 customElements.define('cache-page', CachePage);
 
 customElements.define('book-list-page', BookListPage);
