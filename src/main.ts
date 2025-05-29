@@ -23,7 +23,8 @@ import { PreviewField } from './components/ui/PreviewField';
 import { LessionPreparePage } from './pages/lession/LessionPreparePage';
 import { LessionProcessPage } from './pages/lession/LessionProcessPage';
 import { InfoTable } from './components/InfoTable';
-import { CachePage } from './pages/utils/CachePage';
+import { CachePage } from './pages/misc/CachePage';
+import { SearchPage } from './pages/misc/SearchPage';
 
 console.log('Started');
 
@@ -60,7 +61,8 @@ routeRegister(
   'lession-prepare-page'
 );
 routeRegister(/^#\/lession-process$/, 'lession-process-page');
-routeRegister(/^#\/admin\/cache$/, 'cache-page');
+routeRegister(/^#\/misc\/cache$/, 'cache-page');
+routeRegister(/^#\/misc\/search$/, 'search-page');
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
@@ -77,6 +79,7 @@ customElements.define('index-page', IndexPage);
 customElements.define('admin-page', AdminPage);
 
 customElements.define('cache-page', CachePage);
+customElements.define('search-page', SearchPage);
 
 customElements.define('book-list-page', BookListPage);
 customElements.define('book-create-page', BookCreatePage);
