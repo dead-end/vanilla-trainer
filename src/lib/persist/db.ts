@@ -1,4 +1,4 @@
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 /**
  * The function creates the db tables / stores and adds initial values if
@@ -7,6 +7,12 @@ const DB_VERSION = 1;
 const initAndUpdate = (db: IDBDatabase) => {
   if (!db.objectStoreNames.contains('cache')) {
     db.createObjectStore('cache', {
+      keyPath: 'path',
+    });
+  }
+
+  if (!db.objectStoreNames.contains('search')) {
+    db.createObjectStore('search', {
       keyPath: 'path',
     });
   }
