@@ -4,6 +4,8 @@ import { TQuestion, TQuestionId } from '../lib/types';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $, $$, tmplClone } from '../lib/utils';
 
+// TODO: move to types ?
+// TODO: why not TQuestionId
 type TDoDelete = (bookId: string, chapterId: string, idx: number) => void;
 
 export class QuestionShow extends HTMLElement {
@@ -16,7 +18,7 @@ export class QuestionShow extends HTMLElement {
   static instance(
     questionId: TQuestionId,
     question: TQuestion,
-    doDelete: TDoDelete
+    doDelete: TDoDelete | undefined
   ) {
     const instance = document.createElement('question-show') as QuestionShow;
     instance.questionId = questionId;
@@ -39,6 +41,10 @@ export class QuestionShow extends HTMLElement {
     }
   }
 
+  /**
+   * The function uses questionId and question as parameters. This ensures that
+   * both are not undefined.
+   */
   render(questionId: TQuestionId, question: TQuestion) {
     if (this.shadowRoot) {
       $('#label', this.shadowRoot).textContent = `Question: ${questionId.idx}`;
