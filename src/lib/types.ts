@@ -14,6 +14,18 @@ export type TCache<T> = {
   hash: string;
 };
 
+export type TSearch = {
+  path: string;
+  strs: string[];
+  hash: string;
+};
+
+export type TSearchResult = {
+  strIdx: string;
+  questId: TQuestionId;
+  quest: TQuestion;
+};
+
 export type TGithubConfig = {
   id: string;
   user: string;
