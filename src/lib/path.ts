@@ -9,3 +9,7 @@ export const pathChaptersGet = (bookId: string) => {
 export const pathQuestionsGet = (bookId: string, chapterId: string) => {
   return `books/${bookId}/questions.${chapterId}.json`;
 };
+
+export const pathIsQuestions = (path: string) => {
+  return path.match(/books\/[^\/]+\/questions.[^\/]+.json$/);
+};
