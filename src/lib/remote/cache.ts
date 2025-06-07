@@ -9,7 +9,7 @@ import {
 import Result from '../result';
 import { cacheEntryDelete, cacheEntryGet, cacheEntryPut } from './cacheEntry';
 import { searchIndex } from '../search';
-import { searchEntryDelete } from './searchEntry';
+import { searchEntryDelete, searchEntryPut } from './searchEntry';
 import { pathIsQuestions } from '../path';
 import { bookListing } from '../model/book';
 import { chapterListing } from '../model/chapter';
@@ -55,7 +55,8 @@ export const cachedGetPath = async <T>(config: TGithubConfig, path: string) => {
   cacheEntryPut(cache);
 
   if (pathIsQuestions(path)) {
-    searchIndex(path, cache.data as TQuestion[], cache.hash);
+    const searchIdx = searchIndex(path, cache.data as TQuestion[], cache.hash);
+    searchEntryPut(searchIdx);
   }
 
   return result.setOk(cache);
@@ -96,7 +97,8 @@ export const cachePutPath = async <T>(
   cacheEntryPut(cache);
 
   if (pathIsQuestions(path)) {
-    searchIndex(path, cache.data as TQuestion[], cache.hash);
+    const searchIdx = searchIndex(path, cache.data as TQuestion[], cache.hash);
+    searchEntryPut(searchIdx);
   }
 
   return result.setOk(data);

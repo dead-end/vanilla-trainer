@@ -2,8 +2,8 @@ import { bookListing } from './model/book';
 import { chapterListing } from './model/chapter';
 import { questionGet } from './model/question';
 import { pathQuestionsGet } from './path';
-import { searchEntryGet, searchEntryPut } from './remote/searchEntry';
-import { TQuestion, TQuestionId, TSearchResult } from './types';
+import { searchEntryGet } from './remote/searchEntry';
+import { TQuestion, TQuestionId, TSearch, TSearchResult } from './types';
 import { errorGlobal } from './utils';
 
 /**
@@ -65,8 +65,7 @@ export const searchIndexStr = (
 
 /**
  * The functions is called with the content of a files with questions. It
- * creates the content for the corresponding index file for searching. At the
- * end the result is stored in the indexed db.
+ * creates the content for the corresponding index file for searching.
  */
 export const searchIndex = (
   path: string,
@@ -77,7 +76,13 @@ export const searchIndex = (
     searchIndexStr(q.quest, q.answer, q.details)
   );
 
-  searchEntryPut(path, strs, hash);
+  const result: TSearch = {
+    path,
+    strs,
+    hash,
+  };
+
+  return result;
 };
 
 /**

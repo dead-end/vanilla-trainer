@@ -26,19 +26,11 @@ export const searchEntryDelete = async (path: string) => {
 };
 
 /**
- * The function creates or updates a cache entry.
+ * The function creates or updates the search index entry.
  */
-export const searchEntryPut = async (
-  path: string,
-  strs: string[],
-  hash: string
-) => {
+export const searchEntryPut = async (searchIdx: TSearch) => {
   const storeWrite = await storeTx(STORE, 'readwrite');
-  await storePut<TSearch>(storeWrite, {
-    path,
-    strs,
-    hash,
-  });
+  await storePut<TSearch>(storeWrite, searchIdx);
 };
 
 /**
