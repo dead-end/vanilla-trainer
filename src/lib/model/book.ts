@@ -116,6 +116,7 @@ export const bookUpdate = async (book: TBook) => {
  * The function removes a book from the book list and deletes the coresponding
  * chapter list.
  */
+// TODO: Ensure that the book has no chapters
 export const bookDelete = async (id: string) => {
   const config = await githubConfigGet();
 
