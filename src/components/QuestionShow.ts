@@ -5,8 +5,7 @@ import { STYLES } from '../lib/ui/stylesheets';
 import { $, $$, tmplClone } from '../lib/utils';
 
 // TODO: move to types ?
-// TODO: why not TQuestionId
-type TDoDelete = (bookId: string, chapterId: string, idx: number) => void;
+type TDoDelete = (questionId: TQuestionId) => void;
 
 export class QuestionShow extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#tmpl-question-show');
@@ -69,11 +68,7 @@ export class QuestionShow extends HTMLElement {
       if (this.doDelete) {
         elem.onclick = () => {
           if (this.doDelete) {
-            this.doDelete(
-              questionId.bookId,
-              questionId.chapterId,
-              questionId.idx
-            );
+            this.doDelete(questionId);
           }
         };
       } else {

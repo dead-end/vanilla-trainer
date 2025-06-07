@@ -3,6 +3,7 @@ import { QuestionShow } from '../../components/QuestionShow';
 import { hashChapterList, hashQuestionCreate } from '../../lib/hash';
 import { questionDelete, questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
+import { TQuestionId } from '../../lib/types';
 import { $, tmplClone } from '../../lib/utils';
 
 export class QuestionListPage extends HTMLElement {
@@ -41,17 +42,21 @@ export class QuestionListPage extends HTMLElement {
     $<HTMLElement>('[data-id="questions"]').replaceChildren(...arr);
   }
 
-  doDelete(bookId: string, chapterId: string, idx: number) {
+  doDelete(questionId: TQuestionId) {
     $<ConfirmDialog>('#confirm-dialog').activate(
       'Delete Question',
-      `Do you realy want to delete the question: ${idx}?`,
-      this.getDeleteFct(bookId, chapterId, idx)
+      `Do you realy want to delete the question: ${questionId.idx}?`,
+      this.getDeleteFct(questionId)
     );
   }
 
-  getDeleteFct(bookId: string, chapterId: string, idx: number) {
+  getDeleteFct(questionId: TQuestionId) {
     return async () => {
-      questionDelete(bookId, chapterId, idx).then(() => {
+      questionDelete(
+        questionId.bookId,
+        questionId.chapterId,
+        questionId.idx
+      ).then(() => {
         this.render();
       });
     };
