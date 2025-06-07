@@ -6,11 +6,9 @@ import { db } from './db';
  */
 export const storeTx = async (
   store: string,
-  mode: 'readonly' | 'readwrite',
-  stores?: string[]
+  mode: 'readonly' | 'readwrite'
 ) => {
-  const s = stores ? stores : [store];
-  return (await db).transaction(s, mode).objectStore(store);
+  return (await db).transaction([store], mode).objectStore(store);
 };
 
 /**
