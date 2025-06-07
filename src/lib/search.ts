@@ -2,7 +2,7 @@ import { bookListing } from './model/book';
 import { chapterListing } from './model/chapter';
 import { questionGet } from './model/question';
 import { pathQuestionsGet } from './path';
-import { searchEntryGet } from './remote/searchEntry';
+import { entryGetSearch } from './persist/entry';
 import { TQuestion, TQuestionId, TSearch, TSearchResult } from './types';
 import { errorGlobal } from './utils';
 
@@ -118,7 +118,7 @@ export const searchDo = async (str: string) => {
 
     for (const chapter of chapters) {
       const path = pathQuestionsGet(book.id, chapter.id);
-      const search = await searchEntryGet(path); // TODO: use id's instead of path
+      const search = await entryGetSearch(path);
 
       if (!search) {
         errorGlobal(`No search index for: ${path}`);
