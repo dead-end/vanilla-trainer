@@ -1,4 +1,4 @@
-import { TCache, TGithubConfig } from '../types';
+import { TCache, TGithubConfig, TQuestion } from '../types';
 import {
   githubDelete,
   githubGetHash,
@@ -8,8 +8,16 @@ import {
 } from './github';
 import Result from '../result';
 import { cacheEntryDelete, cacheEntryGet, cacheEntryPut } from './cacheEntry';
+import { searchIndex } from '../search';
+import { searchEntryDelete } from './searchEntry';
+import { pathIsQuestions } from '../path';
+import { bookListing } from '../model/book';
+import { chapterListing } from '../model/chapter';
+import { questionListing } from '../model/question';
 
 // TODO: file name is wrong
+
+// TODO: combine cacheEntry and searchEntry to persist
 
 /**
  * The function reads a path from the cache or from github.
@@ -46,6 +54,10 @@ export const cachedGetPath = async <T>(config: TGithubConfig, path: string) => {
 
   cacheEntryPut(cache);
 
+  if (pathIsQuestions(path)) {
+    searchIndex(path, cache.data as TQuestion[], cache.hash);
+  }
+
   return result.setOk(cache);
 };
 
@@ -75,11 +87,17 @@ export const cachePutPath = async <T>(
     return result.setError(resultWrite);
   }
 
-  cacheEntryPut({
+  const cache: TCache<T> = {
     path,
     data,
     hash: resultWrite.value,
-  });
+  };
+
+  cacheEntryPut(cache);
+
+  if (pathIsQuestions(path)) {
+    searchIndex(path, cache.data as TQuestion[], cache.hash);
+  }
 
   return result.setOk(data);
 };
@@ -120,6 +138,25 @@ export const cacheDeletePath = async (
   }
 
   await cacheEntryDelete(path);
+  if (pathIsQuestions(path)) {
+    await searchEntryDelete(path);
+  }
 
   return result.setOk();
+};
+
+// TODO: file name is wrong but not for this function
+export const cacheAll = async () => {
+  const arr: Promise<TQuestion[]>[] = [];
+  const books = await bookListing();
+
+  for (const book of books) {
+    const chapters = await chapterListing(book.id);
+
+    for (const chapter of chapters) {
+      arr.push(questionListing(book.id, chapter.id));
+    }
+  }
+
+  await Promise.all(arr);
 };
