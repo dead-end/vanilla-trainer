@@ -5,7 +5,8 @@
       <thead>
         <tr>
           <th>Path</th>
-          <th>Hash</th>
+          <th>Cache Hash</th>
+          <th>Search Hash</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -13,6 +14,7 @@
     </table>
     <div class="is-row is-gap">
       <a href="#/books" class="btn">Books</a>
+      <button id="cache-load" class="btn">Load</button>
     </div>
   </div>
 </template>
@@ -20,7 +22,8 @@
 <template id="tmpl-cache-list">
   <tr>
     <td data-id="path">path</td>
-    <td data-id="hash">hash</td>
+    <td data-id="cache-hash">cache-hash</td>
+    <td data-id="search-hash">search-hash</td>
     <td data-id="actions">
       <div class="is-row is-gap-small">
         <ui-icons data-icon="delete"></ui-icons>
