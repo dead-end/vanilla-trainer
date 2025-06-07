@@ -1,11 +1,11 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { pathIsQuestions } from '../../lib/path';
-import { cacheAll } from '../../lib/remote/cache';
-import { cacheEntryDelete, cacheEntryList } from '../../lib/remote/cacheEntry';
 import {
-  searchEntryDelete,
-  searchEntryList,
-} from '../../lib/remote/searchEntry';
+  entryDelete,
+  entryListCache,
+  entryListSearch,
+} from '../../lib/persist/entry';
+import { cacheAll } from '../../lib/remote/cache';
 import { TSearch } from '../../lib/types';
 import { $, tmplClone } from '../../lib/utils';
 
@@ -50,8 +50,8 @@ export class CachePage extends HTMLElement {
 
     const arr: DocumentFragment[] = [];
 
-    const caches = await cacheEntryList();
-    const searches = await searchEntryList();
+    const caches = await entryListCache();
+    const searches = await entryListSearch();
 
     caches.forEach((cache) => {
       const tmpl = tmplClone(CachePage.TMPL_ROW);
@@ -82,10 +82,7 @@ export class CachePage extends HTMLElement {
         'Delete Cache Entry',
         `Do you realy want to delete the cache entry: ${path}?`,
         async () => {
-          await cacheEntryDelete(path);
-          if (pathIsQuestions(path)) {
-            await searchEntryDelete(path);
-          }
+          await entryDelete(path, pathIsQuestions(path));
           this.render();
         }
       );
