@@ -11,5 +11,6 @@ export const pathQuestionsGet = (bookId: string, chapterId: string) => {
 };
 
 export const pathIsQuestions = (path: string) => {
-  return path.match(/books\/[^\/]+\/questions.[^\/]+.json$/);
+  const re = /books\/[^\/]+\/questions.[^\/]+.json$/;
+  return re.test(path);
 };
