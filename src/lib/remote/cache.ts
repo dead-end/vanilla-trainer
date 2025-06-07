@@ -7,17 +7,14 @@ import {
   githubWriteContent,
 } from './github';
 import Result from '../result';
-import { cacheEntryDelete, cacheEntryGet, cacheEntryPut } from './cacheEntry';
 import { searchIndex } from '../search';
-import { searchEntryDelete, searchEntryPut } from './searchEntry';
 import { pathIsQuestions } from '../path';
 import { bookListing } from '../model/book';
 import { chapterListing } from '../model/chapter';
 import { questionListing } from '../model/question';
+import { entryDelete, entryGetCache, entryPut } from '../persist/entry';
 
 // TODO: file name is wrong
-
-// TODO: combine cacheEntry and searchEntry to persist
 
 /**
  * The function reads a path from the cache or from github.
@@ -28,7 +25,7 @@ export const cachedGetPath = async <T>(config: TGithubConfig, path: string) => {
   //
   // Read the file from the cache.
   //
-  const data = await cacheEntryGet<T>(path);
+  const data = await entryGetCache<T>(path);
   if (data) {
     return result.setOk(data);
   }
@@ -52,12 +49,10 @@ export const cachedGetPath = async <T>(config: TGithubConfig, path: string) => {
     hash: resultRead.value.hash,
   };
 
-  cacheEntryPut(cache);
-
-  if (pathIsQuestions(path)) {
-    const searchIdx = searchIndex(path, cache.data as TQuestion[], cache.hash);
-    searchEntryPut(searchIdx);
-  }
+  const searchIdx = pathIsQuestions(path)
+    ? searchIndex(path, cache.data as TQuestion[], cache.hash)
+    : undefined;
+  entryPut(cache, searchIdx);
 
   return result.setOk(cache);
 };
@@ -94,12 +89,10 @@ export const cachePutPath = async <T>(
     hash: resultWrite.value,
   };
 
-  cacheEntryPut(cache);
-
-  if (pathIsQuestions(path)) {
-    const searchIdx = searchIndex(path, cache.data as TQuestion[], cache.hash);
-    searchEntryPut(searchIdx);
-  }
+  const searchIdx = pathIsQuestions(path)
+    ? searchIndex(path, cache.data as TQuestion[], cache.hash)
+    : undefined;
+  entryPut(cache, searchIdx);
 
   return result.setOk(data);
 };
@@ -139,10 +132,7 @@ export const cacheDeletePath = async (
     }
   }
 
-  await cacheEntryDelete(path);
-  if (pathIsQuestions(path)) {
-    await searchEntryDelete(path);
-  }
+  await entryDelete(path, pathIsQuestions(path));
 
   return result.setOk();
 };
