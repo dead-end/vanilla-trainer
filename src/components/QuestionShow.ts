@@ -17,7 +17,7 @@ export class QuestionShow extends HTMLElement {
   static instance(
     questionId: TQuestionId,
     question: TQuestion,
-    doDelete: TDoDelete | undefined
+    doDelete?: TDoDelete | undefined
   ) {
     const instance = document.createElement('question-show') as QuestionShow;
     instance.questionId = questionId;

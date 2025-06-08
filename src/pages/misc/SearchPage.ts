@@ -37,7 +37,7 @@ export class SearchPage extends HTMLElement {
 
     const results = await searchDo(searchStr);
     results.forEach((r) => {
-      arr.push(QuestionShow.instance(r.questId, r.quest, undefined));
+      arr.push(QuestionShow.instance(r.questId, r.quest));
     });
 
     $<HTMLElement>('[data-id="questions"]').replaceChildren(...arr);
