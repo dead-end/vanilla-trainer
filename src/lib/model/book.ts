@@ -2,6 +2,7 @@ import { GlobalError } from '../GlobalError';
 import { pathBooksGet, pathChaptersGet } from '../path';
 import { cacheDeletePath, cachedGetPath, cachePutPath } from '../remote/cache';
 import { TBook, TChapter } from '../types';
+import { chapterListing } from './chapter';
 import { githubConfigGet } from './githubConfig';
 
 /**
@@ -116,8 +117,12 @@ export const bookUpdate = async (book: TBook) => {
  * The function removes a book from the book list and deletes the coresponding
  * chapter list.
  */
-// TODO: Ensure that the book has no chapters
 export const bookDelete = async (id: string) => {
+  const chapters = await chapterListing(id);
+  if (chapters.length > 0) {
+    throw new GlobalError(`Book: ${id} has chapters: ${chapters.length}`);
+  }
+
   const config = await githubConfigGet();
 
   const resCache = await cachedGetPath<TBook[]>(config, pathBooksGet());
