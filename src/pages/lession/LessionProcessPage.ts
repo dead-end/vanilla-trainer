@@ -2,6 +2,7 @@ import { InfoTable } from '../../components/InfoTable';
 import { QuestionShow } from '../../components/QuestionShow';
 import { hashHome } from '../../lib/hash';
 import { bookGet } from '../../lib/model/book';
+import { chapterGet } from '../../lib/model/chapter';
 import {
   lessionGetProcess,
   lessionLoad,
@@ -166,7 +167,7 @@ export class LessionProcessPage extends HTMLElement {
 
   async infoTableQuestion(questionId: TQuestionId, progress: number) {
     const book = await bookGet(questionId.bookId);
-    const chapter = await bookGet(questionId.bookId); // TODO: chapter not book
+    const chapter = await chapterGet(questionId.bookId, questionId.chapterId);
 
     $<InfoTable>('#info-question').update([
       { key: 'Books', value: book.title },
