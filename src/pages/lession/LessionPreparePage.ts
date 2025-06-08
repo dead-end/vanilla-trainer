@@ -1,9 +1,11 @@
 import { InfoTable } from '../../components/InfoTable';
 import { hashLessionProcess } from '../../lib/hash';
+import { bookGet } from '../../lib/model/book';
+import { chapterGet } from '../../lib/model/chapter';
 import { lessionCreate } from '../../lib/model/lession';
 import { questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
-import { TQuestionId } from '../../lib/types';
+import { TQuestion, TQuestionId } from '../../lib/types';
 import { fieldGet } from '../../lib/ui/field';
 import { $, errorGlobal, tmplClone } from '../../lib/utils';
 
@@ -30,12 +32,7 @@ export class LessionPreparePage extends HTMLElement {
       $<HTMLButtonElement>('#btn-start').disabled = true;
     }
 
-    // TODO: Get the book and the chapter name
-    $<InfoTable>('#info-prepare').update([
-      { key: 'Book', value: bookId },
-      { key: 'Chapter', value: chapterId },
-      { key: 'Length', value: len.toString() },
-    ]);
+    this.infoTable(bookId, chapterId, questions);
   }
 
   async handleSubmit(e: SubmitEvent) {
@@ -63,5 +60,16 @@ export class LessionPreparePage extends HTMLElement {
     );
 
     window.location.hash = hashLessionProcess();
+  }
+
+  async infoTable(bookId: string, chapterId: string, questions: TQuestion[]) {
+    const book = await bookGet(bookId);
+    const chapter = await chapterGet(bookId, chapterId);
+
+    $<InfoTable>('#info-prepare').update([
+      { key: 'Book', value: book.title },
+      { key: 'Chapter', value: chapter.title },
+      { key: 'Length', value: questions.length.toString() },
+    ]);
   }
 }
