@@ -62,7 +62,7 @@ routeRegister(
 );
 routeRegister(/^#\/lession-process$/, 'lession-process-page');
 routeRegister(/^#\/misc\/cache$/, 'cache-page');
-routeRegister(/^#\/misc\/search$/, 'search-page');
+routeRegister(/^#\/misc\/search(\/(?<searchStr>[^\/]+))?$/, 'search-page');
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);

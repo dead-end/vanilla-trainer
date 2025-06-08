@@ -45,3 +45,10 @@ export const hashLessionProcess = () => {
 export const hashHome = () => {
   return '#';
 };
+
+export const hashSearch = (searchStr?: string) => {
+  if (searchStr) {
+    return `#/misc/search/${searchStr}`;
+  }
+  return '#/misc/search';
+};

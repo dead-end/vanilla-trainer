@@ -1,6 +1,7 @@
 import { QuestionShow } from '../../components/QuestionShow';
+import { hashSearch } from '../../lib/hash';
+import { getRouteParam } from '../../lib/route';
 import { searchDo } from '../../lib/search';
-import { TSearchResult } from '../../lib/types';
 import {
   fieldErrorExists,
   fieldErrorReset,
@@ -9,9 +10,6 @@ import {
   fieldRequired,
 } from '../../lib/ui/field';
 import { $, tmplClone } from '../../lib/utils';
-
-// TODO: search with a url path parameter. This allows back
-// http://localhost:5173/#/misc/search/search-str
 
 export class SearchPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#search-page');
@@ -24,11 +22,20 @@ export class SearchPage extends HTMLElement {
 
       this.appendChild(tmpl);
     }
+
+    this.render();
   }
 
-  async render(results: TSearchResult[]) {
+  async render() {
+    const searchStr = getRouteParam('searchStr');
+    if (!searchStr || searchStr.length < 3) {
+      return;
+    }
+    $<HTMLInputElement>('#search').value = searchStr;
+
     const arr: QuestionShow[] = [];
 
+    const results = await searchDo(searchStr);
     results.forEach((r) => {
       arr.push(QuestionShow.instance(r.questId, r.quest, undefined));
     });
@@ -40,24 +47,14 @@ export class SearchPage extends HTMLElement {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
-
     const formData = new FormData(form);
     const search = fieldGet(formData, 'search');
 
     fieldErrorReset(form);
-
     fieldRequired(form, search) && fieldMinLen(form, search, 3);
 
-    const button = $<HTMLButtonElement>('button', form);
-
     if (!fieldErrorExists(form)) {
-      button.disabled = true;
-
-      searchDo(search.value)
-        .then((result) => this.render(result))
-        .finally(() => {
-          button.disabled = false;
-        });
+      window.location.hash = hashSearch(search.value);
     }
   }
 }
