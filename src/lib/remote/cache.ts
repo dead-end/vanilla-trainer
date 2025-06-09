@@ -1,18 +1,31 @@
-import { TCache, TGithubConfig, TQuestion } from '../types';
+import {
+  TCache,
+  TGithubConfig,
+  TGithubListingResult,
+  TQuestion,
+} from '../types';
 import {
   githubDelete,
   githubGetHash,
   githubGetUrl,
+  githubListing,
   githubReadContent,
   githubWriteContent,
 } from './github';
 import Result from '../result';
 import { searchIndex } from '../search';
-import { pathIsQuestions } from '../path';
+import { pathIsQuestions, pathRoot } from '../path';
 import { bookListing } from '../model/book';
 import { chapterListing } from '../model/chapter';
 import { questionListing } from '../model/question';
-import { entryDelete, entryGetCache, entryPut } from '../persist/entry';
+import {
+  entryDelete,
+  entryGetCache,
+  entryListCache,
+  entryPut,
+} from '../persist/entry';
+import { githubConfigGet } from '../model/githubConfig';
+import { errorGlobal } from '../utils';
 
 // TODO: file name is wrong
 
@@ -151,4 +164,64 @@ export const cacheAll = async () => {
   }
 
   await Promise.all(arr);
+};
+
+/**
+ * The funtion is recurcivelly called to get all hashes from github.
+ *
+ * The result is shared and not locked.
+ */
+const cacheListing = async (
+  result: TGithubListingResult,
+  config: TGithubConfig,
+  path: string
+) => {
+  const resRead = await githubListing(
+    githubGetUrl(config.user, config.repo, path),
+    config.token
+  );
+  if (resRead.hasError) {
+    result.error = `cacheListing - ${resRead.message}`;
+    return;
+  }
+
+  result.listing.push(...resRead.value);
+
+  const promises: Promise<void>[] = [];
+
+  for (const entry of resRead.value) {
+    if (entry.type === 'dir') {
+      promises.push(cacheListing(result, config, entry.path));
+    }
+  }
+
+  await Promise.all(promises);
+};
+
+/**
+ * The functions reads the hashes from github and checks the cache. All cache
+ * entries, which are not found on github or which have a different hash are
+ * deleted.
+ */
+export const cacheCheckHashes = async () => {
+  const config = await githubConfigGet();
+  const result: TGithubListingResult = {
+    error: undefined,
+    listing: [],
+  };
+
+  await cacheListing(result, config, pathRoot());
+  if (result.error) {
+    errorGlobal(result.error);
+    return;
+  }
+
+  const dbListing = await entryListCache();
+
+  for (const dbEntry of dbListing) {
+    const ghEntry = result.listing.find((e) => e.path === dbEntry.path);
+    if (!ghEntry || dbEntry.hash !== ghEntry.sha) {
+      await entryDelete(dbEntry.path, true);
+    }
+  }
 };
