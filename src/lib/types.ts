@@ -71,3 +71,14 @@ export type TLession = {
   learned: TQuestionProgress[];
   reverse: boolean;
 };
+
+export type TGithubListing = {
+  path: string;
+  type: 'dir' | 'string';
+  sha: string;
+};
+
+export type TGithubListingResult = {
+  error: string | undefined;
+  listing: TGithubListing[];
+};
