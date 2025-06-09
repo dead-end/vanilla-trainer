@@ -1,3 +1,7 @@
+export const pathRoot = () => {
+  return 'books';
+};
+
 export const pathBooksGet = () => {
   return 'books/books.json';
 };
