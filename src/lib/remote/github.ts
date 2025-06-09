@@ -1,4 +1,4 @@
-import { TContentHash } from '../types';
+import { TContentHash, TGithubListing } from '../types';
 import Result from '../result';
 
 /**
@@ -204,5 +204,33 @@ export const githubDelete = async (
     return result.setOk();
   } catch (e) {
     return result.setError(`githubDelete - Url: ${url} Error: ${e}`);
+  }
+};
+
+/**
+ * The function returns a directory listing. It is assumed that the path is a
+ * directory.
+ */
+export const githubListing = async (url: string, token: string) => {
+  const result = new Result<TGithubListing[]>();
+
+  try {
+    const headers: any = {
+      Accept: 'application/vnd.github.v3+json',
+    };
+
+    if (token) {
+      headers.authorization = `token ${token}`;
+    }
+
+    const response = await fetch(url, headers);
+    if (!response.ok) {
+      const e = await getErrorFromResponse(response);
+      return result.setError(`githubListing - Url: ${url} Read error: ${e}`);
+    }
+
+    return result.setOk(await response.json());
+  } catch (e) {
+    return result.setError(`githubListing - Url: ${url} Error: ${e}`);
   }
 };
