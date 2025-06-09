@@ -5,7 +5,7 @@ import {
   entryListCache,
   entryListSearch,
 } from '../../lib/persist/entry';
-import { cacheAll } from '../../lib/remote/cache';
+import { cacheAll, cacheCheckHashes } from '../../lib/remote/cache';
 import { TSearch } from '../../lib/types';
 import { $, tmplClone } from '../../lib/utils';
 
@@ -18,8 +18,13 @@ export class CachePage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
       const tmpl = tmplClone(CachePage.TMPL);
+
       $<HTMLButtonElement>('#cache-load', tmpl).onclick =
         this.cacheLoad.bind(this);
+
+      $<HTMLButtonElement>('#cache-check', tmpl).onclick =
+        this.cacheCheck.bind(this);
+
       this.appendChild(tmpl);
     }
 
@@ -28,6 +33,11 @@ export class CachePage extends HTMLElement {
 
   async cacheLoad() {
     await cacheAll();
+    this.render();
+  }
+
+  async cacheCheck() {
+    await cacheCheckHashes();
     this.render();
   }
 
