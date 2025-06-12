@@ -1,6 +1,6 @@
 import { GlobalError } from '../GlobalError';
 import { pathChaptersGet, pathQuestionsGet } from '../path';
-import { cacheDeletePath, cacheGetPath, cachePutPath } from '../remote/cache';
+import { jsonDelete, jsonGet, jsonPut } from '../remote/json';
 import { TChapter, TQuestion } from '../types';
 import { githubConfigGet } from './githubConfig';
 
@@ -11,7 +11,7 @@ export const chapterListing = async (bookId: string) => {
   const config = await githubConfigGet();
   const path = pathChaptersGet(bookId);
 
-  const resCache = await cacheGetPath<TChapter[]>(config, path);
+  const resCache = await jsonGet<TChapter[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -27,7 +27,7 @@ export const chapterGet = async (bookId: string, id: string) => {
   const config = await githubConfigGet();
   const path = pathChaptersGet(bookId);
 
-  const resCache = await cacheGetPath<TChapter[]>(config, path);
+  const resCache = await jsonGet<TChapter[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -48,7 +48,7 @@ export const chapterUpdate = async (bookId: string, chapter: TChapter) => {
   const config = await githubConfigGet();
   const path = pathChaptersGet(bookId);
 
-  const resCache = await cacheGetPath<TChapter[]>(config, path);
+  const resCache = await jsonGet<TChapter[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -60,7 +60,7 @@ export const chapterUpdate = async (bookId: string, chapter: TChapter) => {
   }
   chapters[idx] = chapter;
 
-  const resPut = await cachePutPath<TChapter[]>(
+  const resPut = await jsonPut<TChapter[]>(
     config,
     path,
     chapters,
@@ -81,7 +81,7 @@ export const chapterDelete = async (bookId: string, id: string) => {
   const config = await githubConfigGet();
   const path = pathChaptersGet(bookId);
 
-  const resCache = await cacheGetPath<TChapter[]>(config, path);
+  const resCache = await jsonGet<TChapter[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -93,7 +93,7 @@ export const chapterDelete = async (bookId: string, id: string) => {
     throw new GlobalError(`Not found: ${id}`);
   }
 
-  const resPut = await cachePutPath<TChapter[]>(
+  const resPut = await jsonPut<TChapter[]>(
     config,
     path,
     chapters,
@@ -104,7 +104,7 @@ export const chapterDelete = async (bookId: string, id: string) => {
     throw new GlobalError(resPut.message);
   }
 
-  const resDel = await cacheDeletePath(
+  const resDel = await jsonDelete<TQuestion[]>(
     config,
     pathQuestionsGet(bookId, id),
     `Deleting file.`
@@ -126,7 +126,7 @@ export const chapterCreate = async (bookId: string, chapter: TChapter) => {
   const config = await githubConfigGet();
   const path = pathChaptersGet(bookId);
 
-  const resCache = await cacheGetPath<TChapter[]>(config, path);
+  const resCache = await jsonGet<TChapter[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -137,7 +137,7 @@ export const chapterCreate = async (bookId: string, chapter: TChapter) => {
   }
   chapters.push(chapter);
 
-  const resPut = await cachePutPath<TChapter[]>(
+  const resPut = await jsonPut<TChapter[]>(
     config,
     path,
     chapters,
@@ -149,7 +149,7 @@ export const chapterCreate = async (bookId: string, chapter: TChapter) => {
   }
 
   const pathQuestions = pathQuestionsGet(bookId, chapter.id);
-  const resultChap = await cachePutPath<TQuestion[]>(
+  const resultChap = await jsonPut<TQuestion[]>(
     config,
     pathQuestions,
     [],
