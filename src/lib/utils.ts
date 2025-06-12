@@ -38,8 +38,3 @@ export const tmplCreate = (str: string) => {
   tmpl.innerHTML = str;
   return tmpl;
 };
-
-export const errorGlobal = (msg: string) => {
-  const event = new CustomEvent('error-msg', { detail: msg });
-  document.dispatchEvent(event);
-};

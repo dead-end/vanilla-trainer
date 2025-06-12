@@ -1,4 +1,4 @@
-import { errorGlobal } from '../utils';
+import { errorGlobal } from '../GlobalError';
 import { db } from './db';
 
 /**

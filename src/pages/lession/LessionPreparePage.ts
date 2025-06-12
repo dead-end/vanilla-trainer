@@ -1,4 +1,5 @@
 import { InfoTable } from '../../components/InfoTable';
+import { errorGlobal } from '../../lib/GlobalError';
 import { hashLessionProcess } from '../../lib/location/hash';
 import { bookGet } from '../../lib/model/book';
 import { chapterGet } from '../../lib/model/chapter';
@@ -7,7 +8,7 @@ import { questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
 import { TQuestion, TQuestionId } from '../../lib/types';
 import { fieldGet } from '../../lib/ui/field';
-import { $, errorGlobal, tmplClone } from '../../lib/utils';
+import { $, tmplClone } from '../../lib/utils';
 
 export class LessionPreparePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#lession-prepare-page');

@@ -4,7 +4,7 @@ import { questionGet } from './model/question';
 import { pathQuestionsGet } from './location/path';
 import { entryGetSearch } from './persist/entry';
 import { TQuestion, TQuestionId, TSearch, TSearchResult } from './types';
-import { errorGlobal } from './utils';
+import { errorGlobal } from './GlobalError';
 
 /**
  * The regex is used to remove special characters.

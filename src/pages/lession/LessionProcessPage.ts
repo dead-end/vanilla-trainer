@@ -1,5 +1,6 @@
 import { InfoTable } from '../../components/InfoTable';
 import { QuestionShow } from '../../components/QuestionShow';
+import { errorGlobal } from '../../lib/GlobalError';
 import { hashHome } from '../../lib/location/hash';
 import { bookGet } from '../../lib/model/book';
 import { chapterGet } from '../../lib/model/chapter';
@@ -11,7 +12,7 @@ import {
 } from '../../lib/model/lession';
 import { questionGet } from '../../lib/model/question';
 import { TLession, TQuestionId, TQuestionProgress } from '../../lib/types';
-import { $, $$, errorGlobal, tmplClone } from '../../lib/utils';
+import { $, $$, tmplClone } from '../../lib/utils';
 
 export class LessionProcessPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#lession-process-page');
