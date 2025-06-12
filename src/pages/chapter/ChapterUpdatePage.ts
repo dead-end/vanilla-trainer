@@ -1,5 +1,6 @@
 import { getRouteParam } from '../../lib/route';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { chapterGet, chapterUpdate } from '../../lib/model/chapter';

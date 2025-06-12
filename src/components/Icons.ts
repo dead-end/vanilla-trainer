@@ -1,5 +1,6 @@
 import { STYLES } from '../lib/ui/stylesheets';
-import { $, tmplClone } from '../lib/utils';
+import { $ } from '../lib/utils/query';
+import { tmplClone } from '../lib/utils/tmpl';
 
 export class Icons extends HTMLElement {
   static ICONS: Record<string, HTMLTemplateElement> = {

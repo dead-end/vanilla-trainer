@@ -7,7 +7,8 @@ import {
 } from '../../lib/location/hash';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 
 export class ChapterListPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#chapter-list-page');

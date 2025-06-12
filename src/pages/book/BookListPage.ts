@@ -1,7 +1,8 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { hashBookUpdate, hashChapterList } from '../../lib/location/hash';
 import { bookDelete, bookListing } from '../../lib/model/book';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 
 export class BookListPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#book-list-page');

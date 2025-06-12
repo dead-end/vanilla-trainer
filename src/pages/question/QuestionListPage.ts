@@ -4,7 +4,8 @@ import { hashChapterList, hashQuestionCreate } from '../../lib/location/hash';
 import { questionDelete, questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
 import { TQuestionId } from '../../lib/types';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 
 export class QuestionListPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#question-list-page');

@@ -7,7 +7,8 @@ import {
 } from '../../lib/persist/entry';
 import { cacheAll, cacheCheckHashes } from '../../lib/remote/cache';
 import { TSearch } from '../../lib/types';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 
 // TODO: Create page with raw cache and search content.
 

@@ -1,5 +1,6 @@
 import { STYLES } from '../../lib/ui/stylesheets';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 
 export class UiField extends HTMLElement {
   static observedAttributes = ['data-error'];

@@ -1,6 +1,6 @@
 import { adminIsLogin } from './admin';
 import { TNav } from './types';
-import { $ } from './utils';
+import { $ } from './utils/query';
 
 const routes: TNav[] = [];
 let routeParams: RegExpExecArray | null;

@@ -9,7 +9,8 @@ import {
   fieldMinLen,
   fieldRequired,
 } from '../../lib/ui/field';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 
 export class SearchPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#search-page');

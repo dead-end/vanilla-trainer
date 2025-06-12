@@ -1,5 +1,6 @@
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 import { fieldGet, fieldId, fieldRequired } from '../../lib/ui/field';
 import { chapterCreate } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';

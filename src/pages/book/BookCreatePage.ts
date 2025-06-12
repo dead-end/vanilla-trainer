@@ -1,8 +1,9 @@
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { bookCreate } from '../../lib/model/book';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
 import { fieldGet, fieldId, fieldRequired } from '../../lib/ui/field';
 import { hashBookList } from '../../lib/location/hash';
+import { tmplClone } from '../../lib/utils/tmpl';
 
 export class BookCreatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#book-create-page');

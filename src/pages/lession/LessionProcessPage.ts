@@ -12,7 +12,8 @@ import {
 } from '../../lib/model/lession';
 import { questionGet } from '../../lib/model/question';
 import { TLession, TQuestionId, TQuestionProgress } from '../../lib/types';
-import { $, $$, tmplClone } from '../../lib/utils';
+import { $, $$ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 
 export class LessionProcessPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#lession-process-page');

@@ -1,6 +1,7 @@
 import { mdToHtml } from '../../lib/markdown';
 import { STYLES } from '../../lib/ui/stylesheets';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 
 export class PreviewField extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#tmpl-preview-field');

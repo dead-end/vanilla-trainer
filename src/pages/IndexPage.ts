@@ -1,6 +1,7 @@
 import { hashLessionProcess } from '../lib/location/hash';
 import { lessionExists, lessionRemove } from '../lib/model/lession';
-import { $, tmplClone } from '../lib/utils';
+import { $ } from '../lib/utils/query';
+import { tmplClone } from '../lib/utils/tmpl';
 
 export class IndexPage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#index-page');

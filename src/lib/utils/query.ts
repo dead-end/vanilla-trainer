@@ -1,3 +1,6 @@
+/**
+ * Simple jquery clone :)
+ */
 export const $ = <T extends Element>(
   query: string,
   root?: Document | DocumentFragment | HTMLElement
@@ -13,6 +16,9 @@ export const $ = <T extends Element>(
   return result as T;
 };
 
+/**
+ * Simple jquery clone :)
+ */
 export const $$ = <T extends Element>(
   query: string,
   root?: Document | DocumentFragment | HTMLElement
@@ -27,14 +33,4 @@ export const $$ = <T extends Element>(
     throw new Error(`Unable to find: ${query}`);
   }
   return arr as T[];
-};
-
-export const tmplClone = (template: HTMLTemplateElement) => {
-  return template.content.cloneNode(true) as DocumentFragment;
-};
-
-export const tmplCreate = (str: string) => {
-  const tmpl = document.createElement('template');
-  tmpl.innerHTML = str;
-  return tmpl;
 };

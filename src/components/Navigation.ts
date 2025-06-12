@@ -1,6 +1,7 @@
 import { adminLogout } from '../lib/admin';
 import { STYLES } from '../lib/ui/stylesheets';
-import { $, tmplClone } from '../lib/utils';
+import { $ } from '../lib/utils/query';
+import { tmplClone } from '../lib/utils/tmpl';
 
 export class Navigation extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#tmpl-navigation');

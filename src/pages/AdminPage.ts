@@ -1,6 +1,7 @@
 import { adminLogin } from '../lib/admin';
 import { fieldErrorExists, fieldErrorReset } from '../lib/ui/field';
-import { $, tmplClone } from '../lib/utils';
+import { $ } from '../lib/utils/query';
+import { tmplClone } from '../lib/utils/tmpl';
 import { fieldGet, fieldRequired } from '../lib/ui/field';
 import { githubConfigGet } from '../lib/model/githubConfig';
 

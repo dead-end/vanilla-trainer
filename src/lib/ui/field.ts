@@ -1,5 +1,5 @@
 import { TField } from '../types';
-import { $, $$ } from '../utils';
+import { $, $$ } from '../utils/query';
 
 export const fieldGet = (formData: FormData, id: string): TField => {
   const value = formData.get(id);

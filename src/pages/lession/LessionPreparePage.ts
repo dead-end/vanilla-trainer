@@ -8,7 +8,8 @@ import { questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
 import { TQuestion, TQuestionId } from '../../lib/types';
 import { fieldGet } from '../../lib/ui/field';
-import { $, tmplClone } from '../../lib/utils';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
 
 export class LessionPreparePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#lession-prepare-page');
