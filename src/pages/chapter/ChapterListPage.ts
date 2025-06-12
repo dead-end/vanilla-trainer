@@ -4,7 +4,7 @@ import {
   hashChapterUpdate,
   hashLessionPrepare,
   hashQuestionList,
-} from '../../lib/hash';
+} from '../../lib/location/hash';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';
 import { $, tmplClone } from '../../lib/utils';

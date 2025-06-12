@@ -1,6 +1,6 @@
 import { InfoTable } from '../../components/InfoTable';
 import { QuestionShow } from '../../components/QuestionShow';
-import { hashHome } from '../../lib/hash';
+import { hashHome } from '../../lib/location/hash';
 import { bookGet } from '../../lib/model/book';
 import { chapterGet } from '../../lib/model/chapter';
 import {

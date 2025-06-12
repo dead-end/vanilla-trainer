@@ -1,5 +1,5 @@
 import { GlobalError } from '../GlobalError';
-import { pathBooksGet, pathChaptersGet } from '../path';
+import { pathBooksGet, pathChaptersGet } from '../location/path';
 import { jsonGet, jsonPut, jsonDelete } from '../remote/json';
 import { TBook, TChapter } from '../types';
 import { chapterListing } from './chapter';

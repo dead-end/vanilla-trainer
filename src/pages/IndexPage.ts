@@ -1,4 +1,4 @@
-import { hashLessionProcess } from '../lib/hash';
+import { hashLessionProcess } from '../lib/location/hash';
 import { lessionExists, lessionRemove } from '../lib/model/lession';
 import { $, tmplClone } from '../lib/utils';
 

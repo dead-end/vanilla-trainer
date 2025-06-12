@@ -1,4 +1,4 @@
-import { hashQuestionUpdate } from '../lib/hash';
+import { hashQuestionUpdate } from '../lib/location/hash';
 import { mdToHtml } from '../lib/markdown';
 import { TQuestion, TQuestionId } from '../lib/types';
 import { STYLES } from '../lib/ui/stylesheets';

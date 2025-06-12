@@ -1,4 +1,4 @@
-import { pathIsQuestions } from '../path';
+import { pathIsQuestions } from '../location/path';
 import { entryDelete, entryGetCache, entryPut } from '../persist/entry';
 import Result from '../result';
 import { searchIndex } from '../search';

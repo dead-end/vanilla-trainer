@@ -1,5 +1,5 @@
 import { GlobalError } from '../GlobalError';
-import { pathQuestionsGet } from '../path';
+import { pathQuestionsGet } from '../location/path';
 import { jsonGet, jsonPut } from '../remote/json';
 import { TQuestion } from '../types';
 import { githubConfigGet } from './githubConfig';

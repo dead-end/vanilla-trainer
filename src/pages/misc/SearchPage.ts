@@ -1,5 +1,5 @@
 import { QuestionShow } from '../../components/QuestionShow';
-import { hashSearch } from '../../lib/hash';
+import { hashSearch } from '../../lib/location/hash';
 import { getRouteParam } from '../../lib/route';
 import { searchDo } from '../../lib/search';
 import {

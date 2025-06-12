@@ -1,6 +1,6 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { QuestionShow } from '../../components/QuestionShow';
-import { hashChapterList, hashQuestionCreate } from '../../lib/hash';
+import { hashChapterList, hashQuestionCreate } from '../../lib/location/hash';
 import { questionDelete, questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
 import { TQuestionId } from '../../lib/types';

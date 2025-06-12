@@ -1,5 +1,5 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
-import { hashBookUpdate, hashChapterList } from '../../lib/hash';
+import { hashBookUpdate, hashChapterList } from '../../lib/location/hash';
 import { bookDelete, bookListing } from '../../lib/model/book';
 import { $, tmplClone } from '../../lib/utils';
 

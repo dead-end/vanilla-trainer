@@ -3,7 +3,7 @@ import { $, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldId, fieldRequired } from '../../lib/ui/field';
 import { chapterCreate } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';
-import { hashChapterList } from '../../lib/hash';
+import { hashChapterList } from '../../lib/location/hash';
 
 export class ChapterCreatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#chapter-create-page');

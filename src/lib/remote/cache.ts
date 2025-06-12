@@ -6,7 +6,7 @@ import { questionListing } from '../model/question';
 import { entryDelete, entryListCache } from '../persist/entry';
 import { githubConfigGet } from '../model/githubConfig';
 import { errorGlobal } from '../utils';
-import { pathRoot } from '../path';
+import { pathRoot } from '../location/path';
 
 /**
  * The function reads all files from cache and if one is missing from github.

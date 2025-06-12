@@ -3,7 +3,7 @@ import { $, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { chapterGet, chapterUpdate } from '../../lib/model/chapter';
-import { hashChapterList } from '../../lib/hash';
+import { hashChapterList } from '../../lib/location/hash';
 
 export class ChapterUpdatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#chapter-update-page');

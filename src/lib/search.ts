@@ -1,7 +1,7 @@
 import { bookListing } from './model/book';
 import { chapterListing } from './model/chapter';
 import { questionGet } from './model/question';
-import { pathQuestionsGet } from './path';
+import { pathQuestionsGet } from './location/path';
 import { entryGetSearch } from './persist/entry';
 import { TQuestion, TQuestionId, TSearch, TSearchResult } from './types';
 import { errorGlobal } from './utils';

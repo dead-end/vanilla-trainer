@@ -1,5 +1,5 @@
 import { InfoTable } from '../../components/InfoTable';
-import { hashLessionProcess } from '../../lib/hash';
+import { hashLessionProcess } from '../../lib/location/hash';
 import { bookGet } from '../../lib/model/book';
 import { chapterGet } from '../../lib/model/chapter';
 import { lessionCreate } from '../../lib/model/lession';

@@ -3,7 +3,7 @@ import { getRouteParam } from '../../lib/route';
 import { $, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
-import { hashBookList } from '../../lib/hash';
+import { hashBookList } from '../../lib/location/hash';
 
 export class BookUpdatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#book-update-page');

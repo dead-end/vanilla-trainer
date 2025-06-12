@@ -2,7 +2,7 @@ import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { $, tmplClone } from '../../lib/utils';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { getRouteParams } from '../../lib/route';
-import { hashQuestionList } from '../../lib/hash';
+import { hashQuestionList } from '../../lib/location/hash';
 import { questionCreate, questionInst } from '../../lib/model/question';
 
 export class QuestionCreatePage extends HTMLElement {

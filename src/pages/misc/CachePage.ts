@@ -1,5 +1,5 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
-import { pathIsQuestions } from '../../lib/path';
+import { pathIsQuestions } from '../../lib/location/path';
 import {
   entryDelete,
   entryListCache,
