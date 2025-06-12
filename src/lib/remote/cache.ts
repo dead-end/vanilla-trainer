@@ -1,156 +1,17 @@
-import {
-  TCache,
-  TGithubConfig,
-  TGithubListingResult,
-  TQuestion,
-} from '../types';
-import {
-  githubDelete,
-  githubGetHash,
-  githubGetUrl,
-  githubListing,
-  githubReadContent,
-  githubWriteContent,
-} from './github';
-import Result from '../result';
-import { searchIndex } from '../search';
-import { pathIsQuestions, pathRoot } from '../path';
+import { TGithubConfig, TGithubListingResult, TQuestion } from '../types';
+import { githubGetUrl, githubListing } from './github';
 import { bookListing } from '../model/book';
 import { chapterListing } from '../model/chapter';
 import { questionListing } from '../model/question';
-import {
-  entryDelete,
-  entryGetCache,
-  entryListCache,
-  entryPut,
-} from '../persist/entry';
+import { entryDelete, entryListCache } from '../persist/entry';
 import { githubConfigGet } from '../model/githubConfig';
 import { errorGlobal } from '../utils';
-
-// TODO: file name is wrong
-
-/**
- * The function reads a path from the cache or from github.
- */
-export const cacheGetPath = async <T>(config: TGithubConfig, path: string) => {
-  const result = new Result<TCache<T>>();
-
-  //
-  // Read the file from the cache.
-  //
-  const data = await entryGetCache<T>(path);
-  if (data) {
-    return result.setOk(data);
-  }
-
-  //
-  // Read the file from github.
-  //
-  const resultRead = await githubReadContent(
-    githubGetUrl(config.user, config.repo, path),
-    config.token
-  );
-  if (resultRead.hasError) {
-    return result.setError(
-      `cacheGetPath - unable to read data: ${resultRead.message}`
-    );
-  }
-
-  const cache: TCache<T> = {
-    path,
-    data: JSON.parse(resultRead.value.content),
-    hash: resultRead.value.hash,
-  };
-
-  const searchIdx = pathIsQuestions(path)
-    ? searchIndex(path, cache.data as TQuestion[], cache.hash)
-    : undefined;
-  entryPut(cache, searchIdx);
-
-  return result.setOk(cache);
-};
+import { pathRoot } from '../path';
 
 /**
- * The function writes the file to github and updates the cache.
+ * The function reads all files from cache and if one is missing from github.
+ * Afer this call, the cache should be filled.
  */
-export const cachePutPath = async <T>(
-  config: TGithubConfig,
-  path: string,
-  data: T,
-  hash: string | void,
-  comment: string
-) => {
-  const result = new Result<T>();
-
-  //
-  // Write the content to github.
-  //
-  const resultWrite = await githubWriteContent(
-    githubGetUrl(config.user, config.repo, path),
-    JSON.stringify(data),
-    hash,
-    comment,
-    config.token
-  );
-  if (resultWrite.hasError) {
-    return result.setError(resultWrite);
-  }
-
-  const cache: TCache<T> = {
-    path,
-    data,
-    hash: resultWrite.value,
-  };
-
-  const searchIdx = pathIsQuestions(path)
-    ? searchIndex(path, cache.data as TQuestion[], cache.hash)
-    : undefined;
-  entryPut(cache, searchIdx);
-
-  return result.setOk(data);
-};
-
-/**
- * The function deletes a file from gitbub and the cache.
- */
-export const cacheDeletePath = async (
-  config: TGithubConfig,
-  path: string,
-  comment: string
-) => {
-  const result = new Result<void>();
-  const url = githubGetUrl(config.user, config.repo, path);
-
-  //
-  // Get the has value from github.
-  //
-  const resultHash = await githubGetHash(url, config.token);
-  if (resultHash.hasError) {
-    return result.setError(resultHash);
-  }
-
-  //
-  // If the hash exists, then delete the file on github.
-  // If the hash does not exist, then the file does not exist.
-  //
-  if (resultHash.value) {
-    const resultDelete = await githubDelete(
-      url,
-      resultHash.value,
-      comment,
-      config.token
-    );
-    if (resultDelete.hasError) {
-      return result.setError(resultDelete);
-    }
-  }
-
-  await entryDelete(path, pathIsQuestions(path));
-
-  return result.setOk();
-};
-
-// TODO: file name is wrong but not for this function
 export const cacheAll = async () => {
   const arr: Promise<TQuestion[]>[] = [];
   const books = await bookListing();
