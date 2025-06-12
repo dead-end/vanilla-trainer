@@ -1,6 +1,6 @@
 import { GlobalError } from '../GlobalError';
 import { pathChaptersGet, pathQuestionsGet } from '../path';
-import { cacheDeletePath, cachedGetPath, cachePutPath } from '../remote/cache';
+import { cacheDeletePath, cacheGetPath, cachePutPath } from '../remote/cache';
 import { TChapter, TQuestion } from '../types';
 import { githubConfigGet } from './githubConfig';
 
@@ -11,7 +11,7 @@ export const chapterListing = async (bookId: string) => {
   const config = await githubConfigGet();
   const path = pathChaptersGet(bookId);
 
-  const resCache = await cachedGetPath<TChapter[]>(config, path);
+  const resCache = await cacheGetPath<TChapter[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -27,7 +27,7 @@ export const chapterGet = async (bookId: string, id: string) => {
   const config = await githubConfigGet();
   const path = pathChaptersGet(bookId);
 
-  const resCache = await cachedGetPath<TChapter[]>(config, path);
+  const resCache = await cacheGetPath<TChapter[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -48,7 +48,7 @@ export const chapterUpdate = async (bookId: string, chapter: TChapter) => {
   const config = await githubConfigGet();
   const path = pathChaptersGet(bookId);
 
-  const resCache = await cachedGetPath<TChapter[]>(config, path);
+  const resCache = await cacheGetPath<TChapter[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -81,7 +81,7 @@ export const chapterDelete = async (bookId: string, id: string) => {
   const config = await githubConfigGet();
   const path = pathChaptersGet(bookId);
 
-  const resCache = await cachedGetPath<TChapter[]>(config, path);
+  const resCache = await cacheGetPath<TChapter[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -126,7 +126,7 @@ export const chapterCreate = async (bookId: string, chapter: TChapter) => {
   const config = await githubConfigGet();
   const path = pathChaptersGet(bookId);
 
-  const resCache = await cachedGetPath<TChapter[]>(config, path);
+  const resCache = await cacheGetPath<TChapter[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }

@@ -32,7 +32,7 @@ import { errorGlobal } from '../utils';
 /**
  * The function reads a path from the cache or from github.
  */
-export const cachedGetPath = async <T>(config: TGithubConfig, path: string) => {
+export const cacheGetPath = async <T>(config: TGithubConfig, path: string) => {
   const result = new Result<TCache<T>>();
 
   //
@@ -52,7 +52,7 @@ export const cachedGetPath = async <T>(config: TGithubConfig, path: string) => {
   );
   if (resultRead.hasError) {
     return result.setError(
-      `cachedGetPath - unable to read data: ${resultRead.message}`
+      `cacheGetPath - unable to read data: ${resultRead.message}`
     );
   }
 

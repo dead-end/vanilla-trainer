@@ -1,6 +1,6 @@
 import { GlobalError } from '../GlobalError';
 import { pathQuestionsGet } from '../path';
-import { cachedGetPath, cachePutPath } from '../remote/cache';
+import { cacheGetPath, cachePutPath } from '../remote/cache';
 import { TQuestion } from '../types';
 import { githubConfigGet } from './githubConfig';
 
@@ -11,7 +11,7 @@ export const questionListing = async (bookId: string, chapterId: string) => {
   const config = await githubConfigGet();
   const path = pathQuestionsGet(bookId, chapterId);
 
-  const resCache = await cachedGetPath<TQuestion[]>(config, path);
+  const resCache = await cacheGetPath<TQuestion[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -43,7 +43,7 @@ export const questionUpdate = async (
   const config = await githubConfigGet();
   const pathQuestions = pathQuestionsGet(bookId, chapterId);
 
-  const resCache = await cachedGetPath<TQuestion[]>(config, pathQuestions);
+  const resCache = await cacheGetPath<TQuestion[]>(config, pathQuestions);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -74,7 +74,7 @@ export const questionCreate = async (
   const config = await githubConfigGet();
   const path = pathQuestionsGet(bookId, chapterId);
 
-  const resCache = await cachedGetPath<TQuestion[]>(config, path);
+  const resCache = await cacheGetPath<TQuestion[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
@@ -105,7 +105,7 @@ export const questionDelete = async (
   const config = await githubConfigGet();
   const path = pathQuestionsGet(bookId, chapterId);
 
-  const resCache = await cachedGetPath<TQuestion[]>(config, path);
+  const resCache = await cacheGetPath<TQuestion[]>(config, path);
   if (resCache.hasError) {
     throw new GlobalError(resCache.message);
   }
