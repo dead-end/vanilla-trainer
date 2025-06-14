@@ -1,4 +1,4 @@
-import { InfoTable } from '../../components/InfoTable';
+import { KeyValues } from '../../components/KeyValues';
 import { QuestionShow } from '../../components/QuestionShow';
 import { errorGlobal } from '../../lib/GlobalError';
 import { hashHome } from '../../lib/location/hash';
@@ -60,7 +60,7 @@ export class LessionProcessPage extends HTMLElement {
    */
   next() {
     if (this.lession) {
-      this.infoTableProgress(lessionGetProcess(this.lession));
+      this.addProgressInfo(lessionGetProcess(this.lession));
       const tmp = this.lession!.learning.shift();
 
       if (tmp) {
@@ -73,7 +73,7 @@ export class LessionProcessPage extends HTMLElement {
       }
 
       if (this.questionProgress) {
-        this.infoTableQuestion(
+        this.addQuestionInfo(
           this.questionProgress.questionId,
           this.questionProgress.progress
         );
@@ -157,8 +157,8 @@ export class LessionProcessPage extends HTMLElement {
     $<QuestionShow>('#question-show').render(questionId, question);
   }
 
-  infoTableProgress(progress: number[]) {
-    $<InfoTable>('#info-progress').update([
+  addProgressInfo(progress: number[]) {
+    $<KeyValues>('#progress-info').update([
       { key: 'No correct answers', value: progress[0].toString() },
       { key: 'One correct answer', value: progress[1].toString() },
       { key: 'Two correct answers', value: progress[2].toString() },
@@ -167,11 +167,11 @@ export class LessionProcessPage extends HTMLElement {
     ]);
   }
 
-  async infoTableQuestion(questionId: TQuestionId, progress: number) {
+  async addQuestionInfo(questionId: TQuestionId, progress: number) {
     const book = await bookGet(questionId.bookId);
     const chapter = await chapterGet(questionId.bookId, questionId.chapterId);
 
-    $<InfoTable>('#info-question').update([
+    $<KeyValues>('#question-info').update([
       { key: 'Books', value: book.title },
       { key: 'Chapter', value: chapter.title },
       { key: 'Index', value: questionId.idx.toString() },
