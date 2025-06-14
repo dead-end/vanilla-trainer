@@ -1,0 +1,31 @@
+<template id="tmpl-key-values-line">
+  <style>
+    /* TODO: works not for the font*/
+    .key {
+      font-weight: 500;
+    }
+    .value {
+      font-style: italic;
+      color: var(--color-primary);
+    }
+  </style>
+  <div id="wrapper" class="is-row is-gap-small"></div>
+</template>
+
+<template id="tmpl-key-values-entry">
+  <div>
+    <span class="key" data-id="key"></span>
+    <span class="value" data-id="value"></span>
+  </div>
+</template>
+
+<template id="tmpl-key-values-table">
+  <table id="wrapper" class="dense"></table>
+</template>
+
+<template id="tmpl-key-values-row">
+  <tr>
+    <td data-id="key"></td>
+    <td data-id="value"></td>
+  </tr>
+</template>
