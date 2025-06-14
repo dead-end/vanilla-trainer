@@ -1,9 +1,9 @@
-import { adminLogin } from '../lib/admin';
-import { fieldErrorExists, fieldErrorReset } from '../lib/ui/field';
-import { $ } from '../lib/utils/query';
-import { tmplClone } from '../lib/utils/tmpl';
-import { fieldGet, fieldRequired } from '../lib/ui/field';
-import { githubConfigGet } from '../lib/model/githubConfig';
+import { adminLogin } from '../../lib/admin';
+import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
+import { $ } from '../../lib/utils/query';
+import { tmplClone } from '../../lib/utils/tmpl';
+import { fieldGet, fieldRequired } from '../../lib/ui/field';
+import { githubConfigGet } from '../../lib/model/githubConfig';
 
 // TODO: move to admin folder and rename to ConfigPage
 

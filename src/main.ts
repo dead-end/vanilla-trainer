@@ -11,7 +11,7 @@ import { UiField } from './components/ui/UiField';
 import { BookUpdatePage } from './pages/book/BookUpdatePage';
 import { IndexPage } from './pages/IndexPage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { AdminPage } from './pages/AdminPage';
+import { AdminPage } from './pages/admin/AdminPage';
 import { BookListPage } from './pages/book/BookListPage';
 import { BookCreatePage } from './pages/book/BookCreatePage';
 import { ChapterListPage } from './pages/chapter/ChapterListPage';
