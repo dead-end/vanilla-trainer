@@ -23,7 +23,7 @@ import { QuestionCreatePage } from './pages/question/QuestionCreatePage';
 import { QuestionUpdatePage } from './pages/question/QuestionUpdatePage';
 import { LessionPreparePage } from './pages/lession/LessionPreparePage';
 import { LessionProcessPage } from './pages/lession/LessionProcessPage';
-import { CachePage } from './pages/cache/CachePage';
+import { CacheListPage } from './pages/cache/CacheListPage';
 import { CacheRawPage } from './pages/cache/CacheRawPage';
 import { SearchPage } from './pages/search/SearchPage';
 
@@ -78,7 +78,7 @@ customElements.define('not-found-page', NotFoundPage);
 customElements.define('index-page', IndexPage);
 customElements.define('admin-page', AdminPage);
 
-customElements.define('cache-list-page', CachePage);
+customElements.define('cache-list-page', CacheListPage);
 customElements.define('cache-raw-page', CacheRawPage);
 customElements.define('search-page', SearchPage);
 
