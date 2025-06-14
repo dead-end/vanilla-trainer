@@ -1,4 +1,4 @@
-import { InfoTable } from '../../components/InfoTable';
+import { KeyValues } from '../../components/KeyValues';
 import { errorGlobal } from '../../lib/GlobalError';
 import { hashLessionProcess } from '../../lib/location/hash';
 import { bookGet } from '../../lib/model/book';
@@ -34,7 +34,7 @@ export class LessionPreparePage extends HTMLElement {
       $<HTMLButtonElement>('#btn-start').disabled = true;
     }
 
-    this.infoTable(bookId, chapterId, questions);
+    this.addLessionInfo(bookId, chapterId, questions);
   }
 
   async handleSubmit(e: SubmitEvent) {
@@ -64,11 +64,15 @@ export class LessionPreparePage extends HTMLElement {
     window.location.hash = hashLessionProcess();
   }
 
-  async infoTable(bookId: string, chapterId: string, questions: TQuestion[]) {
+  async addLessionInfo(
+    bookId: string,
+    chapterId: string,
+    questions: TQuestion[]
+  ) {
     const book = await bookGet(bookId);
     const chapter = await chapterGet(bookId, chapterId);
 
-    $<InfoTable>('#info-prepare').update([
+    $<KeyValues>('#lession-info').update([
       { key: 'Book', value: book.title },
       { key: 'Chapter', value: chapter.title },
       { key: 'Length', value: questions.length.toString() },
