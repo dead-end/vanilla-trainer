@@ -26,6 +26,7 @@ import { LessionProcessPage } from './pages/lession/LessionProcessPage';
 import { CacheListPage } from './pages/cache/CacheListPage';
 import { CacheRawPage } from './pages/cache/CacheRawPage';
 import { SearchPage } from './pages/search/SearchPage';
+import { JsonShow } from './components/JsonShow';
 
 document.adoptedStyleSheets = STYLES;
 
@@ -69,6 +70,7 @@ customElements.define('error-msg', ErrorMsg);
 customElements.define('confirm-dialog', ConfirmDialog);
 customElements.define('question-show', QuestionShow);
 customElements.define('info-table', InfoTable);
+customElements.define('json-show', JsonShow);
 
 customElements.define('ui-field', UiField);
 customElements.define('preview-field', PreviewField);
