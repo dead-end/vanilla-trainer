@@ -1,4 +1,5 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
+import { KeyValues } from '../../components/KeyValues';
 import {
   hashCache,
   hashChapterCreate,
@@ -7,6 +8,7 @@ import {
   hashQuestionList,
 } from '../../lib/location/hash';
 import { pathChaptersGet } from '../../lib/location/path';
+import { bookGet } from '../../lib/model/book';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';
 import { $ } from '../../lib/utils/query';
@@ -28,6 +30,8 @@ export class ChapterListPage extends HTMLElement {
   async render() {
     const bookId = getRouteParam('bookId');
     const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
+
+    this.bookInfo(bookId);
 
     $<HTMLAnchorElement>('#chapter-create-link').href =
       hashChapterCreate(bookId);
@@ -66,6 +70,11 @@ export class ChapterListPage extends HTMLElement {
     });
 
     $<HTMLElement>('tbody').replaceChildren(...arr);
+  }
+
+  async bookInfo(bookId: string) {
+    const book = await bookGet(bookId);
+    $<KeyValues>('#book-info').update([{ key: 'Book', value: book.title }]);
   }
 
   onDelete(confirmDialog: ConfirmDialog, bookId: string, chapterId: string) {
