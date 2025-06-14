@@ -1,32 +1,31 @@
-import { Icons } from './components/Icons';
-import { Navigation } from './components/Navigation';
+import { STYLES } from './lib/ui/stylesheets';
 import { adminInit } from './lib/admin';
 import { routeInit, routeRegister } from './lib/route';
+import { Icons } from './components/Icons';
+import { Navigation } from './components/Navigation';
+import { ErrorMsg } from './components/ErrorMsg';
+import { PreviewField } from './components/ui/PreviewField';
+import { QuestionShow } from './components/QuestionShow';
+import { ConfirmDialog } from './components/ConfirmDialog';
+import { InfoTable } from './components/InfoTable';
+import { UiField } from './components/ui/UiField';
+import { BookUpdatePage } from './pages/book/BookUpdatePage';
 import { IndexPage } from './pages/IndexPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { AdminPage } from './pages/AdminPage';
 import { BookListPage } from './pages/book/BookListPage';
 import { BookCreatePage } from './pages/book/BookCreatePage';
-import { ErrorMsg } from './components/ErrorMsg';
-import { BookUpdatePage } from './pages/book/BookUpdatePage';
-import { UiField } from './components/ui/UiField';
-import { STYLES } from './lib/ui/stylesheets';
 import { ChapterListPage } from './pages/chapter/ChapterListPage';
 import { ChapterCreatePage } from './pages/chapter/ChapterCreatePage';
 import { ChapterUpdatePage } from './pages/chapter/ChapterUpdatePage';
-import { ConfirmDialog } from './components/ConfirmDialog';
 import { QuestionListPage } from './pages/question/QuestionListPage';
-import { QuestionShow } from './components/QuestionShow';
 import { QuestionCreatePage } from './pages/question/QuestionCreatePage';
 import { QuestionUpdatePage } from './pages/question/QuestionUpdatePage';
-import { PreviewField } from './components/ui/PreviewField';
 import { LessionPreparePage } from './pages/lession/LessionPreparePage';
 import { LessionProcessPage } from './pages/lession/LessionProcessPage';
-import { InfoTable } from './components/InfoTable';
-import { CachePage } from './pages/misc/CachePage';
-import { SearchPage } from './pages/misc/SearchPage';
-
-console.log('Started');
+import { CachePage } from './pages/cache/CachePage';
+import { CacheRawPage } from './pages/cache/CacheRawPage';
+import { SearchPage } from './pages/search/SearchPage';
 
 document.adoptedStyleSheets = STYLES;
 
@@ -61,8 +60,9 @@ routeRegister(
   'lession-prepare-page'
 );
 routeRegister(/^#\/lession-process$/, 'lession-process-page');
-routeRegister(/^#\/misc\/cache$/, 'cache-page');
-routeRegister(/^#\/misc\/search(\/(?<searchStr>[^\/]+))?$/, 'search-page');
+routeRegister(/^#\/cache\/list$/, 'cache-list-page');
+routeRegister(/^#\/cache\/raw\/(?<path>.*)$/, 'cache-raw-page');
+routeRegister(/^#\/search(\/(?<searchStr>[^\/]+))?$/, 'search-page');
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
@@ -78,7 +78,8 @@ customElements.define('not-found-page', NotFoundPage);
 customElements.define('index-page', IndexPage);
 customElements.define('admin-page', AdminPage);
 
-customElements.define('cache-page', CachePage);
+customElements.define('cache-list-page', CachePage);
+customElements.define('cache-raw-page', CacheRawPage);
 customElements.define('search-page', SearchPage);
 
 customElements.define('book-list-page', BookListPage);
