@@ -7,7 +7,6 @@ import { ErrorMsg } from './components/ErrorMsg';
 import { PreviewField } from './components/ui/PreviewField';
 import { QuestionShow } from './components/QuestionShow';
 import { ConfirmDialog } from './components/ConfirmDialog';
-import { InfoTable } from './components/InfoTable';
 import { UiField } from './components/ui/UiField';
 import { BookUpdatePage } from './pages/book/BookUpdatePage';
 import { IndexPage } from './pages/IndexPage';
@@ -27,6 +26,7 @@ import { CacheListPage } from './pages/cache/CacheListPage';
 import { CacheRawPage } from './pages/cache/CacheRawPage';
 import { SearchPage } from './pages/search/SearchPage';
 import { JsonShow } from './components/JsonShow';
+import { KeyValues } from './components/KeyValues';
 
 document.adoptedStyleSheets = STYLES;
 
@@ -69,7 +69,7 @@ customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);
 customElements.define('confirm-dialog', ConfirmDialog);
 customElements.define('question-show', QuestionShow);
-customElements.define('info-table', InfoTable);
+customElements.define('key-values', KeyValues);
 customElements.define('json-show', JsonShow);
 
 customElements.define('ui-field', UiField);
