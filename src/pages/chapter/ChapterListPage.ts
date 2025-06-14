@@ -31,14 +31,8 @@ export class ChapterListPage extends HTMLElement {
     const bookId = getRouteParam('bookId');
     const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
 
-    this.bookInfo(bookId);
-
-    $<HTMLAnchorElement>('#chapter-create-link').href =
-      hashChapterCreate(bookId);
-
-    $<HTMLAnchorElement>('#chapter-cache-link').href = hashCache(
-      pathChaptersGet(bookId)
-    );
+    this.addBookInfo(bookId);
+    this.addLinks(bookId);
 
     const arr: DocumentFragment[] = [];
 
@@ -72,9 +66,18 @@ export class ChapterListPage extends HTMLElement {
     $<HTMLElement>('tbody').replaceChildren(...arr);
   }
 
-  async bookInfo(bookId: string) {
+  async addBookInfo(bookId: string) {
     const book = await bookGet(bookId);
     $<KeyValues>('#book-info').update([{ key: 'Book', value: book.title }]);
+  }
+
+  addLinks(bookId: string) {
+    $<HTMLAnchorElement>('#chapter-create-link').href =
+      hashChapterCreate(bookId);
+
+    $<HTMLAnchorElement>('#chapter-cache-link').href = hashCache(
+      pathChaptersGet(bookId)
+    );
   }
 
   onDelete(confirmDialog: ConfirmDialog, bookId: string, chapterId: string) {
