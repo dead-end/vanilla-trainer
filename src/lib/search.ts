@@ -4,7 +4,7 @@ import { questionGet } from './model/question';
 import { pathQuestionsGet } from './location/path';
 import { entryGetSearch } from './persist/entry';
 import { TQuestion, TQuestionId, TSearch, TSearchResult } from './types';
-import { errorGlobal } from './GlobalError';
+import { errorGlobal, GlobalError } from './GlobalError';
 
 /**
  * The regex is used to remove special characters.
@@ -155,4 +155,16 @@ export const searchDo = async (str: string) => {
   }
 
   return result;
+};
+
+/**
+ * The function returns a formatted string of the json file with the search
+ * index.
+ */
+export const searchGetRaw = async (path: string) => {
+  const search = await entryGetSearch(path);
+  if (!search) {
+    throw new GlobalError(`Unable to get from cache: ${path}`);
+  }
+  return JSON.stringify(search.strs, null, 2);
 };
