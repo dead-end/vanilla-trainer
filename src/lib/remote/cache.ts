@@ -3,9 +3,9 @@ import { githubGetUrl, githubListing } from './github';
 import { bookListing } from '../model/book';
 import { chapterListing } from '../model/chapter';
 import { questionListing } from '../model/question';
-import { entryDelete, entryListCache } from '../persist/entry';
+import { entryDelete, entryGetCache, entryListCache } from '../persist/entry';
 import { githubConfigGet } from '../model/githubConfig';
-import { errorGlobal } from '../GlobalError';
+import { errorGlobal, GlobalError } from '../GlobalError';
 import { pathRoot } from '../location/path';
 
 /**
@@ -25,6 +25,18 @@ export const cacheAll = async () => {
   }
 
   await Promise.all(arr);
+};
+
+/**
+ * The function retuns a formatted string with the json of the cache.
+ */
+export const cacheGetRaw = async (path: string) => {
+  const data = await entryGetCache<any>(path);
+  if (!data) {
+    throw new GlobalError(`Unable to get from cache: ${path}`);
+  }
+
+  return JSON.stringify(data.data, null, 2);
 };
 
 /**
