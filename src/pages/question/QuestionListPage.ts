@@ -1,6 +1,11 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { QuestionShow } from '../../components/QuestionShow';
-import { hashChapterList, hashQuestionCreate } from '../../lib/location/hash';
+import {
+  hashCache,
+  hashChapterList,
+  hashQuestionCreate,
+} from '../../lib/location/hash';
+import { pathQuestionsGet } from '../../lib/location/path';
 import { questionDelete, questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
 import { TQuestionId } from '../../lib/types';
@@ -24,6 +29,9 @@ export class QuestionListPage extends HTMLElement {
     $<HTMLAnchorElement>('#question-create-link').href = hashQuestionCreate(
       bookId,
       chapterId
+    );
+    $<HTMLAnchorElement>('#question-cache-link').href = hashCache(
+      pathQuestionsGet(bookId, chapterId)
     );
     $<HTMLAnchorElement>('#chapter-list-link').href = hashChapterList(bookId);
 

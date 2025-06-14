@@ -1,10 +1,12 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import {
+  hashCache,
   hashChapterCreate,
   hashChapterUpdate,
   hashLessionPrepare,
   hashQuestionList,
 } from '../../lib/location/hash';
+import { pathChaptersGet } from '../../lib/location/path';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';
 import { $ } from '../../lib/utils/query';
@@ -29,6 +31,10 @@ export class ChapterListPage extends HTMLElement {
 
     $<HTMLAnchorElement>('#chapter-create-link').href =
       hashChapterCreate(bookId);
+
+    $<HTMLAnchorElement>('#chapter-cache-link').href = hashCache(
+      pathChaptersGet(bookId)
+    );
 
     const arr: DocumentFragment[] = [];
 
