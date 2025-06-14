@@ -15,6 +15,19 @@ export const pathQuestionsGet = (bookId: string, chapterId: string) => {
 };
 
 export const pathIsQuestions = (path: string) => {
-  const re = /books\/[^\/]+\/questions.[^\/]+.json$/;
+  const re = /^books\/[^\/]+\/questions.[^\/]+.json$/;
   return re.test(path);
+};
+
+export const pathIsChapters = (path: string) => {
+  const re = /^books\/[^\/]+\/chapters.json$/;
+  return re.test(path);
+};
+
+export const pathIsBooks = (path: string) => {
+  return path === 'books/books.json';
+};
+
+export const pathIsValid = (path: string) => {
+  return pathIsBooks(path) || pathIsChapters(path) || pathIsQuestions(path);
 };

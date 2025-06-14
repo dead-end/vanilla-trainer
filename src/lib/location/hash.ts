@@ -48,7 +48,11 @@ export const hashHome = () => {
 
 export const hashSearch = (searchStr?: string) => {
   if (searchStr) {
-    return `#/misc/search/${searchStr}`;
+    return `#/search/${searchStr}`;
   }
-  return '#/misc/search';
+  return '#/search';
+};
+
+export const hashCache = (path: string) => {
+  return `#/cache/raw/${path}`;
 };
