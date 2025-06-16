@@ -448,6 +448,12 @@ h6,
   #app {
     margin: 0rem;
   }
+
+  :root {
+    --table-padding-x: 0.4rem;
+    --padding-x: 1rem;
+    --padding-y: 1rem;
+  }
 }
 
 /* small: sl */
@@ -462,5 +468,7 @@ h6,
 
   :root {
     --table-padding-x: 0rem;
+    --padding-x: 0.4rem;
+    --padding-y: 0.4rem;
   }
 }
