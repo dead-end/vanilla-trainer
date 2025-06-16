@@ -36,11 +36,10 @@
 
   /* ------------------------- */
 
+  /*
+   * Effects
+   */
   --transition: 300ms;
-
-  --gap: 1rem;
-  --gap-action: 1rem;
-
   --shadow: var(--shadow-lg);
 
   /*
@@ -77,14 +76,6 @@
   --bg-gradient-to: var(--color-gray-300);
 
   /*
-   * Breakpoints for media queries
-   */
-  --break-point-sm: 320px;
-  --break-point-md: 640px;
-  --break-point-lg: 960px;
-  --break-point-xl: 1280px;
-
-  /*
    * Font sizes anfd decorations
    */
   --font-size-larger: 2rem;
@@ -103,6 +94,12 @@
   --padding-input: 0.8rem;
 
   --table-padding-x: 1rem;
+
+  /*
+   * Gaps
+   */
+  --gap: 1rem;
+  --gap-action: 1rem;
 }
 
 * {
@@ -407,14 +404,14 @@ tr:hover {
  *****************************************************************************/
 
 .container {
-  max-width: var(--break-point-xl);
+  max-width: 1280px;
   margin: 0 auto;
 }
 
 /* large: lg */
 @media (max-width: 1280px) {
   .container {
-    max-width: var(--break-point-lg);
+    max-width: 960px;
   }
 }
 
@@ -451,7 +448,7 @@ tr:hover {
     --padding-y: 0.4rem;
 
     --font-size-larger: 1.2rem;
-    --font-size-large: 1rem;
+    --font-size-large: 1.1rem;
 
     --gap-action: 0.4rem;
   }
