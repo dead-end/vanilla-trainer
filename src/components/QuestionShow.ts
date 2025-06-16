@@ -2,7 +2,7 @@ import { hashQuestionUpdate } from '../lib/location/hash';
 import { mdToHtml } from '../lib/markdown';
 import { TQuestion, TQuestionId } from '../lib/types';
 import { STYLES } from '../lib/ui/stylesheets';
-import { $, $$ } from '../lib/utils/query';
+import { $ } from '../lib/utils/query';
 import { tmplClone } from '../lib/utils/tmpl';
 
 // TODO: move to types ?
@@ -50,14 +50,10 @@ export class QuestionShow extends HTMLElement {
       $('#label', this.shadowRoot).textContent = `Question: ${questionId.idx}`;
       $('#quest', this.shadowRoot).innerHTML = mdToHtml(question.quest);
       $('#answer', this.shadowRoot).innerHTML = mdToHtml(question.answer);
-      if (question.details) {
-        $('#details', this.shadowRoot).innerHTML = mdToHtml(question.details);
-      } else {
-        $<HTMLElement>(
-          '#details',
-          this.shadowRoot
-        ).parentElement!.style.display = 'none';
-      }
+
+      $('#details', this.shadowRoot).innerHTML = question.details
+        ? mdToHtml(question.details)
+        : '';
 
       $<HTMLElement>('[data-icon="update"]', this.shadowRoot).onclick = () => {
         window.location.hash = hashQuestionUpdate(
@@ -82,9 +78,19 @@ export class QuestionShow extends HTMLElement {
 
   show(showAnswer: boolean) {
     if (this.shadowRoot) {
-      $$<HTMLElement>('[data-show="answer"]', this.shadowRoot).forEach((e) => {
-        e.style.display = showAnswer ? 'flex' : 'none';
-      });
+      const value = showAnswer ? 'flex' : 'none';
+
+      const answer = $('#answer', this.shadowRoot);
+      if (answer.parentElement) {
+        answer.parentElement.style.display = value;
+      }
+
+      const details = $('#details', this.shadowRoot);
+      if (details.parentElement) {
+        details.parentElement.style.display = details.innerHTML
+          ? value
+          : 'none';
+      }
     }
   }
 }
