@@ -38,7 +38,8 @@
 
   --transition: 300ms;
 
-  --gap: 1.4rem;
+  --gap: 1rem;
+  --gap-action: 1rem;
 
   --shadow: var(--shadow-lg);
 
@@ -279,6 +280,10 @@ textarea:read-only,
   gap: calc(var(--gap) / 2);
 }
 
+.is-gap-action {
+  gap: var(--gap-action);
+}
+
 .is-row-center {
   justify-content: center;
   align-items: center;
@@ -447,5 +452,7 @@ tr:hover {
 
     --font-size-larger: 1.2rem;
     --font-size-large: 1rem;
+
+    --gap-action: 0.4rem;
   }
 }
