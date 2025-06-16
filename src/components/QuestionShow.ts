@@ -53,8 +53,10 @@ export class QuestionShow extends HTMLElement {
       if (question.details) {
         $('#details', this.shadowRoot).innerHTML = mdToHtml(question.details);
       } else {
-        $<HTMLElement>('#details', this.shadowRoot).parentElement!.hidden =
-          true;
+        $<HTMLElement>(
+          '#details',
+          this.shadowRoot
+        ).parentElement!.style.display = 'none';
       }
 
       $<HTMLElement>('[data-icon="update"]', this.shadowRoot).onclick = () => {
