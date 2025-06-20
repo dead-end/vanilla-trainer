@@ -119,14 +119,15 @@ body {
     var(--bg-gradient-to)
   );
   background-attachment: fixed;
+
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 #app {
   background-color: var(--color-bg);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-  margin-top: 4rem;
-  margin-bottom: 4rem;
 }
 
 /******************************************************************************
@@ -423,9 +424,10 @@ tr:hover {
     */
     max-width: 1024px;
   }
-  #app {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+
+  body {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 }
 
@@ -435,8 +437,8 @@ tr:hover {
     width: 100%;
   }
 
-  #app {
-    margin: 0rem;
+  body {
+    padding: 0rem;
   }
 
   :root {
@@ -450,10 +452,6 @@ tr:hover {
 @media (max-width: 640px) {
   .container {
     width: 100%;
-  }
-
-  #app {
-    margin: 0rem;
   }
 
   :root {
