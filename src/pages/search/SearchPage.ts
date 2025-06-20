@@ -28,8 +28,12 @@ export class SearchPage extends HTMLElement {
   }
 
   async render() {
-    const searchStr = getRouteParam('searchStr');
-    if (!searchStr || searchStr.length < 3) {
+    const searchRaw = getRouteParam('searchStr');
+    if (!searchRaw) {
+      return;
+    }
+    const searchStr = decodeURI(searchRaw);
+    if (searchStr.length < 3) {
       return;
     }
     $<HTMLInputElement>('#search').value = searchStr;
@@ -55,7 +59,7 @@ export class SearchPage extends HTMLElement {
     fieldRequired(form, search) && fieldMinLen(form, search, 3);
 
     if (!fieldErrorExists(form)) {
-      window.location.hash = hashSearch(search.value);
+      window.location.hash = hashSearch(encodeURI(search.value));
     }
   }
 }
