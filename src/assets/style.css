@@ -123,9 +123,9 @@ body {
 #app {
   background-color: var(--color-bg);
   border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
   margin-top: 4rem;
   margin-bottom: 4rem;
-  box-shadow: var(--shadow);
 }
 
 /******************************************************************************
@@ -381,7 +381,7 @@ table {
 
 th,
 td {
-  padding: 1rem var(--table-padding-x);
+  padding: 0.6rem var(--table-padding-x);
   text-align: left;
 }
 
@@ -416,7 +416,15 @@ tr:hover {
 /* large: lg */
 @media (max-width: 1280px) {
   .container {
+    /*
     max-width: 960px;
+    // TODO: correct values ???
+    */
+    max-width: 1024px;
+  }
+  #app {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 }
 
