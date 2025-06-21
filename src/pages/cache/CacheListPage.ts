@@ -19,10 +19,10 @@ export class CacheListPage extends HTMLElement {
       const tmpl = tmplClone(CacheListPage.TMPL);
 
       $<HTMLButtonElement>('#cache-load', tmpl).onclick =
-        this.cacheLoad.bind(this);
+        this.onCacheLoad.bind(this);
 
       $<HTMLButtonElement>('#cache-check', tmpl).onclick =
-        this.cacheCheck.bind(this);
+        this.onCacheCheck.bind(this);
 
       this.appendChild(tmpl);
     }
@@ -30,14 +30,26 @@ export class CacheListPage extends HTMLElement {
     this.render();
   }
 
-  async cacheLoad() {
-    await cacheAll();
-    this.render();
+  onCacheLoad() {
+    $<ConfirmDialog>('#confirm-dialog').activate(
+      'Load Cache',
+      'Do you realy want to load all files?',
+      async () => {
+        await cacheAll();
+        this.render();
+      }
+    );
   }
 
-  async cacheCheck() {
-    await cacheCheckHashes();
-    this.render();
+  onCacheCheck() {
+    $<ConfirmDialog>('#confirm-dialog').activate(
+      'Check Cache',
+      'Do you realy want to check all files?',
+      async () => {
+        await cacheCheckHashes();
+        this.render();
+      }
+    );
   }
 
   getHash(hash: string) {
