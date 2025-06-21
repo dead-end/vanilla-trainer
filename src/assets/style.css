@@ -315,6 +315,10 @@ textarea:read-only,
   font-weight: var(--font-weight-bold);
 }
 
+.is-text-right {
+  text-align: right;
+}
+
 .is-text-reverse {
   color: var(--color-reverse);
 }

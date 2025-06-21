@@ -41,6 +41,11 @@ export class SearchPage extends HTMLElement {
     const arr: QuestionShow[] = [];
 
     const results = await searchDo(searchStr);
+    $<HTMLElement>('[data-id="num"]').innerText =
+      results.length === 0
+        ? 'Nothing found!'
+        : `Numer of results: ${results.length}`;
+
     results.forEach((r) => {
       arr.push(QuestionShow.instance(r.questId, r.quest));
     });
