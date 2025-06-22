@@ -62,9 +62,11 @@ export class QuestionShow extends HTMLElement {
       $('#quest', this.shadowRoot).innerHTML = mdToHtml(question.quest);
       $('#answer', this.shadowRoot).innerHTML = mdToHtml(question.answer);
 
-      $('#details', this.shadowRoot).innerHTML = question.details
-        ? mdToHtml(question.details)
-        : '';
+      const details = $('#details', this.shadowRoot);
+      if (!question.details && details.parentElement) {
+        details.parentElement.style.display = 'none';
+      }
+      details.innerHTML = question.details ? mdToHtml(question.details) : '';
 
       $<HTMLElement>('[data-icon="update"]', this.shadowRoot).onclick = () => {
         window.location.hash = hashQuestionUpdate(
