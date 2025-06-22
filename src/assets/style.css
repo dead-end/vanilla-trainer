@@ -285,6 +285,10 @@ textarea:read-only,
   gap: var(--gap-action);
 }
 
+.is-space-between {
+  justify-content: space-between;
+}
+
 .is-row-center {
   justify-content: center;
   align-items: center;
