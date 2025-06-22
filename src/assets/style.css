@@ -469,14 +469,20 @@ tr:hover {
     --table-padding-x: 0rem;
     --padding-x: 0.4rem;
     --padding-y: 0.4rem;
-
+    /*
     --font-size-larger: 1.2rem;
     --font-size-large: 1.1rem;
-
+*/
     --gap-action: 0.4rem;
   }
 
-  .is-not-sm {
+  .is-larger-sm {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  .is-smaller-sm {
     display: none;
   }
 }
