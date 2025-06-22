@@ -475,4 +475,8 @@ tr:hover {
 
     --gap-action: 0.4rem;
   }
+
+  .is-not-sm {
+    display: none;
+  }
 }
