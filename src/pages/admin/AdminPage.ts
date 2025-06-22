@@ -15,12 +15,16 @@ export class AdminPage extends HTMLElement {
       const tmpl = tmplClone(AdminPage.TMPL);
       $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
 
+      $<HTMLButtonElement>('#admin-edit', tmpl).onclick =
+        this.onEdit.bind(this);
+
       this.appendChild(tmpl);
 
       document.addEventListener('logout', this.onLogout.bind(this));
     }
 
     this.getAdmin();
+    this.setEdit(false);
   }
 
   handleSubmit(e: SubmitEvent) {
@@ -45,6 +49,7 @@ export class AdminPage extends HTMLElement {
       button.disabled = true;
 
       adminLogin(user.value, repo.value, token.value).finally(() => {
+        this.setEdit(false);
         button.disabled = false;
       });
     }
@@ -55,6 +60,19 @@ export class AdminPage extends HTMLElement {
     $<HTMLInputElement>('#user').value = admin.user;
     $<HTMLInputElement>('#repo').value = admin.repo;
     $<HTMLInputElement>('#token').value = admin.token;
+  }
+
+  onEdit() {
+    this.setEdit(true);
+  }
+
+  setEdit(edit: boolean) {
+    $<HTMLInputElement>('#user').disabled = !edit;
+    $<HTMLInputElement>('#repo').disabled = !edit;
+    $<HTMLInputElement>('#token').disabled = !edit;
+
+    $<HTMLButtonElement>('#admin-edit').disabled = edit;
+    $<HTMLButtonElement>('#admin-save').disabled = !edit;
   }
 
   onLogout() {
