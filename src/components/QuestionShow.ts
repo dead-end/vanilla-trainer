@@ -1,6 +1,6 @@
 import { hashQuestionUpdate } from '../lib/location/hash';
 import { mdToHtml } from '../lib/markdown';
-import { TQuestion, TQuestionId } from '../lib/types';
+import { TQuestion, TQuestionId, TQuestionProgress } from '../lib/types';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
 import { tmplClone } from '../lib/utils/tmpl';
@@ -45,9 +45,20 @@ export class QuestionShow extends HTMLElement {
    * The function uses questionId and question as parameters. This ensures that
    * both are not undefined.
    */
-  render(questionId: TQuestionId, question: TQuestion) {
+  render(
+    questionId: TQuestionId,
+    question: TQuestion,
+    process?: TQuestionProgress
+  ) {
     if (this.shadowRoot) {
       $('#label', this.shadowRoot).textContent = `Question: ${questionId.idx}`;
+      if (process) {
+        $(
+          '#progress',
+          this.shadowRoot
+        ).textContent = `Progress: ${process.progress} / 3`;
+      }
+
       $('#quest', this.shadowRoot).innerHTML = mdToHtml(question.quest);
       $('#answer', this.shadowRoot).innerHTML = mdToHtml(question.answer);
 
