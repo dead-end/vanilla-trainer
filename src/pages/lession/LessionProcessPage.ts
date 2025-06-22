@@ -65,7 +65,10 @@ export class LessionProcessPage extends HTMLElement {
 
       if (tmp) {
         this.questionProgress = tmp;
-        this.setQuestion(this.questionProgress.questionId);
+        this.setQuestion(
+          this.questionProgress.questionId,
+          this.questionProgress
+        );
         this.setStateQuestion(true);
       } else {
         this.setStateRunning(false);
@@ -148,13 +151,13 @@ export class LessionProcessPage extends HTMLElement {
     });
   }
 
-  async setQuestion(questionId: TQuestionId) {
+  async setQuestion(questionId: TQuestionId, progress: TQuestionProgress) {
     const question = await questionGet(
       questionId.bookId,
       questionId.chapterId,
       questionId.idx
     );
-    $<QuestionShow>('#question-show').render(questionId, question);
+    $<QuestionShow>('#question-show').render(questionId, question, progress);
   }
 
   addProgressInfo(progress: number[]) {
