@@ -76,10 +76,7 @@ export class LessionProcessPage extends HTMLElement {
       }
 
       if (this.questionProgress) {
-        this.addQuestionInfo(
-          this.questionProgress.questionId,
-          this.questionProgress.progress
-        );
+        this.addQuestionInfo(this.questionProgress.questionId);
       }
     }
   }
@@ -170,7 +167,7 @@ export class LessionProcessPage extends HTMLElement {
     ]);
   }
 
-  async addQuestionInfo(questionId: TQuestionId, progress: number) {
+  async addQuestionInfo(questionId: TQuestionId) {
     const book = await bookGet(questionId.bookId);
     const chapter = await chapterGet(questionId.bookId, questionId.chapterId);
 
@@ -178,7 +175,6 @@ export class LessionProcessPage extends HTMLElement {
       { key: 'Books', value: book.title },
       { key: 'Chapter', value: chapter.title },
       { key: 'Index', value: questionId.idx.toString() },
-      { key: 'Progress', value: `${progress} / 3` },
     ]);
   }
 }
