@@ -159,9 +159,9 @@ export class LessionProcessPage extends HTMLElement {
 
   addProgressInfo(progress: number[]) {
     $<KeyValues>('#progress-info').update([
-      { key: 'No correct answers', value: progress[0].toString() },
-      { key: 'One correct answer', value: progress[1].toString() },
-      { key: 'Two correct answers', value: progress[2].toString() },
+      { key: 'Unlearned', value: progress[0].toString() },
+      { key: 'One correct', value: progress[1].toString() },
+      { key: 'Two correct', value: progress[2].toString() },
       { key: 'Learned', value: progress[3].toString() },
       { key: 'Total', value: lessionTotal2Learn(progress).toString() },
     ]);

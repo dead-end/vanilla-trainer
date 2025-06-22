@@ -266,6 +266,7 @@ textarea:read-only,
 .is-row {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .is-column {
