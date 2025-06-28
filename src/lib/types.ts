@@ -82,3 +82,8 @@ export type TGithubListingResult = {
   error: string | undefined;
   listing: TGithubListing[];
 };
+
+export type TKeyValue = {
+  key: string;
+  value: string;
+};

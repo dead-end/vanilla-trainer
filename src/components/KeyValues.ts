@@ -1,3 +1,4 @@
+import { TKeyValue } from '../lib/types';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
 import { tmplClone } from '../lib/utils/tmpl';
@@ -16,7 +17,7 @@ export class KeyValues extends HTMLElement {
     }
   }
 
-  update(data: { key: string; value: string }[]) {
+  update(data: TKeyValue[]) {
     if (this.shadowRoot) {
       const arr: DocumentFragment[] = [];
 
