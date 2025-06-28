@@ -27,6 +27,7 @@ import { CacheRawPage } from './pages/cache/CacheRawPage';
 import { SearchPage } from './pages/search/SearchPage';
 import { JsonShow } from './components/JsonShow';
 import { KeyValues } from './components/KeyValues';
+import { LocationInfo } from './components/LocationInfo';
 
 document.adoptedStyleSheets = STYLES;
 
@@ -70,6 +71,7 @@ customElements.define('error-msg', ErrorMsg);
 customElements.define('confirm-dialog', ConfirmDialog);
 customElements.define('question-show', QuestionShow);
 customElements.define('key-values', KeyValues);
+customElements.define('location-info', LocationInfo);
 customElements.define('json-show', JsonShow);
 
 customElements.define('ui-field', UiField);
