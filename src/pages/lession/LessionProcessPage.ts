@@ -1,9 +1,8 @@
 import { KeyValues } from '../../components/KeyValues';
+import { LocationInfo } from '../../components/LocationInfo';
 import { QuestionShow } from '../../components/QuestionShow';
 import { errorGlobal } from '../../lib/GlobalError';
 import { hashHome } from '../../lib/location/hash';
-import { bookGet } from '../../lib/model/book';
-import { chapterGet } from '../../lib/model/chapter';
 import {
   lessionGetProcess,
   lessionLoad,
@@ -76,7 +75,11 @@ export class LessionProcessPage extends HTMLElement {
       }
 
       if (this.questionProgress) {
-        this.addQuestionInfo(this.questionProgress.questionId);
+        $<LocationInfo>('location-info').show(
+          this.questionProgress.questionId.bookId,
+          this.questionProgress.questionId.chapterId,
+          this.questionProgress.questionId.idx.toString()
+        );
       }
     }
   }
@@ -164,17 +167,6 @@ export class LessionProcessPage extends HTMLElement {
       { key: 'Two correct', value: progress[2].toString() },
       { key: 'Learned', value: progress[3].toString() },
       { key: 'Total', value: lessionTotal2Learn(progress).toString() },
-    ]);
-  }
-
-  async addQuestionInfo(questionId: TQuestionId) {
-    const book = await bookGet(questionId.bookId);
-    const chapter = await chapterGet(questionId.bookId, questionId.chapterId);
-
-    $<KeyValues>('#question-info').update([
-      { key: 'Books', value: book.title },
-      { key: 'Chapter', value: chapter.title },
-      { key: 'Index', value: questionId.idx.toString() },
     ]);
   }
 }

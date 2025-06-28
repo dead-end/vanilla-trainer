@@ -1,5 +1,5 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
-import { KeyValues } from '../../components/KeyValues';
+import { LocationInfo } from '../../components/LocationInfo';
 import { QuestionShow } from '../../components/QuestionShow';
 import {
   hashCache,
@@ -7,8 +7,6 @@ import {
   hashQuestionCreate,
 } from '../../lib/location/hash';
 import { pathQuestionsGet } from '../../lib/location/path';
-import { bookGet } from '../../lib/model/book';
-import { chapterGet } from '../../lib/model/chapter';
 import { questionDelete, questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
 import { TQuestionId } from '../../lib/types';
@@ -30,7 +28,7 @@ export class QuestionListPage extends HTMLElement {
   async render() {
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
 
-    this.addChapterInfo(bookId, chapterId);
+    $<LocationInfo>('#location-info').show(bookId, chapterId);
     this.addLinks(bookId, chapterId);
 
     const questions = await questionListing(bookId, chapterId);
@@ -47,15 +45,6 @@ export class QuestionListPage extends HTMLElement {
     });
 
     $<HTMLElement>('[data-id="questions"]').replaceChildren(...arr);
-  }
-
-  async addChapterInfo(bookId: string, chapterId: string) {
-    const book = await bookGet(bookId);
-    const chapter = await chapterGet(bookId, chapterId);
-    $<KeyValues>('#chapter-info').update([
-      { key: 'Book', value: book.title },
-      { key: 'Chapter', value: chapter.title },
-    ]);
   }
 
   addLinks(bookId: string, chapterId: string) {

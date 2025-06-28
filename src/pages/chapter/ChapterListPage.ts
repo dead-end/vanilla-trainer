@@ -1,5 +1,5 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
-import { KeyValues } from '../../components/KeyValues';
+import { LocationInfo } from '../../components/LocationInfo';
 import {
   hashCache,
   hashChapterCreate,
@@ -8,7 +8,6 @@ import {
   hashQuestionList,
 } from '../../lib/location/hash';
 import { pathChaptersGet } from '../../lib/location/path';
-import { bookGet } from '../../lib/model/book';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';
 import { $ } from '../../lib/utils/query';
@@ -31,7 +30,7 @@ export class ChapterListPage extends HTMLElement {
     const bookId = getRouteParam('bookId');
     const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
 
-    this.addBookInfo(bookId);
+    $<LocationInfo>('#location-info').show(bookId);
     this.addLinks(bookId);
 
     const arr: DocumentFragment[] = [];
@@ -64,11 +63,6 @@ export class ChapterListPage extends HTMLElement {
     });
 
     $<HTMLElement>('tbody').replaceChildren(...arr);
-  }
-
-  async addBookInfo(bookId: string) {
-    const book = await bookGet(bookId);
-    $<KeyValues>('#book-info').update([{ key: 'Book', value: book.title }]);
   }
 
   addLinks(bookId: string) {
