@@ -5,6 +5,7 @@ import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { chapterGet, chapterUpdate } from '../../lib/model/chapter';
 import { hashChapterList } from '../../lib/location/hash';
+import { LocationInfo } from '../../components/LocationInfo';
 
 export class ChapterUpdatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#chapter-update-page');
@@ -22,6 +23,8 @@ export class ChapterUpdatePage extends HTMLElement {
   async render() {
     const bookId = getRouteParam('bookId');
     const chapterId = getRouteParam('chapterId');
+
+    $<LocationInfo>('#location-info').show(bookId, chapterId);
 
     const link = hashChapterList(bookId);
     $<HTMLAnchorElement>('#chapter-list-link', this).href = link;

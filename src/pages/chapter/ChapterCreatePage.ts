@@ -5,6 +5,7 @@ import { fieldGet, fieldId, fieldRequired } from '../../lib/ui/field';
 import { chapterCreate } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';
 import { hashChapterList } from '../../lib/location/hash';
+import { LocationInfo } from '../../components/LocationInfo';
 
 export class ChapterCreatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#chapter-create-page');
@@ -21,6 +22,9 @@ export class ChapterCreatePage extends HTMLElement {
 
   render() {
     const bookId = getRouteParam('bookId');
+
+    $<LocationInfo>('#location-info').show(bookId);
+
     const link = hashChapterList(bookId);
     $<HTMLAnchorElement>('#chapter-list-link', this).href = link;
   }
