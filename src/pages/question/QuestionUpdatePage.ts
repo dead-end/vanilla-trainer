@@ -9,6 +9,9 @@ import {
   questionInst,
   questionUpdate,
 } from '../../lib/model/question';
+import { bookGet } from '../../lib/model/book';
+import { chapterGet } from '../../lib/model/chapter';
+import { KeyValues } from '../../components/KeyValues';
 
 export class QuestionUpdatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#question-update-page');
@@ -29,6 +32,8 @@ export class QuestionUpdatePage extends HTMLElement {
       'chapterId',
       'idx'
     );
+
+    this.addQuestionInfo(bookId, chapterId, idx);
 
     $<HTMLAnchorElement>('#question-list-link', this).href = hashQuestionList(
       bookId,
@@ -83,5 +88,15 @@ export class QuestionUpdatePage extends HTMLElement {
           button.disabled = false;
         });
     }
+  }
+
+  async addQuestionInfo(bookId: string, chapterId: string, idx: string) {
+    const book = await bookGet(bookId);
+    const chapter = await chapterGet(bookId, chapterId);
+    $<KeyValues>('#question-info').update([
+      { key: 'Book', value: book.title },
+      { key: 'Chapter', value: chapter.title },
+      { key: 'Question', value: idx },
+    ]);
   }
 }
