@@ -5,9 +5,7 @@ import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { getRouteParams } from '../../lib/route';
 import { hashQuestionList } from '../../lib/location/hash';
 import { questionCreate, questionInst } from '../../lib/model/question';
-import { bookGet } from '../../lib/model/book';
-import { chapterGet } from '../../lib/model/chapter';
-import { KeyValues } from '../../components/KeyValues';
+import { LocationInfo } from '../../components/LocationInfo';
 
 export class QuestionCreatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#question-create-page');
@@ -25,7 +23,7 @@ export class QuestionCreatePage extends HTMLElement {
   render() {
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
 
-    this.addChapterInfo(bookId, chapterId);
+    $<LocationInfo>('#location-info').show(bookId, chapterId);
 
     $<HTMLAnchorElement>('#question-list-link', this).href = hashQuestionList(
       bookId,
@@ -64,14 +62,5 @@ export class QuestionCreatePage extends HTMLElement {
           button.disabled = false;
         });
     }
-  }
-
-  async addChapterInfo(bookId: string, chapterId: string) {
-    const book = await bookGet(bookId);
-    const chapter = await chapterGet(bookId, chapterId);
-    $<KeyValues>('#chapter-info').update([
-      { key: 'Book', value: book.title },
-      { key: 'Chapter', value: chapter.title },
-    ]);
   }
 }

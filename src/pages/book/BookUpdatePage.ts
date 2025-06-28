@@ -5,6 +5,7 @@ import { tmplClone } from '../../lib/utils/tmpl';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { hashBookList } from '../../lib/location/hash';
+import { LocationInfo } from '../../components/LocationInfo';
 
 export class BookUpdatePage extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#book-update-page');
@@ -21,6 +22,8 @@ export class BookUpdatePage extends HTMLElement {
 
   async render() {
     const bookId = getRouteParam('bookId');
+
+    $<LocationInfo>('#location-info').show(bookId);
     const book = await bookGet(bookId);
 
     $<HTMLInputElement>('#id').value = book.id;
