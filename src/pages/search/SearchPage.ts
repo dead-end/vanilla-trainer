@@ -40,7 +40,7 @@ export class SearchPage extends HTMLElement {
 
     const arr: QuestionShow[] = [];
 
-    const results = await searchDo(searchStr);
+    const results = await searchDo(searchStr.toLowerCase());
     $<HTMLElement>('[data-id="num"]').innerText =
       results.length === 0
         ? 'Nothing found!'
