@@ -1,12 +1,14 @@
 import { hashQuestionUpdate } from '../lib/location/hash';
 import { mdToHtml } from '../lib/markdown';
-import { TQuestion, TQuestionId, TQuestionProgress } from '../lib/types';
+import {
+  TDoDelete,
+  TQuestion,
+  TQuestionId,
+  TQuestionProgress,
+} from '../lib/types';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
 import { tmplClone } from '../lib/utils/tmpl';
-
-// TODO: move to types ?
-type TDoDelete = (questionId: TQuestionId) => void;
 
 export class QuestionShow extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#tmpl-question-show');

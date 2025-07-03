@@ -87,3 +87,5 @@ export type TKeyValue = {
   key: string;
   value: string;
 };
+
+export type TDoDelete = (questionId: TQuestionId) => void;
