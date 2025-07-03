@@ -41,6 +41,7 @@
    */
   --transition: 300ms;
   --shadow: var(--shadow-lg);
+  --shadow-small: var(--shadow-sm)
 
   /*
    * Colors
@@ -189,7 +190,7 @@ select {
   padding: var(--padding-input);
   border: var(--border);
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--shadow-small);
   transition: var(--transition);
 
   outline: none;
@@ -228,7 +229,7 @@ textarea:read-only,
 }
 
 .is-shadow {
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--shadow-small);
 }
 
 .is-multiline {
