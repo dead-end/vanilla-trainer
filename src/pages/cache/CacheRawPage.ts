@@ -3,13 +3,14 @@ import { LocationInfo } from '../../components/LocationInfo';
 import { errorGlobal } from '../../lib/GlobalError';
 import {
   pathChaptersId,
-  pathIsBooks,
   pathIsChapters,
   pathIsQuestions,
+  pathIsValid,
   pathQuestionsId,
 } from '../../lib/location/path';
 import { cacheGetRaw } from '../../lib/remote/cache';
 import { getRouteParam } from '../../lib/route';
+import { searchGetRaw } from '../../lib/search';
 import { $ } from '../../lib/utils/query';
 import { tmplClone } from '../../lib/utils/tmpl';
 
@@ -32,23 +33,38 @@ export class CacheRawPage extends HTMLElement {
 
   async render() {
     const path = getRouteParam('path');
-
-    // TODO: Is there a better solution?
-    if (pathIsQuestions(path)) {
-      const [bookId, chapterId] = pathQuestionsId(path);
-      $<LocationInfo>('#location-info').show(bookId, chapterId);
-    } else if (pathIsChapters(path)) {
-      const bookId = pathChaptersId(path);
-      $<LocationInfo>('#location-info').show(bookId);
-    } else if (!pathIsBooks(path)) {
+    if (!pathIsValid(path)) {
       errorGlobal(`Path is not valid ${path}`);
       return;
     }
 
-    $<JsonShow>('#cache').show(path, await cacheGetRaw(path));
+    this.doCache(path);
+    this.doSearch(path);
+  }
+
+  // TODO: Is there a better solution?
+  async doCache(path: string) {
+    const location = $<LocationInfo>('#location-info');
 
     if (pathIsQuestions(path)) {
-      $<JsonShow>('#search').show(path, await cacheGetRaw(path));
+      const [bookId, chapterId] = pathQuestionsId(path);
+      location.show(bookId, chapterId);
+    } else if (pathIsChapters(path)) {
+      const bookId = pathChaptersId(path);
+      location.show(bookId);
+    } else {
+      location.hide();
     }
+
+    $<JsonShow>('#cache').show('Cache', path, await cacheGetRaw(path));
+  }
+
+  async doSearch(path: string) {
+    const jsonShow = $<JsonShow>('#search');
+    if (pathIsQuestions(path)) {
+      jsonShow.show('Search', path, await searchGetRaw(path));
+      return;
+    }
+    jsonShow.hide();
   }
 }
