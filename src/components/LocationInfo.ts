@@ -38,4 +38,8 @@ export class LocationInfo extends HTMLElement {
       $<KeyValues>('#info', this.shadowRoot).update(data);
     }
   }
+
+  hide() {
+    this.style.display = 'none';
+  }
 }
