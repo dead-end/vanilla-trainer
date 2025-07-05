@@ -34,6 +34,15 @@ export const pathIsValid = (path: string) => {
   return pathIsBooks(path) || pathIsChapters(path) || pathIsQuestions(path);
 };
 
+export const pathChaptersId = (path: string) => {
+  const re = /^books\/([^\/]+)\/chapters.json$/;
+  const match = path.match(re);
+  if (!match) {
+    throw new GlobalError(`No matches for ${path}`);
+  }
+  return match[1];
+};
+
 export const pathQuestionsId = (path: string) => {
   const re = /^books\/([^\/]+)\/questions.([^\/]+).json$/;
   const match = path.match(re);

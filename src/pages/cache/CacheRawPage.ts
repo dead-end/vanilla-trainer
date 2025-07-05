@@ -2,8 +2,10 @@ import { JsonShow } from '../../components/JsonShow';
 import { LocationInfo } from '../../components/LocationInfo';
 import { errorGlobal } from '../../lib/GlobalError';
 import {
+  pathChaptersId,
+  pathIsBooks,
+  pathIsChapters,
   pathIsQuestions,
-  pathIsValid,
   pathQuestionsId,
 } from '../../lib/location/path';
 import { cacheGetRaw } from '../../lib/remote/cache';
@@ -30,13 +32,18 @@ export class CacheRawPage extends HTMLElement {
 
   async render() {
     const path = getRouteParam('path');
-    if (!pathIsValid(path)) {
+
+    // TODO: Is there a better solution?
+    if (pathIsQuestions(path)) {
+      const [bookId, chapterId] = pathQuestionsId(path);
+      $<LocationInfo>('#location-info').show(bookId, chapterId);
+    } else if (pathIsChapters(path)) {
+      const bookId = pathChaptersId(path);
+      $<LocationInfo>('#location-info').show(bookId);
+    } else if (!pathIsBooks(path)) {
       errorGlobal(`Path is not valid ${path}`);
       return;
     }
-
-    const [bookId, chapterId] = pathQuestionsId(path);
-    $<LocationInfo>('#location-info').show(bookId, chapterId);
 
     $<JsonShow>('#cache').show(path, await cacheGetRaw(path));
 
