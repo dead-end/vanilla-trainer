@@ -1,3 +1,5 @@
+import { GlobalError } from '../GlobalError';
+
 export const pathRoot = () => {
   return 'books';
 };
@@ -30,4 +32,13 @@ export const pathIsBooks = (path: string) => {
 
 export const pathIsValid = (path: string) => {
   return pathIsBooks(path) || pathIsChapters(path) || pathIsQuestions(path);
+};
+
+export const pathQuestionsId = (path: string) => {
+  const re = /^books\/([^\/]+)\/questions.([^\/]+).json$/;
+  const match = path.match(re);
+  if (!match) {
+    throw new GlobalError(`No matches for ${path}`);
+  }
+  return [match[1], match[2]];
 };

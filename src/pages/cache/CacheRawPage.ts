@@ -1,6 +1,11 @@
 import { JsonShow } from '../../components/JsonShow';
+import { LocationInfo } from '../../components/LocationInfo';
 import { errorGlobal } from '../../lib/GlobalError';
-import { pathIsQuestions, pathIsValid } from '../../lib/location/path';
+import {
+  pathIsQuestions,
+  pathIsValid,
+  pathQuestionsId,
+} from '../../lib/location/path';
 import { cacheGetRaw } from '../../lib/remote/cache';
 import { getRouteParam } from '../../lib/route';
 import { $ } from '../../lib/utils/query';
@@ -29,6 +34,9 @@ export class CacheRawPage extends HTMLElement {
       errorGlobal(`Path is not valid ${path}`);
       return;
     }
+
+    const [bookId, chapterId] = pathQuestionsId(path);
+    $<LocationInfo>('#location-info').show(bookId, chapterId);
 
     $<JsonShow>('#cache').show(path, await cacheGetRaw(path));
 
