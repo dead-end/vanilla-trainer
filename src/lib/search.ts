@@ -105,9 +105,8 @@ export const searchIsMax = (result: TSearchResult[]) => {
  *
  * A more direct approach is to iterate through the store with the index files,
  * which assumes that the cache and the index files are complete.
- *
- * TODO: Implement this approach.
  */
+// TODO: Implement this approach.
 export const searchDo = async (str: string) => {
   const result: TSearchResult[] = [];
 
