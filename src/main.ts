@@ -28,6 +28,7 @@ import { SearchPage } from './pages/search/SearchPage';
 import { JsonShow } from './components/JsonShow';
 import { KeyValues } from './components/KeyValues';
 import { LocationInfo } from './components/LocationInfo';
+import { LessionContinue } from './components/LessionContinue';
 
 document.adoptedStyleSheets = STYLES;
 
@@ -73,6 +74,7 @@ customElements.define('question-show', QuestionShow);
 customElements.define('key-values', KeyValues);
 customElements.define('location-info', LocationInfo);
 customElements.define('json-show', JsonShow);
+customElements.define('lession-continue', LessionContinue);
 
 customElements.define('ui-field', UiField);
 customElements.define('preview-field', PreviewField);
