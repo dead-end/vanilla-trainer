@@ -14,6 +14,7 @@ export class Icons extends HTMLElement {
     start: $<HTMLTemplateElement>('#tmpl-icon-start'),
     cache: $<HTMLTemplateElement>('#tmpl-icon-cache'),
     search: $<HTMLTemplateElement>('#tmpl-icon-search'),
+    info: $<HTMLTemplateElement>('#tmpl-icon-info'),
   };
 
   static TMPL = $<HTMLTemplateElement>('#tmpl-icon');
