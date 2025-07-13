@@ -44,7 +44,7 @@ export class SearchPage extends HTMLElement {
     $<HTMLElement>('[data-id="num"]').innerText =
       results.length === 0
         ? 'Nothing found!'
-        : `Numer of results: ${results.length}`;
+        : `Numebr of results: ${results.length}`;
 
     results.forEach((r) => {
       arr.push(QuestionShow.instance(r.questId, r.quest));
