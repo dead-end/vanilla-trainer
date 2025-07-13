@@ -9,6 +9,7 @@ import {
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
 import { tmplClone } from '../lib/utils/tmpl';
+import { LocationInfo } from './LocationInfo';
 
 export class QuestionShow extends HTMLElement {
   static TMPL = $<HTMLTemplateElement>('#tmpl-question-show');
@@ -61,6 +62,7 @@ export class QuestionShow extends HTMLElement {
       this.renderDetails(this.shadowRoot, question);
       this.renderUpdateBtn(this.shadowRoot, questionId);
       this.renderDeleteBtn(this.shadowRoot, questionId);
+      this.renderLocationBtn(this.shadowRoot, questionId);
     }
   }
 
@@ -120,5 +122,23 @@ export class QuestionShow extends HTMLElement {
     } else {
       elem.style.display = 'none';
     }
+  }
+
+  // TODO: Display to LocationInfo??
+  renderLocationBtn(root: ShadowRoot, questionId: TQuestionId) {
+    $<HTMLElement>('[data-icon="info"]', root).onclick = () => {
+      const info = $<LocationInfo>('#location-info', root);
+
+      if (info.style.display === 'none') {
+        info.style.display = 'block';
+        $<LocationInfo>('#location-info', root).show(
+          questionId.bookId,
+          questionId.chapterId,
+          questionId.idx.toString()
+        );
+      } else {
+        info.style.display = 'none';
+      }
+    };
   }
 }
