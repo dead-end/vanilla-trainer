@@ -54,40 +54,13 @@ export class QuestionShow extends HTMLElement {
   ) {
     if (this.shadowRoot) {
       $('#label', this.shadowRoot).textContent = `Question: ${questionId.idx}`;
-      if (process) {
-        $(
-          '#progress',
-          this.shadowRoot
-        ).textContent = `Progress: ${process.progress} / 3`;
-      }
-
       $('#quest', this.shadowRoot).innerHTML = mdToHtml(question.quest);
       $('#answer', this.shadowRoot).innerHTML = mdToHtml(question.answer);
 
-      const details = $('#details', this.shadowRoot);
-      if (!question.details && details.parentElement) {
-        details.parentElement.style.display = 'none';
-      }
-      details.innerHTML = question.details ? mdToHtml(question.details) : '';
-
-      $<HTMLElement>('[data-icon="update"]', this.shadowRoot).onclick = () => {
-        window.location.hash = hashQuestionUpdate(
-          questionId.bookId,
-          questionId.chapterId,
-          questionId.idx
-        );
-      };
-
-      const elem = $<HTMLElement>('[data-icon="delete"]', this.shadowRoot);
-      if (this.doDelete) {
-        elem.onclick = () => {
-          if (this.doDelete) {
-            this.doDelete(questionId);
-          }
-        };
-      } else {
-        elem.style.display = 'none';
-      }
+      this.renderProgress(this.shadowRoot, process);
+      this.renderDetails(this.shadowRoot, question);
+      this.renderUpdateBtn(this.shadowRoot, questionId);
+      this.renderDeleteBtn(this.shadowRoot, questionId);
     }
   }
 
@@ -106,6 +79,46 @@ export class QuestionShow extends HTMLElement {
           ? value
           : 'none';
       }
+    }
+  }
+
+  renderProgress(root: ShadowRoot, process: TQuestionProgress | undefined) {
+    const elem = $<HTMLElement>('#progress', root);
+    if (process) {
+      elem.textContent = `Progress: ${process.progress} / 3`;
+    } else {
+      elem.style.display = 'none';
+    }
+  }
+
+  renderDetails(root: ShadowRoot, question: TQuestion) {
+    const elem = $('#details', root);
+    if (!question.details && elem.parentElement) {
+      elem.parentElement.style.display = 'none';
+    }
+    elem.innerHTML = question.details ? mdToHtml(question.details) : '';
+  }
+
+  renderUpdateBtn(root: ShadowRoot, questionId: TQuestionId) {
+    $<HTMLElement>('[data-icon="update"]', root).onclick = () => {
+      window.location.hash = hashQuestionUpdate(
+        questionId.bookId,
+        questionId.chapterId,
+        questionId.idx
+      );
+    };
+  }
+
+  renderDeleteBtn(root: ShadowRoot, questionId: TQuestionId) {
+    const elem = $<HTMLElement>('[data-icon="delete"]', root);
+    if (this.doDelete) {
+      elem.onclick = () => {
+        if (this.doDelete) {
+          this.doDelete(questionId);
+        }
+      };
+    } else {
+      elem.style.display = 'none';
     }
   }
 }
