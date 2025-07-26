@@ -39,3 +39,7 @@ To deploy to Github pages:
 npm run build
 npm run deploy
 ```
+
+## innerHtml
+
+Install VS Code extension: `es6-string-html`
