@@ -194,9 +194,14 @@ select {
   transition: var(--transition);
 
   outline: none;
+}
 
+/*
+TODO: style select box - padding is ignored
+select {
   -webkit-appearance: initial;
 }
+  */
 
 input:focus,
 textarea:focus,
