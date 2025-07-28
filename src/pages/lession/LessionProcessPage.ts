@@ -2,6 +2,8 @@ import { KeyValues } from '../../components/KeyValues';
 import { LocationInfo } from '../../components/LocationInfo';
 import { QuestionShow } from '../../components/QuestionShow';
 import { errorGlobal } from '../../lib/GlobalError';
+import { createFragment } from '../../lib/html/createFragment';
+import { html } from '../../lib/html/html';
 import { hashHome } from '../../lib/location/hash';
 import {
   lessionGetProcess,
@@ -12,31 +14,15 @@ import {
 import { questionGet } from '../../lib/model/question';
 import { TLession, TQuestionId, TQuestionProgress } from '../../lib/types';
 import { $, $$ } from '../../lib/utils/query';
-import { tmplClone } from '../../lib/utils/tmpl';
 
+// TODO: reverse does not work
 export class LessionProcessPage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#lession-process-page');
-
   lession: TLession | undefined;
   questionProgress: TQuestionProgress | undefined;
 
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      const tmpl = tmplClone(LessionProcessPage.TMPL);
-
-      [
-        { id: '#btn-show', fct: this.onShow },
-        { id: '#btn-correct', fct: this.onCorrect },
-        { id: '#btn-wrong', fct: this.onWrong },
-        { id: '#btn-skip', fct: this.onSkip },
-        { id: '#btn-learned', fct: this.onLearned },
-        { id: '#btn-stop', fct: this.onStop },
-      ].forEach((e) => {
-        $<HTMLButtonElement>(e.id, tmpl).onclick = e.fct.bind(this);
-      });
-
-      this.appendChild(tmpl);
-
+      this.appendChild(this.renderPage());
       this.load();
     }
   }
@@ -168,5 +154,42 @@ export class LessionProcessPage extends HTMLElement {
       { key: 'Learned', value: progress[3].toString() },
       { key: 'Total', value: lessionTotal2Learn(progress).toString() },
     ]);
+  }
+
+  renderPage() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Lession Process</div>
+
+        <location-info id="location-info"></location-info>
+        <key-values id="progress-info"></key-values>
+
+        <question-show id="question-show" data-show="running"></question-show>
+
+        <div class="is-row is-gap">
+          <button class="btn" id="btn-correct" data-show="show">Correct</button>
+          <button class="btn" id="btn-wrong" data-show="show">Wrong</button>
+          <button class="btn" id="btn-skip" data-show="show">Skip</button>
+          <button class="btn" id="btn-learned" data-show="show">Learned</button>
+          <button class="btn" id="btn-show" data-show="ask">Show</button>
+          <button class="btn" id="btn-stop">End</button>
+        </div>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    [
+      { id: '#btn-show', fct: this.onShow },
+      { id: '#btn-correct', fct: this.onCorrect },
+      { id: '#btn-wrong', fct: this.onWrong },
+      { id: '#btn-skip', fct: this.onSkip },
+      { id: '#btn-learned', fct: this.onLearned },
+      { id: '#btn-stop', fct: this.onStop },
+    ].forEach((e) => {
+      $<HTMLButtonElement>(e.id, frag).onclick = e.fct.bind(this);
+    });
+
+    return frag;
   }
 }
