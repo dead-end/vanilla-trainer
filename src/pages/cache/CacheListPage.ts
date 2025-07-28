@@ -1,4 +1,6 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
+import { createFragment } from '../../lib/html/createFragment';
+import { html } from '../../lib/html/html';
 import { pathIsQuestions } from '../../lib/location/path';
 import {
   entryDelete,
@@ -6,25 +8,13 @@ import {
   entryListSearch,
 } from '../../lib/persist/entry';
 import { cacheAll, cacheCheckHashes } from '../../lib/remote/cache';
-import { TSearch } from '../../lib/types';
+import { TCache, TSearch } from '../../lib/types';
 import { $ } from '../../lib/utils/query';
-import { tmplClone } from '../../lib/utils/tmpl';
 
 export class CacheListPage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#cache-page');
-  static TMPL_ROW = $<HTMLTemplateElement>('#tmpl-cache-list');
-
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      const tmpl = tmplClone(CacheListPage.TMPL);
-
-      $<HTMLButtonElement>('#cache-load', tmpl).onclick =
-        this.onCacheLoad.bind(this);
-
-      $<HTMLButtonElement>('#cache-check', tmpl).onclick =
-        this.onCacheCheck.bind(this);
-
-      this.appendChild(tmpl);
+      this.appendChild(this.renderPage());
     }
 
     this.render();
@@ -69,30 +59,12 @@ export class CacheListPage extends HTMLElement {
   async render() {
     const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
 
-    const arr: DocumentFragment[] = [];
-
     const caches = await entryListCache();
     const searches = await entryListSearch();
 
-    caches.forEach((cache) => {
-      const tmpl = tmplClone(CacheListPage.TMPL_ROW);
-
-      const search = searches.find((s) => s.path === cache.path);
-
-      $('[data-id="path"]', tmpl).textContent = cache.path;
-      $('[data-id="cache-hash"]', tmpl).textContent = this.getHash(cache.hash);
-      $('[data-id="search-hash"]', tmpl).textContent = this.getSearchHash(
-        cache.path,
-        search
-      );
-
-      $<HTMLElement>('[data-icon="delete"]', tmpl).onclick = this.onDelete(
-        confirmDialog,
-        cache.path
-      ).bind(this);
-
-      arr.push(tmpl);
-    });
+    const arr = caches.map((cache) =>
+      this.renderEntry(cache, searches, confirmDialog)
+    );
 
     $<HTMLElement>('tbody').replaceChildren(...arr);
   }
@@ -108,5 +80,71 @@ export class CacheListPage extends HTMLElement {
         }
       );
     };
+  }
+
+  renderPage() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Cache Entries</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Path</th>
+              <th>Cache Hash</th>
+              <th>Search Hash</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="is-row is-gap">
+          <a href="#/books" class="btn">Books</a>
+          <button id="cache-load" class="btn">Load</button>
+          <button id="cache-check" class="btn">Check</button>
+        </div>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    $<HTMLButtonElement>('#cache-load', frag).onclick =
+      this.onCacheLoad.bind(this);
+
+    $<HTMLButtonElement>('#cache-check', frag).onclick =
+      this.onCacheCheck.bind(this);
+
+    return frag;
+  }
+
+  renderEntry(
+    cache: TCache<any>,
+    searches: TSearch[],
+    confirmDialog: ConfirmDialog
+  ) {
+    const cacheHash = this.getHash(cache.hash);
+    const search = searches.find((s) => s.path === cache.path);
+    const searchHash = this.getSearchHash(cache.path, search);
+
+    const str = /* html */ html`
+      <tr>
+        <td>${cache.path}</td>
+        <td>${cacheHash}</td>
+        <td>${searchHash}</td>
+        <td>
+          <div class="is-row is-gap-action">
+            <ui-icons data-icon="delete"></ui-icons>
+          </div>
+        </td>
+      </tr>
+    `;
+
+    const frag = createFragment(str);
+
+    $<HTMLElement>('[data-icon="delete"]', frag).onclick = this.onDelete(
+      confirmDialog,
+      cache.path
+    ).bind(this);
+
+    return frag;
   }
 }

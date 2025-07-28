@@ -1,6 +1,8 @@
 import { JsonShow } from '../../components/JsonShow';
 import { LocationInfo } from '../../components/LocationInfo';
 import { errorGlobal } from '../../lib/GlobalError';
+import { createFragment } from '../../lib/html/createFragment';
+import { html } from '../../lib/html/html';
 import {
   pathChaptersId,
   pathIsChapters,
@@ -12,20 +14,11 @@ import { cacheGetRaw } from '../../lib/remote/cache';
 import { getRouteParam } from '../../lib/route';
 import { searchGetRaw } from '../../lib/search';
 import { $ } from '../../lib/utils/query';
-import { tmplClone } from '../../lib/utils/tmpl';
 
 export class CacheRawPage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#cache-raw-page');
-
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      const tmpl = tmplClone(CacheRawPage.TMPL);
-
-      $<HTMLButtonElement>('#btn-cancel', tmpl).onclick = () => {
-        history.back();
-      };
-
-      this.appendChild(tmpl);
+      this.appendChild(this.renderPage());
     }
 
     this.render();
@@ -66,5 +59,29 @@ export class CacheRawPage extends HTMLElement {
       return;
     }
     jsonShow.hide();
+  }
+
+  renderPage() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Cache Raw</div>
+        <location-info id="location-info"></location-info>
+
+        <json-show id="cache"></json-show>
+        <json-show id="search"></json-show>
+
+        <div class="is-row is-gap">
+          <button class="btn" id="btn-cancel">Back</button>
+        </div>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    $<HTMLButtonElement>('#btn-cancel', frag).onclick = () => {
+      history.back();
+    };
+
+    return frag;
   }
 }
