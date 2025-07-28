@@ -82,21 +82,21 @@ export class BookListPage extends HTMLElement {
       </tr>
     `;
 
-    const frac = createFragment(str);
+    const frag = createFragment(str);
 
-    $<HTMLElement>('[data-icon="delete"]', frac).onclick = this.onDelete(
+    $<HTMLElement>('[data-icon="delete"]', frag).onclick = this.onDelete(
       confirmDialog,
       book.id
     ).bind(this);
 
-    $<HTMLElement>('[data-icon="update"]', frac).onclick = () => {
+    $<HTMLElement>('[data-icon="update"]', frag).onclick = () => {
       window.location.hash = hashBookUpdate(book.id);
     };
 
-    $<HTMLElement>('[data-icon="list"]', frac).onclick = () => {
+    $<HTMLElement>('[data-icon="list"]', frag).onclick = () => {
       window.location.hash = hashChapterList(book.id);
     };
 
-    return frac;
+    return frag;
   }
 }

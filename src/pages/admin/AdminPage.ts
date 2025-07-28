@@ -96,11 +96,11 @@ export class AdminPage extends HTMLElement {
       </div>
     `;
 
-    const frac = createFragment(str);
+    const frag = createFragment(str);
 
-    $<HTMLFormElement>('form', frac).onsubmit = this.handleSubmit.bind(this);
-    $<HTMLButtonElement>('#admin-edit', frac).onclick = this.onEdit.bind(this);
+    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
+    $<HTMLButtonElement>('#admin-edit', frag).onclick = this.onEdit.bind(this);
 
-    return frac;
+    return frag;
   }
 }

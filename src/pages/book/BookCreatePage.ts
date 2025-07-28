@@ -72,10 +72,10 @@ export class BookCreatePage extends HTMLElement {
       </div>
     `;
 
-    const frac = createFragment(str);
+    const frag = createFragment(str);
 
-    $<HTMLFormElement>('form', frac).onsubmit = this.handleSubmit.bind(this);
+    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
 
-    return frac;
+    return frag;
   }
 }
