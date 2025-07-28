@@ -1,20 +1,17 @@
 import { bookGet, bookUpdate } from '../../lib/model/book';
 import { getRouteParam } from '../../lib/route';
 import { $ } from '../../lib/utils/query';
-import { tmplClone } from '../../lib/utils/tmpl';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { hashBookList } from '../../lib/location/hash';
 import { LocationInfo } from '../../components/LocationInfo';
+import { html } from '../../lib/html/html';
+import { createFragment } from '../../lib/html/createFragment';
 
 export class BookUpdatePage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#book-update-page');
-
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      const tmpl = tmplClone(BookUpdatePage.TMPL);
-      $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
-      this.appendChild(tmpl);
+      this.appendChild(this.renderPage());
     }
 
     this.render();
@@ -63,5 +60,35 @@ export class BookUpdatePage extends HTMLElement {
           button.disabled = false;
         });
     }
+  }
+
+  renderPage() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Update Book</div>
+        <location-info id="location-info"></location-info>
+        <form class="is-column is-gap">
+          <ui-field data-id="id" data-label="Id">
+            <input id="id" name="id" type="text" readonly />
+          </ui-field>
+          <ui-field data-id="title" data-label="Title">
+            <input id="title" name="title" type="text" />
+          </ui-field>
+          <ui-field data-id="desc" data-label="Description">
+            <textarea id="desc" name="desc" rows="4"></textarea>
+          </ui-field>
+          <div class="is-row is-gap">
+            <a href="#/books" class="btn">Cancel</a>
+            <button class="btn" type="submit">Update</button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    const frac = createFragment(str);
+
+    $<HTMLFormElement>('form', frac).onsubmit = this.handleSubmit.bind(this);
+
+    return frac;
   }
 }
