@@ -1,24 +1,17 @@
 import { adminLogin } from '../../lib/admin';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { $ } from '../../lib/utils/query';
-import { tmplClone } from '../../lib/utils/tmpl';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { githubConfigGet } from '../../lib/model/githubConfig';
+import { createFragment } from '../../lib/html/createFragment';
+import { html } from '../../lib/html/html';
 
 // TODO: move to admin folder and rename to ConfigPage
 
 export class AdminPage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#admin-page');
-
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      const tmpl = tmplClone(AdminPage.TMPL);
-      $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
-
-      $<HTMLButtonElement>('#admin-edit', tmpl).onclick =
-        this.onEdit.bind(this);
-
-      this.appendChild(tmpl);
+      this.appendChild(this.renderPage());
 
       document.addEventListener('logout', this.onLogout.bind(this));
     }
@@ -77,5 +70,37 @@ export class AdminPage extends HTMLElement {
 
   onLogout() {
     this.getAdmin();
+  }
+
+  renderPage() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Administration</div>
+        <form class="is-column is-gap">
+          <ui-field data-id="user" data-label="Github User">
+            <input id="user" name="user" type="text" />
+          </ui-field>
+
+          <ui-field data-id="repo" data-label="Github Repository">
+            <input id="repo" name="repo" type="text" />
+          </ui-field>
+
+          <ui-field data-id="token" data-label="Token">
+            <input id="token" name="token" type="password" />
+          </ui-field>
+          <div class="is-row is-gap">
+            <button id="admin-edit" class="btn" type="button">Edit</button>
+            <button id="admin-save" class="btn" type="submit">Save</button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    const frac = createFragment(str);
+
+    $<HTMLFormElement>('form', frac).onsubmit = this.handleSubmit.bind(this);
+    $<HTMLButtonElement>('#admin-edit', frac).onclick = this.onEdit.bind(this);
+
+    return frac;
   }
 }
