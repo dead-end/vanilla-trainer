@@ -1,20 +1,17 @@
 import { getRouteParam } from '../../lib/route';
 import { $ } from '../../lib/utils/query';
-import { tmplClone } from '../../lib/utils/tmpl';
 import { fieldGet, fieldRequired } from '../../lib/ui/field';
 import { fieldErrorExists, fieldErrorReset } from '../../lib/ui/field';
 import { chapterGet, chapterUpdate } from '../../lib/model/chapter';
 import { hashChapterList } from '../../lib/location/hash';
 import { LocationInfo } from '../../components/LocationInfo';
+import { createFragment } from '../../lib/html/createFragment';
+import { html } from '../../lib/html/html';
 
 export class ChapterUpdatePage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#chapter-update-page');
-
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      const tmpl = tmplClone(ChapterUpdatePage.TMPL);
-      $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
-      this.appendChild(tmpl);
+      this.appendChild(this.renderPage());
     }
 
     this.render();
@@ -65,5 +62,32 @@ export class ChapterUpdatePage extends HTMLElement {
           button.disabled = false;
         });
     }
+  }
+
+  renderPage() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Update Chapter</div>
+        <location-info id="location-info"></location-info>
+        <form class="is-column is-gap">
+          <ui-field data-id="id" data-label="Id">
+            <input id="id" name="id" type="text" readonly />
+          </ui-field>
+          <ui-field data-id="title" data-label="Title">
+            <input id="title" name="title" type="text" />
+          </ui-field>
+          <div class="is-row is-gap">
+            <a href="#/books" class="btn" id="chapter-list-link">Cancel</a>
+            <button class="btn" type="submit" id="btn-submit">Update</button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
+
+    return frag;
   }
 }
