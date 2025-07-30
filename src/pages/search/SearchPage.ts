@@ -12,20 +12,10 @@ import {
   fieldRequired,
 } from '../../lib/ui/field';
 import { $ } from '../../lib/utils/query';
-//import { tmplClone } from '../../lib/utils/tmpl';
 
 export class SearchPage extends HTMLElement {
-  // static TMPL = $<HTMLTemplateElement>('#search-page');
-
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      /*
-      const tmpl = tmplClone(SearchPage.TMPL);
-
-      $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
-
-      this.appendChild(tmpl);
-      */
       this.appendChild(this.renderPage());
     }
 
