@@ -1,13 +1,18 @@
-import { $ } from '../lib/utils/query';
-import { tmplClone } from '../lib/utils/tmpl';
+import { createFragment } from '../lib/html/createFragment';
+import { html } from '../lib/html/html';
 
 export class NotFoundPage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#not-found-page');
-
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      const tmpl = tmplClone(NotFoundPage.TMPL);
-      this.appendChild(tmpl);
+      this.appendChild(this.renderPage());
     }
+  }
+
+  renderPage() {
+    const str = /* html */ html`
+      <div class="page-title">Page not found</div>
+      <p class="is-error">Sorry, the page was not found!</p>
+    `;
+    return createFragment(str);
   }
 }

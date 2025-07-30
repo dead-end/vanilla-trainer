@@ -1,4 +1,6 @@
 import { QuestionShow } from '../../components/QuestionShow';
+import { createFragment } from '../../lib/html/createFragment';
+import { html } from '../../lib/html/html';
 import { hashSearch } from '../../lib/location/hash';
 import { getRouteParam } from '../../lib/route';
 import { searchDo } from '../../lib/search';
@@ -10,18 +12,21 @@ import {
   fieldRequired,
 } from '../../lib/ui/field';
 import { $ } from '../../lib/utils/query';
-import { tmplClone } from '../../lib/utils/tmpl';
+//import { tmplClone } from '../../lib/utils/tmpl';
 
 export class SearchPage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#search-page');
+  // static TMPL = $<HTMLTemplateElement>('#search-page');
 
   connectedCallback() {
     if (!this.hasChildNodes()) {
+      /*
       const tmpl = tmplClone(SearchPage.TMPL);
 
       $<HTMLFormElement>('form', tmpl).onsubmit = this.handleSubmit.bind(this);
 
       this.appendChild(tmpl);
+      */
+      this.appendChild(this.renderPage());
     }
 
     this.render();
@@ -66,5 +71,33 @@ export class SearchPage extends HTMLElement {
     if (!fieldErrorExists(form)) {
       window.location.hash = hashSearch(encodeURI(search.value));
     }
+  }
+
+  renderPage() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Search</div>
+        <form class="is-column is-gap">
+          <ui-field data-id="search" data-label="Search text">
+            <input id="search" name="search" type="text" />
+          </ui-field>
+
+          <div class="is-row is-gap">
+            <button class="btn" type="submit">Search</button>
+          </div>
+        </form>
+        <div
+          data-id="num"
+          class="is-text-bold is-text-right is-text-small"
+        ></div>
+        <div data-id="questions"></div>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
+
+    return frag;
   }
 }
