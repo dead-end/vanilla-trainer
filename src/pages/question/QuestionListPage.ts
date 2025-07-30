@@ -1,6 +1,8 @@
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { LocationInfo } from '../../components/LocationInfo';
 import { QuestionShow } from '../../components/QuestionShow';
+import { createFragment } from '../../lib/html/createFragment';
+import { html } from '../../lib/html/html';
 import {
   hashCache,
   hashChapterList,
@@ -11,15 +13,11 @@ import { questionDelete, questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
 import { TQuestionId } from '../../lib/types';
 import { $ } from '../../lib/utils/query';
-import { tmplClone } from '../../lib/utils/tmpl';
 
 export class QuestionListPage extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#question-list-page');
-
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      const tmpl = tmplClone(QuestionListPage.TMPL);
-      this.appendChild(tmpl);
+      this.appendChild(this.renderPage());
     }
 
     this.render();
@@ -76,5 +74,22 @@ export class QuestionListPage extends HTMLElement {
         this.render();
       });
     };
+  }
+
+  renderPage() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Question List</div>
+        <location-info id="location-info"></location-info>
+        <div data-id="questions"></div>
+        <div class="is-row is-gap-action">
+          <a href="#" class="btn" id="chapter-list-link">Chapters</a>
+          <a href="#" class="btn" id="question-create-link">Create</a>
+          <a href="#" class="btn" id="question-cache-link">Cache</a>
+        </div>
+      </div>
+    `;
+
+    return createFragment(str);
   }
 }
