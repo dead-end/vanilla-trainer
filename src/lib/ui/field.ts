@@ -36,7 +36,7 @@ export const fieldRequired = (root: HTMLElement, field: TField) => {
 };
 
 export const fieldId = (root: HTMLElement, field: TField) => {
-  if (!/^[-_a-zA-Z0-9]+$/.test(field.value)) {
+  if (!/^[-_a-zA-Z0-9.]+$/.test(field.value)) {
     fieldErrorSet(root, field.id, 'Please enter an id value!');
     return false;
   }
