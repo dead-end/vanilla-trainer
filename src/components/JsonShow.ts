@@ -1,17 +1,14 @@
+import { createFragment } from '../lib/html/createFragment';
+import { html } from '../lib/html/html';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
-import { tmplClone } from '../lib/utils/tmpl';
 
 export class JsonShow extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#tmpl-json-show');
-
   connectedCallback() {
     if (!this.shadowRoot) {
-      const tmpl = tmplClone(JsonShow.TMPL);
-
       const shadow = this.attachShadow({ mode: 'open' });
       shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(tmpl);
+      shadow.appendChild(this.renderComponent());
     }
   }
 
@@ -28,5 +25,26 @@ export class JsonShow extends HTMLElement {
 
   hide() {
     this.style.display = 'none';
+  }
+
+  renderComponent() {
+    const str = /* html */ html`
+      <style>
+        code {
+          white-space: pre;
+        }
+      </style>
+
+      <div class="is-column is-gap-small" id="wrapper" style="display: none">
+        <div class="is-text-bold" id="title"></div>
+        <div>
+          <span class="is-key">Path</span>
+          <span class="is-value" id="path"></span>
+        </div>
+        <code class="is-border is-shadow is-padding-input" id="content"></code>
+      </div>
+    `;
+
+    return createFragment(str);
   }
 }
