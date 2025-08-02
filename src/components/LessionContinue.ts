@@ -1,23 +1,16 @@
+import { createFragment } from '../lib/html/createFragment';
+import { html } from '../lib/html/html';
 import { hashLessionProcess } from '../lib/location/hash';
 import { lessionExists, lessionRemove } from '../lib/model/lession';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
-import { tmplClone } from '../lib/utils/tmpl';
 
 export class LessionContinue extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#tmpl-lession-continue');
-
   connectedCallback() {
     if (!this.shadowRoot) {
-      const tmpl = tmplClone(LessionContinue.TMPL);
-
-      $<HTMLButtonElement>('#btn-continue', tmpl).onclick =
-        this.onContinue.bind(this);
-      $<HTMLButtonElement>('#btn-end', tmpl).onclick = this.onEnd.bind(this);
-
       const shadow = this.attachShadow({ mode: 'open' });
       shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(tmpl);
+      shadow.appendChild(this.renderComponent());
     }
 
     this.render();
@@ -38,5 +31,21 @@ export class LessionContinue extends HTMLElement {
   onEnd() {
     lessionRemove();
     this.style.display = 'none';
+  }
+
+  renderComponent() {
+    const str = /* html */ html`
+      <div class="is-row is-gap">
+        <button class="btn" id="btn-continue">Continue</button>
+        <button class="btn" id="btn-end">End</button>
+      </div>
+    `;
+    const frag = createFragment(str);
+
+    $<HTMLButtonElement>('#btn-continue', frag).onclick =
+      this.onContinue.bind(this);
+    $<HTMLButtonElement>('#btn-end', frag).onclick = this.onEnd.bind(this);
+
+    return frag;
   }
 }
