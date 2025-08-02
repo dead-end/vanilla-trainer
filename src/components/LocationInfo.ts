@@ -1,21 +1,18 @@
+import { createFragment } from '../lib/html/createFragment';
+import { html } from '../lib/html/html';
 import { bookGet } from '../lib/model/book';
 import { chapterGet } from '../lib/model/chapter';
 import { TKeyValue } from '../lib/types';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
-import { tmplClone } from '../lib/utils/tmpl';
 import { KeyValues } from './KeyValues';
 
 export class LocationInfo extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#tmpl-location-info');
-
   connectedCallback() {
     if (!this.shadowRoot) {
-      const tmpl = tmplClone(LocationInfo.TMPL);
-
       const shadow = this.attachShadow({ mode: 'open' });
       shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(tmpl);
+      shadow.appendChild(this.renderComponent());
     }
   }
 
@@ -41,5 +38,11 @@ export class LocationInfo extends HTMLElement {
 
   hide() {
     this.style.display = 'none';
+  }
+
+  renderComponent() {
+    const str = /* html */ html` <key-values id="info"></key-values> `;
+
+    return createFragment(str);
   }
 }
