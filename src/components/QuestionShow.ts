@@ -1,3 +1,5 @@
+import { createFragment } from '../lib/html/createFragment';
+import { html } from '../lib/html/html';
 import { hashQuestionUpdate } from '../lib/location/hash';
 import { mdToHtml } from '../lib/markdown';
 import {
@@ -8,12 +10,9 @@ import {
 } from '../lib/types';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
-import { tmplClone } from '../lib/utils/tmpl';
 import { LocationInfo } from './LocationInfo';
 
 export class QuestionShow extends HTMLElement {
-  static TMPL = $<HTMLTemplateElement>('#tmpl-question-show');
-
   questionId: TQuestionId | undefined;
   question: TQuestion | undefined;
   doDelete: TDoDelete | undefined;
@@ -32,14 +31,12 @@ export class QuestionShow extends HTMLElement {
 
   connectedCallback() {
     if (!this.shadowRoot) {
-      const tmpl = tmplClone(QuestionShow.TMPL);
-
       const shadow = this.attachShadow({ mode: 'open' });
       shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(tmpl);
+      shadow.appendChild(this.renderComponent());
 
       if (this.questionId && this.question) {
-        this.render(this.questionId, this.question);
+        this.renderQuestion(this.questionId, this.question);
       }
     }
   }
@@ -48,7 +45,7 @@ export class QuestionShow extends HTMLElement {
    * The function uses questionId and question as parameters. This ensures that
    * both are not undefined.
    */
-  render(
+  renderQuestion(
     questionId: TQuestionId,
     question: TQuestion,
     process?: TQuestionProgress
@@ -140,5 +137,53 @@ export class QuestionShow extends HTMLElement {
         info.style.display = 'none';
       }
     };
+  }
+
+  renderComponent() {
+    const str = /* html */ html`
+      <style>
+        .label {
+          font-weight: bold;
+          padding-bottom: 0.5rem;
+        }
+      </style>
+      <div class="is-column is-gap-small">
+        <location-info id="location-info" style="display: none"></location-info>
+        <div class="is-grid-3">
+          <div class="is-column">
+            <div class="is-row is-space-between">
+              <div class="label" id="label">Question</div>
+              <div id="progress"></div>
+            </div>
+            <div
+              id="quest"
+              class="is-border is-shadow is-padding-input is-multiline is-grow"
+            ></div>
+          </div>
+          <div class="is-column">
+            <div class="label">Answer</div>
+            <div
+              id="answer"
+              class="is-border is-shadow is-padding-input is-multiline is-grow"
+            ></div>
+          </div>
+          <div class="is-column">
+            <div class="label">Details</div>
+            <div
+              id="details"
+              class="is-border is-shadow is-padding-input is-multiline is-grow"
+            ></div>
+          </div>
+        </div>
+
+        <div class="is-row is-end is-gap-small">
+          <ui-icons data-icon="delete"></ui-icons>
+          <ui-icons data-icon="update"></ui-icons>
+          <ui-icons data-icon="info"></ui-icons>
+        </div>
+      </div>
+    `;
+
+    return createFragment(str);
   }
 }

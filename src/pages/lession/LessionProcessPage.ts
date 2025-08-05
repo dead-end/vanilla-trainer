@@ -143,7 +143,11 @@ export class LessionProcessPage extends HTMLElement {
       questionId.chapterId,
       questionId.idx
     );
-    $<QuestionShow>('#question-show').render(questionId, question, progress);
+    $<QuestionShow>('#question-show').renderQuestion(
+      questionId,
+      question,
+      progress
+    );
   }
 
   addProgressInfo(progress: number[]) {
