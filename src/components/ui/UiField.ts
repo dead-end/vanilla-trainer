@@ -1,23 +1,16 @@
+import { createFragment } from '../../lib/html/createFragment';
+import { html } from '../../lib/html/html';
 import { STYLES } from '../../lib/ui/stylesheets';
 import { $ } from '../../lib/utils/query';
-import { tmplClone } from '../../lib/utils/tmpl';
 
 export class UiField extends HTMLElement {
   static observedAttributes = ['data-error'];
-  static TMPL = $<HTMLTemplateElement>('#tmpl-ui-field');
 
   connectedCallback() {
     if (!this.shadowRoot) {
-      const id = this.getAttribute('data-id') || 'no-id';
-
-      const tmpl = tmplClone(UiField.TMPL);
-      const label = $<HTMLLabelElement>('label', tmpl);
-      label.htmlFor = id;
-      label.textContent = this.getAttribute('data-label') || 'no-label';
-
       const shadow = this.attachShadow({ mode: 'open' });
       shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(tmpl);
+      shadow.appendChild(this.renderComponent());
     }
   }
 
@@ -27,5 +20,26 @@ export class UiField extends HTMLElement {
         $<HTMLElement>('#error', this.shadowRoot).textContent = newValue;
       }
     }
+  }
+
+  renderComponent() {
+    const str = /* html */ html`
+      <div class="is-column is-gap-small">
+        <label class="is-small is-text-bold" for="default-id"
+          >Default Label</label
+        >
+        <slot></slot>
+        <p class="is-error is-small" id="error"></p>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    const id = this.getAttribute('data-id') || 'no-id';
+    const label = $<HTMLLabelElement>('label', frag);
+    label.htmlFor = id;
+    label.textContent = this.getAttribute('data-label') || 'no-label';
+
+    return frag;
   }
 }
