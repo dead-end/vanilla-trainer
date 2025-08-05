@@ -2,23 +2,16 @@ import { createFragment } from '../lib/html/createFragment';
 import { html } from '../lib/html/html';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
-//import { tmplClone } from '../lib/utils/tmpl';
 
 export class ConfirmDialog extends HTMLElement {
-  //static TMPL = $<HTMLTemplateElement>('#tmpl-confirm-dialog');
   fct: (() => Promise<void>) | undefined;
 
   connectedCallback() {
     if (!this.shadowRoot) {
-      //  const tmpl = tmplClone(ConfirmDialog.TMPL);
-
       const shadow = this.attachShadow({ mode: 'open' });
       shadow.adoptedStyleSheets = STYLES;
       shadow.appendChild(this.renderComponent());
-      /*
-      $<HTMLElement>('#btn-cancel', shadow).onclick = this.onCancel.bind(this);
-      $<HTMLElement>('#btn-ok', shadow).onclick = this.onOk.bind(this);
-*/
+
       this.style.display = 'none';
     }
   }
