@@ -4,11 +4,11 @@ import { html } from '../lib/html/html';
 export class IndexPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(this.renderComponent());
     }
   }
 
-  renderPage() {
+  renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Welcome to Vanilla Trainer</div>

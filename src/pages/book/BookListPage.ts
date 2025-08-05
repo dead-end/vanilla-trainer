@@ -9,39 +9,12 @@ import { createFragment } from '../../lib/html/createFragment';
 export class BookListPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(this.renderComponent());
     }
-    this.render();
+    this.updateComponent();
   }
 
-  async render() {
-    const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
-
-    const frags = (await bookListing()).map((b) =>
-      this.renderBook(b, confirmDialog)
-    );
-
-    $<HTMLElement>('tbody').replaceChildren(...frags);
-  }
-
-  onDelete(confirmDialog: ConfirmDialog, bookId: string) {
-    return () => {
-      confirmDialog.activate(
-        'Delete Book',
-        `Do you realy want to delete the book: ${bookId}?`,
-        this.getDeleteFct(bookId)
-      );
-    };
-  }
-
-  getDeleteFct(bookId: string) {
-    return async () => {
-      await bookDelete(bookId);
-      this.render();
-    };
-  }
-
-  renderPage() {
+  renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Book List</div>
@@ -64,6 +37,33 @@ export class BookListPage extends HTMLElement {
     `;
 
     return createFragment(str);
+  }
+
+  async updateComponent() {
+    const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
+
+    const frags = (await bookListing()).map((b) =>
+      this.renderBook(b, confirmDialog)
+    );
+
+    $<HTMLElement>('tbody').replaceChildren(...frags);
+  }
+
+  onDelete(confirmDialog: ConfirmDialog, bookId: string) {
+    return () => {
+      confirmDialog.activate(
+        'Delete Book',
+        `Do you realy want to delete the book: ${bookId}?`,
+        this.getDeleteFct(bookId)
+      );
+    };
+  }
+
+  getDeleteFct(bookId: string) {
+    return async () => {
+      await bookDelete(bookId);
+      this.updateComponent();
+    };
   }
 
   renderBook(book: TBook, confirmDialog: ConfirmDialog) {

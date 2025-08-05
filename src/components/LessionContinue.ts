@@ -13,24 +13,7 @@ export class LessionContinue extends HTMLElement {
       shadow.appendChild(this.renderComponent());
     }
 
-    this.render();
-  }
-
-  render() {
-    if (lessionExists()) {
-      this.style.display = 'block';
-    } else {
-      this.style.display = 'none';
-    }
-  }
-
-  onContinue() {
-    window.location.hash = hashLessionProcess();
-  }
-
-  onEnd() {
-    lessionRemove();
-    this.style.display = 'none';
+    this.updateComponent();
   }
 
   renderComponent() {
@@ -47,5 +30,22 @@ export class LessionContinue extends HTMLElement {
     $<HTMLButtonElement>('#btn-end', frag).onclick = this.onEnd.bind(this);
 
     return frag;
+  }
+
+  updateComponent() {
+    if (lessionExists()) {
+      this.style.display = 'block';
+    } else {
+      this.style.display = 'none';
+    }
+  }
+
+  onContinue() {
+    window.location.hash = hashLessionProcess();
+  }
+
+  onEnd() {
+    lessionRemove();
+    this.style.display = 'none';
   }
 }

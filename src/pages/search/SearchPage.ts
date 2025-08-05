@@ -16,13 +16,41 @@ import { $ } from '../../lib/utils/query';
 export class SearchPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(this.renderComponent());
     }
 
-    this.render();
+    this.updateComponent();
   }
 
-  async render() {
+  renderComponent() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Search</div>
+        <form class="is-column is-gap">
+          <ui-field data-id="search" data-label="Search text">
+            <input id="search" name="search" type="text" />
+          </ui-field>
+
+          <div class="is-row is-gap">
+            <button class="btn" type="submit">Search</button>
+          </div>
+        </form>
+        <div
+          data-id="num"
+          class="is-text-bold is-text-right is-text-small"
+        ></div>
+        <div data-id="questions"></div>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
+
+    return frag;
+  }
+
+  async updateComponent() {
     const searchRaw = getRouteParam('searchStr');
     if (!searchRaw) {
       return;
@@ -61,33 +89,5 @@ export class SearchPage extends HTMLElement {
     if (!fieldErrorExists(form)) {
       window.location.hash = hashSearch(encodeURI(search.value));
     }
-  }
-
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Search</div>
-        <form class="is-column is-gap">
-          <ui-field data-id="search" data-label="Search text">
-            <input id="search" name="search" type="text" />
-          </ui-field>
-
-          <div class="is-row is-gap">
-            <button class="btn" type="submit">Search</button>
-          </div>
-        </form>
-        <div
-          data-id="num"
-          class="is-text-bold is-text-right is-text-small"
-        ></div>
-        <div data-id="questions"></div>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
-
-    return frag;
   }
 }

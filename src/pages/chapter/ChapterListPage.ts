@@ -18,13 +18,41 @@ import { $ } from '../../lib/utils/query';
 export class ChapterListPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(this.renderComponent());
     }
 
-    this.render();
+    this.updateComponent();
   }
 
-  async render() {
+  renderComponent() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Chapter List</div>
+        <location-info id="location-info"></location-info>
+        <table>
+          <thead>
+            <tr>
+              <th class="is-larger-sm">Id</th>
+              <th>Title</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="is-row is-gap">
+          <a href="#/books" class="btn">Books</a>
+          <a href="#" class="btn" id="chapter-create-link">Create</a>
+          <a href="#/" class="btn" id="chapter-cache-link">Cache</a>
+        </div>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    return frag;
+  }
+
+  async updateComponent() {
     const bookId = getRouteParam('bookId');
     const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
 
@@ -64,37 +92,9 @@ export class ChapterListPage extends HTMLElement {
   getDeleteFct(bookId: string, chapterId: string) {
     return async () => {
       chapterDelete(bookId, chapterId).then(() => {
-        this.render();
+        this.updateComponent();
       });
     };
-  }
-
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Chapter List</div>
-        <location-info id="location-info"></location-info>
-        <table>
-          <thead>
-            <tr>
-              <th class="is-larger-sm">Id</th>
-              <th>Title</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div class="is-row is-gap">
-          <a href="#/books" class="btn">Books</a>
-          <a href="#" class="btn" id="chapter-create-link">Create</a>
-          <a href="#/" class="btn" id="chapter-cache-link">Cache</a>
-        </div>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    return frag;
   }
 
   renderEntry(bookId: string, chap: TChapter, confirmDialog: ConfirmDialog) {

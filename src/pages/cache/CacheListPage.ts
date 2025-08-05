@@ -14,75 +14,13 @@ import { $ } from '../../lib/utils/query';
 export class CacheListPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(this.renderComponent());
     }
 
-    this.render();
+    this.updateComponent();
   }
 
-  onCacheLoad() {
-    $<ConfirmDialog>('#confirm-dialog').activate(
-      'Load Cache',
-      'Do you realy want to load all files?',
-      async () => {
-        await cacheAll();
-        this.render();
-      }
-    );
-  }
-
-  onCacheCheck() {
-    $<ConfirmDialog>('#confirm-dialog').activate(
-      'Check Cache',
-      'Do you realy want to check all files?',
-      async () => {
-        await cacheCheckHashes();
-        this.render();
-      }
-    );
-  }
-
-  getHash(hash: string) {
-    return hash.substring(0, 6);
-  }
-
-  getSearchHash(path: string, search: TSearch | undefined) {
-    if (!pathIsQuestions(path)) {
-      return '';
-    }
-    if (search) {
-      return this.getHash(search.hash);
-    }
-    return 'missing';
-  }
-
-  async render() {
-    const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
-
-    const caches = await entryListCache();
-    const searches = await entryListSearch();
-
-    const arr = caches.map((cache) =>
-      this.renderEntry(cache, searches, confirmDialog)
-    );
-
-    $<HTMLElement>('tbody').replaceChildren(...arr);
-  }
-
-  onDelete(confirmDialog: ConfirmDialog, path: string) {
-    return () => {
-      confirmDialog.activate(
-        'Delete Cache Entry',
-        `Do you realy want to delete the cache entry: ${path}?`,
-        async () => {
-          await entryDelete(path, pathIsQuestions(path));
-          this.render();
-        }
-      );
-    };
-  }
-
-  renderPage() {
+  renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Cache Entries</div>
@@ -114,6 +52,68 @@ export class CacheListPage extends HTMLElement {
       this.onCacheCheck.bind(this);
 
     return frag;
+  }
+
+  async updateComponent() {
+    const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
+
+    const caches = await entryListCache();
+    const searches = await entryListSearch();
+
+    const arr = caches.map((cache) =>
+      this.renderEntry(cache, searches, confirmDialog)
+    );
+
+    $<HTMLElement>('tbody').replaceChildren(...arr);
+  }
+
+  onCacheLoad() {
+    $<ConfirmDialog>('#confirm-dialog').activate(
+      'Load Cache',
+      'Do you realy want to load all files?',
+      async () => {
+        await cacheAll();
+        this.updateComponent();
+      }
+    );
+  }
+
+  onCacheCheck() {
+    $<ConfirmDialog>('#confirm-dialog').activate(
+      'Check Cache',
+      'Do you realy want to check all files?',
+      async () => {
+        await cacheCheckHashes();
+        this.updateComponent();
+      }
+    );
+  }
+
+  getHash(hash: string) {
+    return hash.substring(0, 6);
+  }
+
+  getSearchHash(path: string, search: TSearch | undefined) {
+    if (!pathIsQuestions(path)) {
+      return '';
+    }
+    if (search) {
+      return this.getHash(search.hash);
+    }
+    return 'missing';
+  }
+
+  onDelete(confirmDialog: ConfirmDialog, path: string) {
+    return () => {
+      confirmDialog.activate(
+        'Delete Cache Entry',
+        `Do you realy want to delete the cache entry: ${path}?`,
+        async () => {
+          await entryDelete(path, pathIsQuestions(path));
+          this.updateComponent();
+        }
+      );
+    };
   }
 
   renderEntry(

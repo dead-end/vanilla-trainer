@@ -17,13 +17,30 @@ import { $ } from '../../lib/utils/query';
 export class QuestionListPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(this.renderComponent());
     }
 
-    this.render();
+    this.updateComponent();
   }
 
-  async render() {
+  renderComponent() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Question List</div>
+        <location-info id="location-info"></location-info>
+        <div data-id="questions"></div>
+        <div class="is-row is-gap-action">
+          <a href="#" class="btn" id="chapter-list-link">Chapters</a>
+          <a href="#" class="btn" id="question-create-link">Create</a>
+          <a href="#" class="btn" id="question-cache-link">Cache</a>
+        </div>
+      </div>
+    `;
+
+    return createFragment(str);
+  }
+
+  async updateComponent() {
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
 
     $<LocationInfo>('#location-info').show(bookId, chapterId);
@@ -71,25 +88,8 @@ export class QuestionListPage extends HTMLElement {
         questionId.chapterId,
         questionId.idx
       ).then(() => {
-        this.render();
+        this.updateComponent();
       });
     };
-  }
-
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Question List</div>
-        <location-info id="location-info"></location-info>
-        <div data-id="questions"></div>
-        <div class="is-row is-gap-action">
-          <a href="#" class="btn" id="chapter-list-link">Chapters</a>
-          <a href="#" class="btn" id="question-create-link">Create</a>
-          <a href="#" class="btn" id="question-cache-link">Cache</a>
-        </div>
-      </div>
-    `;
-
-    return createFragment(str);
   }
 }

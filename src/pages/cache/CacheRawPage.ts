@@ -18,13 +18,37 @@ import { $ } from '../../lib/utils/query';
 export class CacheRawPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(this.renderComponent());
     }
 
-    this.render();
+    this.updateComponent();
   }
 
-  async render() {
+  renderComponent() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Cache Raw</div>
+        <location-info id="location-info"></location-info>
+
+        <json-show id="cache"></json-show>
+        <json-show id="search"></json-show>
+
+        <div class="is-row is-gap">
+          <button class="btn" id="btn-cancel">Back</button>
+        </div>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    $<HTMLButtonElement>('#btn-cancel', frag).onclick = () => {
+      history.back();
+    };
+
+    return frag;
+  }
+
+  async updateComponent() {
     const path = getRouteParam('path');
     if (!pathIsValid(path)) {
       errorGlobal(`Path is not valid ${path}`);
@@ -59,29 +83,5 @@ export class CacheRawPage extends HTMLElement {
       return;
     }
     jsonShow.hide();
-  }
-
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Cache Raw</div>
-        <location-info id="location-info"></location-info>
-
-        <json-show id="cache"></json-show>
-        <json-show id="search"></json-show>
-
-        <div class="is-row is-gap">
-          <button class="btn" id="btn-cancel">Back</button>
-        </div>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    $<HTMLButtonElement>('#btn-cancel', frag).onclick = () => {
-      history.back();
-    };
-
-    return frag;
   }
 }

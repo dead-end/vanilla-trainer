@@ -9,8 +9,37 @@ import { createFragment } from '../../lib/html/createFragment';
 export class BookCreatePage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(this.renderComponent());
     }
+  }
+
+  renderComponent() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Create Book</div>
+        <form class="is-column is-gap">
+          <ui-field data-id="id" data-label="Id">
+            <input id="id" name="id" type="text" />
+          </ui-field>
+          <ui-field data-id="title" data-label="Title">
+            <input id="title" name="title" type="text" />
+          </ui-field>
+          <ui-field data-id="desc" data-label="Description">
+            <textarea id="desc" name="desc" rows="4"></textarea>
+          </ui-field>
+          <div class="is-row is-gap">
+            <a href="#/books" class="btn">Cancel</a>
+            <button class="btn" type="submit">Create</button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
+
+    return frag;
   }
 
   async handleSubmit(e: SubmitEvent) {
@@ -48,34 +77,5 @@ export class BookCreatePage extends HTMLElement {
           button.disabled = false;
         });
     }
-  }
-
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Create Book</div>
-        <form class="is-column is-gap">
-          <ui-field data-id="id" data-label="Id">
-            <input id="id" name="id" type="text" />
-          </ui-field>
-          <ui-field data-id="title" data-label="Title">
-            <input id="title" name="title" type="text" />
-          </ui-field>
-          <ui-field data-id="desc" data-label="Description">
-            <textarea id="desc" name="desc" rows="4"></textarea>
-          </ui-field>
-          <div class="is-row is-gap">
-            <a href="#/books" class="btn">Cancel</a>
-            <button class="btn" type="submit">Create</button>
-          </div>
-        </form>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
-
-    return frag;
   }
 }

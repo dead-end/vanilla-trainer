@@ -15,13 +15,51 @@ import { $ } from '../../lib/utils/query';
 export class LessionPreparePage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(this.renderComponent());
     }
 
-    this.render();
+    this.updateComponent();
   }
 
-  async render() {
+  renderComponent() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Lession prepare</div>
+
+        <key-values id="lession-info"></key-values>
+
+        <form class="is-column is-gap">
+          <ui-field data-id="correct" data-label="Correct Answers">
+            <select name="correct" id="correct">
+              <option value="0">0</option>
+              <option value="1" selected>1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </ui-field>
+          <ui-field data-id="reverse" data-label="Reverse Answers">
+            <select name="reverse" id="reverse">
+              <option value="true">True</option>
+              <option value="false" selected>False</option>
+            </select>
+          </ui-field>
+
+          <div class="is-row is-gap">
+            <a href="#" class="btn" id="chapter-list-link">Cancel</a>
+            <button class="btn" type="submit" id="btn-start">Start</button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
+
+    return frag;
+  }
+
+  async updateComponent() {
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
 
     const questions = await questionListing(bookId, chapterId);
@@ -74,43 +112,5 @@ export class LessionPreparePage extends HTMLElement {
       { key: 'Chapter', value: chapter.title },
       { key: 'Length', value: questions.length.toString() },
     ]);
-  }
-
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Lession prepare</div>
-
-        <key-values id="lession-info"></key-values>
-
-        <form class="is-column is-gap">
-          <ui-field data-id="correct" data-label="Correct Answers">
-            <select name="correct" id="correct">
-              <option value="0">0</option>
-              <option value="1" selected>1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          </ui-field>
-          <ui-field data-id="reverse" data-label="Reverse Answers">
-            <select name="reverse" id="reverse">
-              <option value="true">True</option>
-              <option value="false" selected>False</option>
-            </select>
-          </ui-field>
-
-          <div class="is-row is-gap">
-            <a href="#" class="btn" id="chapter-list-link">Cancel</a>
-            <button class="btn" type="submit" id="btn-start">Start</button>
-          </div>
-        </form>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
-
-    return frag;
   }
 }

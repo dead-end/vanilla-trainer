@@ -11,13 +11,45 @@ import { html } from '../../lib/html/html';
 export class AdminPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(this.renderComponent());
 
       document.addEventListener('logout', this.onLogout.bind(this));
     }
 
     this.getAdmin();
     this.setEdit(false);
+  }
+
+  renderComponent() {
+    const str = /* html */ html`
+      <div class="is-column is-gap">
+        <div class="page-title">Administration</div>
+        <form class="is-column is-gap">
+          <ui-field data-id="user" data-label="Github User">
+            <input id="user" name="user" type="text" />
+          </ui-field>
+
+          <ui-field data-id="repo" data-label="Github Repository">
+            <input id="repo" name="repo" type="text" />
+          </ui-field>
+
+          <ui-field data-id="token" data-label="Token">
+            <input id="token" name="token" type="password" />
+          </ui-field>
+          <div class="is-row is-gap">
+            <button id="admin-edit" class="btn" type="button">Edit</button>
+            <button id="admin-save" class="btn" type="submit">Save</button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    const frag = createFragment(str);
+
+    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
+    $<HTMLButtonElement>('#admin-edit', frag).onclick = this.onEdit.bind(this);
+
+    return frag;
   }
 
   handleSubmit(e: SubmitEvent) {
@@ -70,37 +102,5 @@ export class AdminPage extends HTMLElement {
 
   onLogout() {
     this.getAdmin();
-  }
-
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Administration</div>
-        <form class="is-column is-gap">
-          <ui-field data-id="user" data-label="Github User">
-            <input id="user" name="user" type="text" />
-          </ui-field>
-
-          <ui-field data-id="repo" data-label="Github Repository">
-            <input id="repo" name="repo" type="text" />
-          </ui-field>
-
-          <ui-field data-id="token" data-label="Token">
-            <input id="token" name="token" type="password" />
-          </ui-field>
-          <div class="is-row is-gap">
-            <button id="admin-edit" class="btn" type="button">Edit</button>
-            <button id="admin-save" class="btn" type="submit">Save</button>
-          </div>
-        </form>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
-    $<HTMLButtonElement>('#admin-edit', frag).onclick = this.onEdit.bind(this);
-
-    return frag;
   }
 }
