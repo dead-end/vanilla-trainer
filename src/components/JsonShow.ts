@@ -12,21 +12,6 @@ export class JsonShow extends HTMLElement {
     }
   }
 
-  show(title: string, path: string, content: string) {
-    if (this.shadowRoot) {
-      // TODO: why set fley? not static?
-      $<HTMLElement>('#wrapper', this.shadowRoot).style.display = 'flex';
-
-      $<HTMLElement>('#title', this.shadowRoot).innerText = title;
-      $<HTMLElement>('#path', this.shadowRoot).innerText = path;
-      $<HTMLElement>('#content', this.shadowRoot).innerText = content;
-    }
-  }
-
-  hide() {
-    this.style.display = 'none';
-  }
-
   renderComponent() {
     const str = /* html */ html`
       <style>
@@ -46,5 +31,20 @@ export class JsonShow extends HTMLElement {
     `;
 
     return createFragment(str);
+  }
+
+  show(title: string, path: string, content: string) {
+    if (this.shadowRoot) {
+      // Default is display: none if cache has no search index
+      $<HTMLElement>('#wrapper', this.shadowRoot).style.display = 'flex';
+
+      $<HTMLElement>('#title', this.shadowRoot).innerText = title;
+      $<HTMLElement>('#path', this.shadowRoot).innerText = path;
+      $<HTMLElement>('#content', this.shadowRoot).innerText = content;
+    }
+  }
+
+  hide() {
+    this.style.display = 'none';
   }
 }
