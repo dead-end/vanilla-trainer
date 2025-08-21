@@ -3,6 +3,7 @@ import { html } from '../lib/html/html';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
 
+// TODO: use dialog tag
 export class ConfirmDialog extends HTMLElement {
   fct: (() => Promise<void>) | undefined;
 
@@ -13,32 +14,6 @@ export class ConfirmDialog extends HTMLElement {
       shadow.appendChild(this.renderComponent());
 
       this.style.display = 'none';
-    }
-  }
-
-  onCancel() {
-    if (this.shadowRoot) {
-      this.style.display = 'none';
-    }
-  }
-
-  async onOk() {
-    if (this.shadowRoot && this.fct) {
-      const btn = $<HTMLButtonElement>('#btn-ok', this.shadowRoot);
-      btn.disabled = true;
-      this.fct().finally(() => {
-        this.style.display = 'none';
-        btn.disabled = false;
-      });
-    }
-  }
-
-  activate(title: string, msg: string, fct: () => Promise<void>) {
-    if (this.shadowRoot) {
-      $<HTMLElement>('#dialog-title', this.shadowRoot).textContent = title;
-      $<HTMLElement>('#dialog-msg', this.shadowRoot).textContent = msg;
-      this.style.display = 'block';
-      this.fct = fct;
     }
   }
 
@@ -90,5 +65,31 @@ export class ConfirmDialog extends HTMLElement {
     $<HTMLElement>('#btn-ok', frag).onclick = this.onOk.bind(this);
 
     return frag;
+  }
+
+  onCancel() {
+    if (this.shadowRoot) {
+      this.style.display = 'none';
+    }
+  }
+
+  async onOk() {
+    if (this.shadowRoot && this.fct) {
+      const btn = $<HTMLButtonElement>('#btn-ok', this.shadowRoot);
+      btn.disabled = true;
+      this.fct().finally(() => {
+        this.style.display = 'none';
+        btn.disabled = false;
+      });
+    }
+  }
+
+  activate(title: string, msg: string, fct: () => Promise<void>) {
+    if (this.shadowRoot) {
+      $<HTMLElement>('#dialog-title', this.shadowRoot).textContent = title;
+      $<HTMLElement>('#dialog-msg', this.shadowRoot).textContent = msg;
+      this.style.display = 'block';
+      this.fct = fct;
+    }
   }
 }
