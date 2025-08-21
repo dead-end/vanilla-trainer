@@ -167,7 +167,7 @@ export class Icons extends HTMLElement {
     </svg>
   `;
 
-  static ICONX: Record<string, string> = {
+  static ICONS: Record<string, string> = {
     logout: this.TMPL_LOGOUT,
     home: this.TMPL_HOME,
     admin: this.TMPL_ADMIN,
@@ -215,11 +215,10 @@ export class Icons extends HTMLElement {
       </style>
     `;
 
-    const frag = createFragment(str);
-
     const name = this.getAttribute('data-icon') || 'login';
-    const fragIcon = createFragment(Icons.ICONX[name]);
-    frag.appendChild(fragIcon);
+
+    // TODO: maybe we can create a template where we can skip escape
+    const frag = createFragment(str + Icons.ICONS[name]);
 
     return frag;
   }
