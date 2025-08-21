@@ -13,13 +13,6 @@ export class KeyValues extends HTMLElement {
     }
   }
 
-  update(data: TKeyValue[]) {
-    if (this.shadowRoot) {
-      const arr = data.map((d) => this.renderData(d));
-      $<HTMLElement>('#wrapper', this.shadowRoot).replaceChildren(...arr);
-    }
-  }
-
   renderComponent() {
     const str = /* html */ html`
       <style>
@@ -43,5 +36,12 @@ export class KeyValues extends HTMLElement {
       </div>
     `;
     return createFragment(str);
+  }
+
+  update(data: TKeyValue[]) {
+    if (this.shadowRoot) {
+      const arr = data.map((d) => this.renderData(d));
+      $<HTMLElement>('#wrapper', this.shadowRoot).replaceChildren(...arr);
+    }
   }
 }
