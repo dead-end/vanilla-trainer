@@ -16,6 +16,12 @@ export class LocationInfo extends HTMLElement {
     }
   }
 
+  renderComponent() {
+    const str = /* html */ html` <key-values id="info"></key-values> `;
+
+    return createFragment(str);
+  }
+
   async show(bookId: string, chapterId?: string, idx?: string) {
     if (this.shadowRoot) {
       const data: TKeyValue[] = [];
@@ -38,11 +44,5 @@ export class LocationInfo extends HTMLElement {
 
   hide() {
     this.style.display = 'none';
-  }
-
-  renderComponent() {
-    const str = /* html */ html` <key-values id="info"></key-values> `;
-
-    return createFragment(str);
   }
 }
