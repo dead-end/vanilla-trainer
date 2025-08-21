@@ -35,6 +35,7 @@ export class AdminPage extends HTMLElement {
           </ui-field>
           <div class="is-row is-gap">
             <button id="admin-edit" class="btn" type="button">Edit</button>
+            <button id="admin-cancel" class="btn" type="button">Cancel</button>
             <button id="admin-save" class="btn" type="submit">Save</button>
           </div>
         </form>
@@ -45,6 +46,8 @@ export class AdminPage extends HTMLElement {
 
     $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
     $<HTMLButtonElement>('#admin-edit', frag).onclick = this.onEdit.bind(this);
+    $<HTMLButtonElement>('#admin-cancel', frag).onclick =
+      this.onCancel.bind(this);
 
     document.addEventListener('logout', this.onLogout.bind(this));
 
@@ -90,14 +93,22 @@ export class AdminPage extends HTMLElement {
     this.setEdit(true);
   }
 
-  // TODO: add cancel button
+  onCancel() {
+    this.setEdit(false);
+  }
+
+  buttonShow(id: string, show: boolean) {
+    $<HTMLButtonElement>(id).style.display = show ? 'block' : 'none';
+  }
+
   setEdit(edit: boolean) {
     $<HTMLInputElement>('#user').disabled = !edit;
     $<HTMLInputElement>('#repo').disabled = !edit;
     $<HTMLInputElement>('#token').disabled = !edit;
 
-    $<HTMLButtonElement>('#admin-edit').disabled = edit;
-    $<HTMLButtonElement>('#admin-save').disabled = !edit;
+    this.buttonShow('#admin-edit', !edit);
+    this.buttonShow('#admin-cancel', edit);
+    this.buttonShow('#admin-save', edit);
   }
 
   onLogout() {
