@@ -14,32 +14,26 @@ export class UiField extends HTMLElement {
     }
   }
 
+  renderComponent() {
+    const id = this.getAttribute('data-id') || 'no-id';
+    const label = this.getAttribute('data-label') || 'no-label';
+
+    const str = /* html */ html`
+      <div class="is-column is-gap-small">
+        <label class="is-small is-text-bold" for="${id}">${label}</label>
+        <slot></slot>
+        <p class="is-error is-small" id="error"></p>
+      </div>
+    `;
+
+    return createFragment(str);
+  }
+
   attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
     if (this.shadowRoot) {
       if (name === 'data-error') {
         $<HTMLElement>('#error', this.shadowRoot).textContent = newValue;
       }
     }
-  }
-
-  renderComponent() {
-    const str = /* html */ html`
-      <div class="is-column is-gap-small">
-        <label class="is-small is-text-bold" for="default-id"
-          >Default Label</label
-        >
-        <slot></slot>
-        <p class="is-error is-small" id="error"></p>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    const id = this.getAttribute('data-id') || 'no-id';
-    const label = $<HTMLLabelElement>('label', frag);
-    label.htmlFor = id;
-    label.textContent = this.getAttribute('data-label') || 'no-label';
-
-    return frag;
   }
 }

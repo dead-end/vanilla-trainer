@@ -31,7 +31,6 @@ export class PreviewField extends HTMLElement {
     const preview = $<HTMLElement>('#preview', frag);
 
     input.oninput = () => {
-      console.log('input');
       preview.innerHTML = mdToHtml(input.value);
     };
 
