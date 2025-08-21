@@ -7,13 +7,10 @@ import { createFragment } from '../../lib/html/createFragment';
 import { html } from '../../lib/html/html';
 
 // TODO: move to admin folder and rename to ConfigPage
-
 export class AdminPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
       this.appendChild(this.renderComponent());
-
-      document.addEventListener('logout', this.onLogout.bind(this));
     }
 
     this.getAdmin();
@@ -48,6 +45,8 @@ export class AdminPage extends HTMLElement {
 
     $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
     $<HTMLButtonElement>('#admin-edit', frag).onclick = this.onEdit.bind(this);
+
+    document.addEventListener('logout', this.onLogout.bind(this));
 
     return frag;
   }
@@ -91,6 +90,7 @@ export class AdminPage extends HTMLElement {
     this.setEdit(true);
   }
 
+  // TODO: add cancel button
   setEdit(edit: boolean) {
     $<HTMLInputElement>('#user').disabled = !edit;
     $<HTMLInputElement>('#repo').disabled = !edit;
