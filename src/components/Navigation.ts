@@ -10,27 +10,7 @@ export class Navigation extends HTMLElement {
       const shadow = this.attachShadow({ mode: 'open' });
       shadow.adoptedStyleSheets = STYLES;
       shadow.appendChild(this.renderComponent());
-
-      document.addEventListener('login', this.onLogin.bind(this));
-      document.addEventListener('logout', this.onLogout.bind(this));
     }
-  }
-
-  onLogin() {
-    if (this.shadowRoot) {
-      $<HTMLElement>('#nav-items', this.shadowRoot).style.visibility =
-        'visible';
-    }
-  }
-
-  onLogout() {
-    if (this.shadowRoot) {
-      $<HTMLElement>('#nav-items', this.shadowRoot).style.visibility = 'hidden';
-    }
-  }
-
-  doLogout() {
-    adminLogout();
   }
 
   renderComponent() {
@@ -94,6 +74,26 @@ export class Navigation extends HTMLElement {
 
     $<HTMLElement>('#logout', frag).onclick = this.doLogout;
 
+    document.addEventListener('login', this.onLogin.bind(this));
+    document.addEventListener('logout', this.onLogout.bind(this));
+
     return frag;
+  }
+
+  onLogin() {
+    if (this.shadowRoot) {
+      $<HTMLElement>('#nav-items', this.shadowRoot).style.visibility =
+        'visible';
+    }
+  }
+
+  onLogout() {
+    if (this.shadowRoot) {
+      $<HTMLElement>('#nav-items', this.shadowRoot).style.visibility = 'hidden';
+    }
+  }
+
+  doLogout() {
+    adminLogout();
   }
 }
