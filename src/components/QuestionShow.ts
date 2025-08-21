@@ -12,6 +12,7 @@ import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
 import { LocationInfo } from './LocationInfo';
 
+// TODO: Check
 export class QuestionShow extends HTMLElement {
   questionId: TQuestionId | undefined;
   question: TQuestion | undefined;
@@ -35,16 +36,66 @@ export class QuestionShow extends HTMLElement {
       shadow.adoptedStyleSheets = STYLES;
       shadow.appendChild(this.renderComponent());
 
+      // TODO: add to his.renderComponent()
       if (this.questionId && this.question) {
         this.renderQuestion(this.questionId, this.question);
       }
     }
   }
 
+  renderComponent() {
+    const str = /* html */ html`
+      <style>
+        .label {
+          font-weight: bold;
+          padding-bottom: 0.5rem;
+        }
+      </style>
+      <div class="is-column is-gap-small">
+        <location-info id="location-info" style="display: none"></location-info>
+        <div class="is-grid-3">
+          <div class="is-column">
+            <div class="is-row is-space-between">
+              <div class="label" id="label">Question</div>
+              <div id="progress"></div>
+            </div>
+            <div
+              id="quest"
+              class="is-border is-shadow is-padding-input is-multiline is-grow"
+            ></div>
+          </div>
+          <div class="is-column">
+            <div class="label">Answer</div>
+            <div
+              id="answer"
+              class="is-border is-shadow is-padding-input is-multiline is-grow"
+            ></div>
+          </div>
+          <div class="is-column">
+            <div class="label">Details</div>
+            <div
+              id="details"
+              class="is-border is-shadow is-padding-input is-multiline is-grow"
+            ></div>
+          </div>
+        </div>
+
+        <div class="is-row is-end is-gap-small">
+          <ui-icons data-icon="delete"></ui-icons>
+          <ui-icons data-icon="update"></ui-icons>
+          <ui-icons data-icon="info"></ui-icons>
+        </div>
+      </div>
+    `;
+
+    return createFragment(str);
+  }
+
   /**
    * The function uses questionId and question as parameters. This ensures that
    * both are not undefined.
    */
+  // TODO: can be part of this.renderComponent() !!! innerHtml is a problem
   renderQuestion(
     questionId: TQuestionId,
     question: TQuestion,
@@ -137,53 +188,5 @@ export class QuestionShow extends HTMLElement {
         info.style.display = 'none';
       }
     };
-  }
-
-  renderComponent() {
-    const str = /* html */ html`
-      <style>
-        .label {
-          font-weight: bold;
-          padding-bottom: 0.5rem;
-        }
-      </style>
-      <div class="is-column is-gap-small">
-        <location-info id="location-info" style="display: none"></location-info>
-        <div class="is-grid-3">
-          <div class="is-column">
-            <div class="is-row is-space-between">
-              <div class="label" id="label">Question</div>
-              <div id="progress"></div>
-            </div>
-            <div
-              id="quest"
-              class="is-border is-shadow is-padding-input is-multiline is-grow"
-            ></div>
-          </div>
-          <div class="is-column">
-            <div class="label">Answer</div>
-            <div
-              id="answer"
-              class="is-border is-shadow is-padding-input is-multiline is-grow"
-            ></div>
-          </div>
-          <div class="is-column">
-            <div class="label">Details</div>
-            <div
-              id="details"
-              class="is-border is-shadow is-padding-input is-multiline is-grow"
-            ></div>
-          </div>
-        </div>
-
-        <div class="is-row is-end is-gap-small">
-          <ui-icons data-icon="delete"></ui-icons>
-          <ui-icons data-icon="update"></ui-icons>
-          <ui-icons data-icon="info"></ui-icons>
-        </div>
-      </div>
-    `;
-
-    return createFragment(str);
   }
 }
