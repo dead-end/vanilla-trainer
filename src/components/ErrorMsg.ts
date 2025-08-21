@@ -10,22 +10,6 @@ export class ErrorMsg extends HTMLElement {
       shadow.adoptedStyleSheets = STYLES;
       shadow.appendChild(this.renderComponent());
 
-      document.addEventListener('error-msg', this.onError.bind(this));
-      this.style.display = 'none';
-    }
-  }
-
-  onError(e: Event) {
-    if (this.shadowRoot) {
-      const detail = (e as CustomEvent).detail;
-      $('#error-msg', this.shadowRoot).textContent = detail;
-      this.style.display = 'block';
-    }
-  }
-
-  onOk() {
-    if (this.shadowRoot) {
-      $('#error-msg', this.shadowRoot).textContent = '';
       this.style.display = 'none';
     }
   }
@@ -44,6 +28,23 @@ export class ErrorMsg extends HTMLElement {
 
     $<HTMLElement>('#error-btn', frag).onclick = this.onOk.bind(this);
 
+    document.addEventListener('error-msg', this.onError.bind(this));
+
     return frag;
+  }
+
+  onError(e: Event) {
+    if (this.shadowRoot) {
+      const detail = (e as CustomEvent).detail;
+      $('#error-msg', this.shadowRoot).textContent = detail;
+      this.style.display = 'block';
+    }
+  }
+
+  onOk() {
+    if (this.shadowRoot) {
+      $('#error-msg', this.shadowRoot).textContent = '';
+      this.style.display = 'none';
+    }
   }
 }
