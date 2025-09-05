@@ -1,5 +1,5 @@
 import { KeyValues } from '../../components/KeyValues';
-import { errorGlobal } from '../../lib/GlobalError';
+import { dispatchError } from '../../lib/GlobalError';
 import { createFragment } from '../../lib/html/createFragment';
 import { html } from '../../lib/html/html';
 import { hashLessionProcess } from '../../lib/location/hash';
@@ -65,7 +65,7 @@ export class LessionPreparePage extends HTMLElement {
     const questions = await questionListing(bookId, chapterId);
     const len = questions.length;
     if (len === 0) {
-      errorGlobal('The chapter has no questions!');
+      dispatchError('The chapter has no questions!');
       $<HTMLButtonElement>('#btn-start').disabled = true;
     }
 

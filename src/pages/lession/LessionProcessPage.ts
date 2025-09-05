@@ -1,7 +1,7 @@
 import { KeyValues } from '../../components/KeyValues';
 import { LocationInfo } from '../../components/LocationInfo';
 import { QuestionShow } from '../../components/QuestionShow';
-import { errorGlobal } from '../../lib/GlobalError';
+import { dispatchError } from '../../lib/GlobalError';
 import { createFragment } from '../../lib/html/createFragment';
 import { html } from '../../lib/html/html';
 import { hashHome } from '../../lib/location/hash';
@@ -68,7 +68,7 @@ export class LessionProcessPage extends HTMLElement {
     this.lession = lessionLoad();
     if (!this.lession) {
       this.setStateRunning(false);
-      errorGlobal('No lession found!');
+      dispatchError('No lession found!');
       return;
     }
 

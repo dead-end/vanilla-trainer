@@ -1,6 +1,6 @@
 import { JsonShow } from '../../components/JsonShow';
 import { LocationInfo } from '../../components/LocationInfo';
-import { errorGlobal } from '../../lib/GlobalError';
+import { dispatchError } from '../../lib/GlobalError';
 import { createFragment } from '../../lib/html/createFragment';
 import { html } from '../../lib/html/html';
 import {
@@ -51,7 +51,7 @@ export class CacheRawPage extends HTMLElement {
   async updateComponent() {
     const path = getRouteParam('path');
     if (!pathIsValid(path)) {
-      errorGlobal(`Path is not valid ${path}`);
+      dispatchError(`Path is not valid ${path}`);
       return;
     }
 

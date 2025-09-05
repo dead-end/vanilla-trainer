@@ -5,7 +5,7 @@ import { chapterListing } from '../model/chapter';
 import { questionListing } from '../model/question';
 import { entryDelete, entryGetCache, entryListCache } from '../persist/entry';
 import { githubConfigGet } from '../model/githubConfig';
-import { errorGlobal, GlobalError } from '../GlobalError';
+import { dispatchError, GlobalError } from '../GlobalError';
 import { pathRoot } from '../location/path';
 
 /**
@@ -85,7 +85,7 @@ export const cacheCheckHashes = async () => {
 
   await cacheListing(result, config, pathRoot());
   if (result.error) {
-    errorGlobal(result.error);
+    dispatchError(result.error);
     return;
   }
 

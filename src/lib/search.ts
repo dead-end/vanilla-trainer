@@ -4,7 +4,7 @@ import { questionGet } from './model/question';
 import { pathQuestionsGet } from './location/path';
 import { entryGetSearch } from './persist/entry';
 import { TQuestion, TQuestionId, TSearch, TSearchResult } from './types';
-import { errorGlobal, GlobalError } from './GlobalError';
+import { dispatchError, GlobalError } from './GlobalError';
 
 /**
  * The regex is used to remove special characters.
@@ -120,7 +120,7 @@ export const searchDo = async (str: string) => {
       const search = await entryGetSearch(path);
 
       if (!search) {
-        errorGlobal(`No search index for: ${path}`);
+        dispatchError(`No search index for: ${path}`);
         continue;
       }
 

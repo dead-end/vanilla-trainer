@@ -1,4 +1,4 @@
-import { errorGlobal } from '../GlobalError';
+import { dispatchError } from '../GlobalError';
 import { db } from './db';
 
 /**
@@ -31,7 +31,7 @@ export const storeGet = <T>(store: IDBObjectStore, id: string) => {
     };
 
     request.onerror = (e) => {
-      errorGlobal(`Store: ${store.name} id: ${id} storeGet error: ${e}`);
+      dispatchError(`Store: ${store.name} id: ${id} storeGet error: ${e}`);
       reject();
     };
   });
@@ -50,7 +50,7 @@ export const storePut = <T>(store: IDBObjectStore, obj: T) => {
     };
 
     request.onerror = (e) => {
-      errorGlobal(`Store: ${store.name} put: ${obj} error: ${e}`);
+      dispatchError(`Store: ${store.name} put: ${obj} error: ${e}`);
       reject();
     };
   });
@@ -69,7 +69,7 @@ export const storeDel = (store: IDBObjectStore, id: IDBValidKey) => {
     };
 
     request.onerror = (e) => {
-      errorGlobal(`Store: ${store.name} delete: ${id} error: ${e}`);
+      dispatchError(`Store: ${store.name} delete: ${id} error: ${e}`);
       reject();
     };
   });
@@ -85,7 +85,7 @@ export const storeGetAll = <T>(store: IDBObjectStore) => {
     };
 
     request.onerror = (e) => {
-      errorGlobal(`Store: ${store.name} get all: ${e}`);
+      dispatchError(`Store: ${store.name} get all: ${e}`);
       reject();
     };
   });
