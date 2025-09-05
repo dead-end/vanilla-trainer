@@ -1,4 +1,4 @@
-import { GlobalError } from '../GlobalError';
+import { GlobalError } from '../error';
 import { pathQuestionsGet } from '../location/path';
 import { jsonGet, jsonPut } from '../remote/json';
 import { TQuestion } from '../types';

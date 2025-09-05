@@ -1,4 +1,4 @@
-import { dispatchError } from '../GlobalError';
+import { dispatchError } from '../error';
 import { db } from './db';
 
 /**

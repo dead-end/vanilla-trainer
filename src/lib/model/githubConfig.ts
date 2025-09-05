@@ -1,6 +1,6 @@
 import { TGithubConfig } from '../types';
 import { storeDel, storeGet, storePut, storeTx } from '../persist/store';
-import { GlobalError } from '../GlobalError';
+import { GlobalError } from '../error';
 
 const STORE = 'admin';
 

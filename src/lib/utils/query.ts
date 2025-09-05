@@ -1,4 +1,4 @@
-import { GlobalError } from '../GlobalError';
+import { GlobalError } from '../error';
 
 /**
  * Simple jquery clone :)

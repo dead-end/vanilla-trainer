@@ -1,5 +1,5 @@
 import { KeyValues } from '../../components/KeyValues';
-import { dispatchError } from '../../lib/GlobalError';
+import { dispatchError } from '../../lib/error';
 import { createFragment } from '../../lib/html/createFragment';
 import { html } from '../../lib/html/html';
 import { hashLessionProcess } from '../../lib/location/hash';

@@ -1,6 +1,6 @@
 import { JsonShow } from '../../components/JsonShow';
 import { LocationInfo } from '../../components/LocationInfo';
-import { dispatchError } from '../../lib/GlobalError';
+import { dispatchError } from '../../lib/error';
 import { createFragment } from '../../lib/html/createFragment';
 import { html } from '../../lib/html/html';
 import {

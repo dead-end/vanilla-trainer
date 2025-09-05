@@ -1,4 +1,4 @@
-import { GlobalError } from '../GlobalError';
+import { GlobalError } from '../error';
 
 export const pathRoot = () => {
   return 'books';

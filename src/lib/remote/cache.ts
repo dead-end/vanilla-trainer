@@ -5,7 +5,7 @@ import { chapterListing } from '../model/chapter';
 import { questionListing } from '../model/question';
 import { entryDelete, entryGetCache, entryListCache } from '../persist/entry';
 import { githubConfigGet } from '../model/githubConfig';
-import { dispatchError, GlobalError } from '../GlobalError';
+import { dispatchError, GlobalError } from '../error';
 import { pathRoot } from '../location/path';
 
 /**
