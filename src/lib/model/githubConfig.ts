@@ -1,5 +1,6 @@
 import { TGithubConfig } from '../types';
 import { storeDel, storeGet, storePut, storeTx } from '../persist/store';
+import { GlobalError } from '../GlobalError';
 
 const STORE = 'admin';
 
@@ -7,7 +8,7 @@ export const githubConfigGet = async () => {
   const store = await storeTx(STORE, 'readonly');
   const result = await storeGet<TGithubConfig>(store, 'github');
   if (result === undefined) {
-    throw new Error('Unable to get github config.');
+    throw new GlobalError('Unable to get github config.');
   }
   return result;
 };

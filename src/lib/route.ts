@@ -1,4 +1,5 @@
 import { adminIsLogin } from './admin';
+import { GlobalError } from './GlobalError';
 import { TNav } from './types';
 import { $ } from './utils/query';
 
@@ -15,7 +16,7 @@ let notFound: string;
 export const getRouteParam = (name: string) => {
   if (!routeParams || !routeParams.groups) {
     const msg = `Route parameter: ${name} - No parameters found: ${window.location.hash}`;
-    throw new Error(msg);
+    throw new GlobalError(msg);
   }
 
   return routeParams.groups[name];

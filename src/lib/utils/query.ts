@@ -1,3 +1,5 @@
+import { GlobalError } from '../GlobalError';
+
 /**
  * Simple jquery clone :)
  */
@@ -11,7 +13,7 @@ export const $ = <T extends Element>(
 
   const result = root.querySelector(query);
   if (!result) {
-    throw new Error(`Unable to find: ${query}`);
+    throw new GlobalError(`Unable to find: ${query}`);
   }
   return result as T;
 };
@@ -30,7 +32,7 @@ export const $$ = <T extends Element>(
   const arr = [...root.querySelectorAll(query)];
 
   if (arr.length === 0) {
-    throw new Error(`Unable to find: ${query}`);
+    throw new GlobalError(`Unable to find: ${query}`);
   }
   return arr as T[];
 };
