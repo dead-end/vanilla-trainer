@@ -3,7 +3,7 @@ import { escapeHtml } from './escapeHtml';
 /**
  * The class marks a string as 'unsafe' and is not exported.
  */
-class UnsafeHtml {
+class HtmlUnsafe {
   str: string;
 
   constructor(str: string) {
@@ -14,8 +14,8 @@ class UnsafeHtml {
 /**
  * Return a string, marked as unsafe.
  */
-export const unsafeHtml = (str: string) => {
-  return new UnsafeHtml(str);
+export const htmlUnsafe = (str: string) => {
+  return new HtmlUnsafe(str);
 };
 
 /**
@@ -27,7 +27,7 @@ export const html = (template: TemplateStringsArray, ...params: any[]) => {
   for (let i = 1; i < template.length; i++) {
     let value = params[i - 1];
     let str: string;
-    if (value instanceof UnsafeHtml) {
+    if (value instanceof HtmlUnsafe) {
       str = value.str;
     } else if (typeof value !== 'string') {
       str = escapeHtml(value.toString());
