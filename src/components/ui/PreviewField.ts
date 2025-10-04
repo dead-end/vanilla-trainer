@@ -13,7 +13,7 @@ export class PreviewField extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-grid-2">
         <slot></slot>

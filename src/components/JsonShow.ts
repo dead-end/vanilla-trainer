@@ -12,7 +12,7 @@ export class JsonShow extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <style>
         code {

@@ -189,7 +189,7 @@ export class Icons extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <style>
         .icon {

@@ -16,7 +16,7 @@ export class LocationInfo extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html` <key-values id="info"></key-values> `;
 
     return createFragment(str);

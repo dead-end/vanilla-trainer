@@ -13,7 +13,7 @@ export class Navigation extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <style>
         nav {
@@ -80,20 +80,20 @@ export class Navigation extends HTMLElement {
     return frag;
   }
 
-  onLogin() {
+  private onLogin() {
     if (this.shadowRoot) {
       $<HTMLElement>('#nav-items', this.shadowRoot).style.visibility =
         'visible';
     }
   }
 
-  onLogout() {
+  private onLogout() {
     if (this.shadowRoot) {
       $<HTMLElement>('#nav-items', this.shadowRoot).style.visibility = 'hidden';
     }
   }
 
-  doLogout() {
+  private doLogout() {
     adminLogout();
   }
 }

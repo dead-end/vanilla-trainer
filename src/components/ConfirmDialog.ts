@@ -17,7 +17,7 @@ export class ConfirmDialog extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <style>
         .popup {
@@ -67,13 +67,13 @@ export class ConfirmDialog extends HTMLElement {
     return frag;
   }
 
-  onCancel() {
+  private onCancel() {
     if (this.shadowRoot) {
       this.style.display = 'none';
     }
   }
 
-  async onOk() {
+  private async onOk() {
     if (this.shadowRoot && this.fct) {
       const btn = $<HTMLButtonElement>('#btn-ok', this.shadowRoot);
       btn.disabled = true;

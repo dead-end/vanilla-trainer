@@ -16,7 +16,7 @@ export class LessionContinue extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-row is-gap">
         <button class="btn" id="btn-continue">Continue</button>
@@ -32,7 +32,7 @@ export class LessionContinue extends HTMLElement {
     return frag;
   }
 
-  updateComponent() {
+  private updateComponent() {
     if (lessionExists()) {
       this.style.display = 'block';
     } else {
@@ -40,11 +40,11 @@ export class LessionContinue extends HTMLElement {
     }
   }
 
-  onContinue() {
+  private onContinue() {
     window.location.hash = hashLessionProcess();
   }
 
-  onEnd() {
+  private onEnd() {
     lessionRemove();
     this.style.display = 'none';
   }

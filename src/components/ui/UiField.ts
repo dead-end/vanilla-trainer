@@ -14,7 +14,7 @@ export class UiField extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const id = this.getAttribute('data-id') || 'no-id';
     const label = this.getAttribute('data-label') || 'no-label';
 

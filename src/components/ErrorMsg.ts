@@ -14,7 +14,7 @@ export class ErrorMsg extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap is-border is-padding">
         <div class="is-error is-text-bold is-text-larg">Error</div>
@@ -33,7 +33,7 @@ export class ErrorMsg extends HTMLElement {
     return frag;
   }
 
-  onError(e: Event) {
+  private onError(e: Event) {
     if (this.shadowRoot) {
       const detail = (e as CustomEvent).detail;
       $('#error-msg', this.shadowRoot).textContent = detail;
@@ -41,7 +41,7 @@ export class ErrorMsg extends HTMLElement {
     }
   }
 
-  onOk() {
+  private onOk() {
     if (this.shadowRoot) {
       $('#error-msg', this.shadowRoot).textContent = '';
       this.style.display = 'none';

@@ -13,7 +13,7 @@ export class KeyValues extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <style>
         .wrapper {
@@ -28,7 +28,7 @@ export class KeyValues extends HTMLElement {
     return createFragment(str);
   }
 
-  renderData(data: TKeyValue) {
+  private renderData(data: TKeyValue) {
     const str = /* html */ html`
       <div class="is-row is-gap-small">
         <div class="is-key">${data.key}</div>
