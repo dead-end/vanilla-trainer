@@ -21,7 +21,7 @@ export class LessionPreparePage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Lession prepare</div>
@@ -59,7 +59,7 @@ export class LessionPreparePage extends HTMLElement {
     return frag;
   }
 
-  async updateComponent() {
+  private async updateComponent() {
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
 
     const questions = await questionListing(bookId, chapterId);
@@ -72,7 +72,7 @@ export class LessionPreparePage extends HTMLElement {
     this.addLessionInfo(bookId, chapterId, questions);
   }
 
-  async handleSubmit(e: SubmitEvent) {
+  private async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
@@ -99,7 +99,7 @@ export class LessionPreparePage extends HTMLElement {
     window.location.hash = hashLessionProcess();
   }
 
-  async addLessionInfo(
+  private async addLessionInfo(
     bookId: string,
     chapterId: string,
     questions: TQuestion[]

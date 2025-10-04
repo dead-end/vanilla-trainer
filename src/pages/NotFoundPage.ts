@@ -8,7 +8,7 @@ export class NotFoundPage extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="page-title">Page not found</div>
       <p class="is-error">Sorry, the page was not found!</p>

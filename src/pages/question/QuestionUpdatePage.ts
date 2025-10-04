@@ -21,7 +21,7 @@ export class QuestionUpdatePage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Update Question</div>
@@ -60,7 +60,7 @@ export class QuestionUpdatePage extends HTMLElement {
     return frag;
   }
 
-  async updateComponent() {
+  private async updateComponent() {
     const [bookId, chapterId, idx] = getRouteParams(
       'bookId',
       'chapterId',
@@ -81,13 +81,13 @@ export class QuestionUpdatePage extends HTMLElement {
     this.setValue('#details', question.details || '');
   }
 
-  setValue(id: string, value: string) {
+  private setValue(id: string, value: string) {
     const elem = $<HTMLTextAreaElement>(id);
     elem.value = value;
     elem.dispatchEvent(new Event('input'));
   }
 
-  async handleSubmit(e: SubmitEvent) {
+  private async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
     const [bookId, chapterId, idx] = getRouteParams(

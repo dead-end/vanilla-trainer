@@ -17,7 +17,7 @@ export class AdminPage extends HTMLElement {
     this.setEdit(false);
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Administration</div>
@@ -54,7 +54,7 @@ export class AdminPage extends HTMLElement {
     return frag;
   }
 
-  handleSubmit(e: SubmitEvent) {
+  private handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
@@ -82,26 +82,26 @@ export class AdminPage extends HTMLElement {
     }
   }
 
-  async getAdmin() {
+  private async getAdmin() {
     const admin = await githubConfigGet();
     $<HTMLInputElement>('#user').value = admin.user;
     $<HTMLInputElement>('#repo').value = admin.repo;
     $<HTMLInputElement>('#token').value = admin.token;
   }
 
-  onEdit() {
+  private onEdit() {
     this.setEdit(true);
   }
 
-  onCancel() {
+  private onCancel() {
     this.setEdit(false);
   }
 
-  buttonShow(id: string, show: boolean) {
+  private buttonShow(id: string, show: boolean) {
     $<HTMLButtonElement>(id).style.display = show ? 'block' : 'none';
   }
 
-  setEdit(edit: boolean) {
+  private setEdit(edit: boolean) {
     $<HTMLInputElement>('#user').disabled = !edit;
     $<HTMLInputElement>('#repo').disabled = !edit;
     $<HTMLInputElement>('#token').disabled = !edit;
@@ -111,7 +111,7 @@ export class AdminPage extends HTMLElement {
     this.buttonShow('#admin-save', edit);
   }
 
-  onLogout() {
+  private onLogout() {
     this.getAdmin();
   }
 }

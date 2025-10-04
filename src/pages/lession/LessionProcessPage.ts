@@ -26,7 +26,7 @@ export class LessionProcessPage extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Lession Process</div>
@@ -63,7 +63,7 @@ export class LessionProcessPage extends HTMLElement {
     return frag;
   }
 
-  load() {
+  private load() {
     this.lession = lessionLoad();
     if (!this.lession) {
       this.setStateRunning(false);
@@ -79,7 +79,7 @@ export class LessionProcessPage extends HTMLElement {
    * The function removes the current question form the learing list and sets
    * up the info tables.
    */
-  next() {
+  private next() {
     if (this.lession) {
       this.addProgressInfo(lessionGetProcess(this.lession));
       const tmp = this.lession!.learning.shift();
@@ -112,7 +112,7 @@ export class LessionProcessPage extends HTMLElement {
    * and saves the result. The next() function removes the current question
    * from the learning array, so it has to be added before saving.
    */
-  async update(progress: number) {
+  private async update(progress: number) {
     if (this.questionProgress && this.lession) {
       this.questionProgress.progress = progress;
 
@@ -128,37 +128,37 @@ export class LessionProcessPage extends HTMLElement {
     }
   }
 
-  onShow() {
+  private onShow() {
     this.setStateQuestion(false);
   }
 
-  onCorrect = () => {
+  private onCorrect = () => {
     this.update(this.questionProgress!.progress + 1);
   };
 
-  onWrong() {
+  private onWrong() {
     this.update(0);
   }
 
-  onLearned() {
+  private onLearned() {
     this.update(3);
   }
 
-  onSkip() {
+  private onSkip() {
     this.update(this.questionProgress!.progress);
   }
 
-  onStop() {
+  private onStop() {
     window.location.hash = hashHome();
   }
 
-  setStateQuestion(asking: boolean) {
+  private setStateQuestion(asking: boolean) {
     this.doShow('[data-show="ask"]', asking);
     this.doShow('[data-show="show"]', !asking);
     $<QuestionShow>('#question-show').show(!asking);
   }
 
-  setStateRunning(running: boolean) {
+  private setStateRunning(running: boolean) {
     this.doShow('[data-show="running"]', running);
 
     if (!running) {
@@ -167,14 +167,14 @@ export class LessionProcessPage extends HTMLElement {
     }
   }
 
-  doShow(tag: string, show: boolean) {
+  private doShow(tag: string, show: boolean) {
     $$<HTMLElement>(tag).forEach((e) => {
       const display = e.dataset.display || 'block';
       e.style.display = show ? display : 'none';
     });
   }
 
-  async setQuestion(
+  private async setQuestion(
     questionId: TQuestionId,
     progress: TQuestionProgress,
     reverse: boolean
@@ -192,7 +192,7 @@ export class LessionProcessPage extends HTMLElement {
     );
   }
 
-  addProgressInfo(progress: number[]) {
+  private addProgressInfo(progress: number[]) {
     $<KeyValues>('#progress-info').update([
       { key: 'Unlearned', value: progress[0].toString() },
       { key: 'One correct', value: progress[1].toString() },

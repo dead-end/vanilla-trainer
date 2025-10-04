@@ -22,7 +22,7 @@ export class SearchPage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Search</div>
@@ -50,7 +50,7 @@ export class SearchPage extends HTMLElement {
     return frag;
   }
 
-  async updateComponent() {
+  private async updateComponent() {
     const searchRaw = getRouteParam('searchStr');
     if (!searchRaw) {
       return;
@@ -76,7 +76,7 @@ export class SearchPage extends HTMLElement {
     $<HTMLElement>('[data-id="questions"]').replaceChildren(...arr);
   }
 
-  async handleSubmit(e: SubmitEvent) {
+  private async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;

@@ -17,7 +17,7 @@ export class ChapterUpdatePage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Update Chapter</div>
@@ -44,7 +44,7 @@ export class ChapterUpdatePage extends HTMLElement {
     return frag;
   }
 
-  async updateComponent() {
+  private async updateComponent() {
     const bookId = getRouteParam('bookId');
     const chapterId = getRouteParam('chapterId');
 
@@ -59,7 +59,7 @@ export class ChapterUpdatePage extends HTMLElement {
     $<HTMLInputElement>('#title').value = chapter.title;
   }
 
-  async handleSubmit(e: SubmitEvent) {
+  private async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
     const bookId = getRouteParam('bookId');

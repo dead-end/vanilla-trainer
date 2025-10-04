@@ -14,7 +14,7 @@ export class BookListPage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Book List</div>
@@ -39,7 +39,7 @@ export class BookListPage extends HTMLElement {
     return createFragment(str);
   }
 
-  async updateComponent() {
+  private async updateComponent() {
     const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
 
     const frags = (await bookListing()).map((b) =>
@@ -49,7 +49,7 @@ export class BookListPage extends HTMLElement {
     $<HTMLElement>('tbody').replaceChildren(...frags);
   }
 
-  onDelete(confirmDialog: ConfirmDialog, bookId: string) {
+  private onDelete(confirmDialog: ConfirmDialog, bookId: string) {
     return () => {
       confirmDialog.activate(
         'Delete Book',
@@ -59,14 +59,14 @@ export class BookListPage extends HTMLElement {
     };
   }
 
-  getDeleteFct(bookId: string) {
+  private getDeleteFct(bookId: string) {
     return async () => {
       await bookDelete(bookId);
       this.updateComponent();
     };
   }
 
-  renderBook(book: TBook, confirmDialog: ConfirmDialog) {
+  private renderBook(book: TBook, confirmDialog: ConfirmDialog) {
     const str = /*html*/ html`
       <tr>
         <td class="is-larger-sm">${book.id}</td>

@@ -24,7 +24,7 @@ export class ChapterListPage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Chapter List</div>
@@ -52,7 +52,7 @@ export class ChapterListPage extends HTMLElement {
     return frag;
   }
 
-  async updateComponent() {
+  private async updateComponent() {
     const bookId = getRouteParam('bookId');
     const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
 
@@ -70,7 +70,7 @@ export class ChapterListPage extends HTMLElement {
     $<HTMLElement>('tbody').replaceChildren(...arr);
   }
 
-  addLinks(bookId: string) {
+  private addLinks(bookId: string) {
     $<HTMLAnchorElement>('#chapter-create-link').href =
       hashChapterCreate(bookId);
 
@@ -79,7 +79,11 @@ export class ChapterListPage extends HTMLElement {
     );
   }
 
-  onDelete(confirmDialog: ConfirmDialog, bookId: string, chapterId: string) {
+  private onDelete(
+    confirmDialog: ConfirmDialog,
+    bookId: string,
+    chapterId: string
+  ) {
     return () => {
       confirmDialog.activate(
         'Delete Chapter',
@@ -89,7 +93,7 @@ export class ChapterListPage extends HTMLElement {
     };
   }
 
-  getDeleteFct(bookId: string, chapterId: string) {
+  private getDeleteFct(bookId: string, chapterId: string) {
     return async () => {
       chapterDelete(bookId, chapterId).then(() => {
         this.updateComponent();
@@ -97,7 +101,11 @@ export class ChapterListPage extends HTMLElement {
     };
   }
 
-  renderEntry(bookId: string, chap: TChapter, confirmDialog: ConfirmDialog) {
+  private renderEntry(
+    bookId: string,
+    chap: TChapter,
+    confirmDialog: ConfirmDialog
+  ) {
     const str = /* html */ html`
       <tr>
         <td class="is-larger-sm">${chap.id}</td>

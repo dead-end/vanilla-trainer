@@ -13,7 +13,7 @@ export class BookCreatePage extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Create Book</div>
@@ -42,7 +42,7 @@ export class BookCreatePage extends HTMLElement {
     return frag;
   }
 
-  async handleSubmit(e: SubmitEvent) {
+  private async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;

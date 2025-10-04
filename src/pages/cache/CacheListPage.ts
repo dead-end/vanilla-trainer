@@ -20,7 +20,7 @@ export class CacheListPage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Cache Entries</div>
@@ -54,7 +54,7 @@ export class CacheListPage extends HTMLElement {
     return frag;
   }
 
-  async updateComponent() {
+  private async updateComponent() {
     const confirmDialog = $<ConfirmDialog>('#confirm-dialog');
 
     const caches = await entryListCache();
@@ -67,7 +67,7 @@ export class CacheListPage extends HTMLElement {
     $<HTMLElement>('tbody').replaceChildren(...arr);
   }
 
-  onCacheLoad() {
+  private onCacheLoad() {
     $<ConfirmDialog>('#confirm-dialog').activate(
       'Load Cache',
       'Do you realy want to load all files?',
@@ -78,7 +78,7 @@ export class CacheListPage extends HTMLElement {
     );
   }
 
-  onCacheCheck() {
+  private onCacheCheck() {
     $<ConfirmDialog>('#confirm-dialog').activate(
       'Check Cache',
       'Do you realy want to check all files?',
@@ -89,11 +89,11 @@ export class CacheListPage extends HTMLElement {
     );
   }
 
-  getHash(hash: string) {
+  private getHash(hash: string) {
     return hash.substring(0, 6);
   }
 
-  getSearchHash(path: string, search: TSearch | undefined) {
+  private getSearchHash(path: string, search: TSearch | undefined) {
     if (!pathIsQuestions(path)) {
       return '';
     }
@@ -103,7 +103,7 @@ export class CacheListPage extends HTMLElement {
     return 'missing';
   }
 
-  onDelete(confirmDialog: ConfirmDialog, path: string) {
+  private onDelete(confirmDialog: ConfirmDialog, path: string) {
     return () => {
       confirmDialog.activate(
         'Delete Cache Entry',
@@ -116,7 +116,7 @@ export class CacheListPage extends HTMLElement {
     };
   }
 
-  renderEntry(
+  private renderEntry(
     cache: TCache<any>,
     searches: TSearch[],
     confirmDialog: ConfirmDialog

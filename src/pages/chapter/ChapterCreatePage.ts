@@ -17,7 +17,7 @@ export class ChapterCreatePage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Create Chapter</div>
@@ -44,7 +44,7 @@ export class ChapterCreatePage extends HTMLElement {
     return frag;
   }
 
-  updateComponent() {
+  private updateComponent() {
     const bookId = getRouteParam('bookId');
 
     $<LocationInfo>('#location-info').show(bookId);
@@ -53,7 +53,7 @@ export class ChapterCreatePage extends HTMLElement {
     $<HTMLAnchorElement>('#chapter-list-link', this).href = link;
   }
 
-  async handleSubmit(e: SubmitEvent) {
+  private async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
     const bookId = getRouteParam('bookId');

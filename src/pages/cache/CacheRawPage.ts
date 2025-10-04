@@ -24,7 +24,7 @@ export class CacheRawPage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Cache Raw</div>
@@ -48,7 +48,7 @@ export class CacheRawPage extends HTMLElement {
     return frag;
   }
 
-  async updateComponent() {
+  private async updateComponent() {
     const path = getRouteParam('path');
     if (!pathIsValid(path)) {
       dispatchError(`Path is not valid ${path}`);
@@ -60,7 +60,7 @@ export class CacheRawPage extends HTMLElement {
   }
 
   // TODO: Is there a better solution?
-  async doCache(path: string) {
+  private async doCache(path: string) {
     const location = $<LocationInfo>('#location-info');
 
     if (pathIsQuestions(path)) {
@@ -76,7 +76,7 @@ export class CacheRawPage extends HTMLElement {
     $<JsonShow>('#cache').show('Cache', path, await cacheGetRaw(path));
   }
 
-  async doSearch(path: string) {
+  private async doSearch(path: string) {
     const jsonShow = $<JsonShow>('#search');
     if (pathIsQuestions(path)) {
       jsonShow.show('Search', path, await searchGetRaw(path));

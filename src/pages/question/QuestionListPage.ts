@@ -23,7 +23,7 @@ export class QuestionListPage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Question List</div>
@@ -40,7 +40,7 @@ export class QuestionListPage extends HTMLElement {
     return createFragment(str);
   }
 
-  async updateComponent() {
+  private async updateComponent() {
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
 
     $<LocationInfo>('#location-info').show(bookId, chapterId);
@@ -62,7 +62,7 @@ export class QuestionListPage extends HTMLElement {
     $<HTMLElement>('[data-id="questions"]').replaceChildren(...arr);
   }
 
-  addLinks(bookId: string, chapterId: string) {
+  private addLinks(bookId: string, chapterId: string) {
     $<HTMLAnchorElement>('#question-create-link').href = hashQuestionCreate(
       bookId,
       chapterId
@@ -73,7 +73,7 @@ export class QuestionListPage extends HTMLElement {
     $<HTMLAnchorElement>('#chapter-list-link').href = hashChapterList(bookId);
   }
 
-  doDelete(questionId: TQuestionId) {
+  private doDelete(questionId: TQuestionId) {
     $<ConfirmDialog>('#confirm-dialog').activate(
       'Delete Question',
       `Do you realy want to delete the question: ${questionId.idx}?`,
@@ -81,7 +81,7 @@ export class QuestionListPage extends HTMLElement {
     );
   }
 
-  getDeleteFct(questionId: TQuestionId) {
+  private getDeleteFct(questionId: TQuestionId) {
     return async () => {
       questionDelete(
         questionId.bookId,

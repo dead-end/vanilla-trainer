@@ -18,7 +18,7 @@ export class QuestionCreatePage extends HTMLElement {
     this.updateComponent();
   }
 
-  renderComponent() {
+  private renderComponent() {
     const str = /* html */ html`
       <div class="is-column is-gap">
         <div class="page-title">Create Question</div>
@@ -57,7 +57,7 @@ export class QuestionCreatePage extends HTMLElement {
     return frag;
   }
 
-  updateComponent() {
+  private updateComponent() {
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
 
     $<LocationInfo>('#location-info').show(bookId, chapterId);
@@ -68,7 +68,7 @@ export class QuestionCreatePage extends HTMLElement {
     );
   }
 
-  async handleSubmit(e: SubmitEvent) {
+  private async handleSubmit(e: SubmitEvent) {
     e.preventDefault();
 
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
