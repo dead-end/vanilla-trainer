@@ -43,7 +43,8 @@ export class QuestionShow extends HTMLElement {
     }
   }
 
-  renderComponent() {
+  // TODO: add private to all classes
+  private renderComponent() {
     const str = /* html */ html`
       <style>
         .label {
@@ -95,16 +96,19 @@ export class QuestionShow extends HTMLElement {
    * The function uses questionId and question as parameters. This ensures that
    * both are not undefined.
    */
-  // TODO: can be part of this.renderComponent() !!! innerHtml is a problem
   renderQuestion(
     questionId: TQuestionId,
     question: TQuestion,
+    reverse: boolean = false,
     process?: TQuestionProgress
   ) {
     if (this.shadowRoot) {
+      const mdQuest = mdToHtml(reverse ? question.answer : question.quest);
+      const mdAnswer = mdToHtml(reverse ? question.quest : question.answer);
+
       $('#label', this.shadowRoot).textContent = `Question: ${questionId.idx}`;
-      $('#quest', this.shadowRoot).innerHTML = mdToHtml(question.quest);
-      $('#answer', this.shadowRoot).innerHTML = mdToHtml(question.answer);
+      $('#quest', this.shadowRoot).innerHTML = mdQuest;
+      $('#answer', this.shadowRoot).innerHTML = mdAnswer;
 
       this.renderProgress(this.shadowRoot, process);
       this.renderDetails(this.shadowRoot, question);
@@ -132,7 +136,10 @@ export class QuestionShow extends HTMLElement {
     }
   }
 
-  renderProgress(root: ShadowRoot, process: TQuestionProgress | undefined) {
+  private renderProgress(
+    root: ShadowRoot,
+    process: TQuestionProgress | undefined
+  ) {
     const elem = $<HTMLElement>('#progress', root);
     if (process) {
       elem.textContent = `Progress: ${process.progress} / 3`;
@@ -141,7 +148,7 @@ export class QuestionShow extends HTMLElement {
     }
   }
 
-  renderDetails(root: ShadowRoot, question: TQuestion) {
+  private renderDetails(root: ShadowRoot, question: TQuestion) {
     const elem = $('#details', root);
     if (!question.details && elem.parentElement) {
       elem.parentElement.style.display = 'none';
@@ -149,7 +156,7 @@ export class QuestionShow extends HTMLElement {
     elem.innerHTML = question.details ? mdToHtml(question.details) : '';
   }
 
-  renderUpdateBtn(root: ShadowRoot, questionId: TQuestionId) {
+  private renderUpdateBtn(root: ShadowRoot, questionId: TQuestionId) {
     $<HTMLElement>('[data-icon="update"]', root).onclick = () => {
       window.location.hash = hashQuestionUpdate(
         questionId.bookId,
@@ -159,7 +166,7 @@ export class QuestionShow extends HTMLElement {
     };
   }
 
-  renderDeleteBtn(root: ShadowRoot, questionId: TQuestionId) {
+  private renderDeleteBtn(root: ShadowRoot, questionId: TQuestionId) {
     const elem = $<HTMLElement>('[data-icon="delete"]', root);
     if (this.doDelete) {
       elem.onclick = () => {
@@ -173,7 +180,7 @@ export class QuestionShow extends HTMLElement {
   }
 
   // TODO: Display to LocationInfo??
-  renderLocationBtn(root: ShadowRoot, questionId: TQuestionId) {
+  private renderLocationBtn(root: ShadowRoot, questionId: TQuestionId) {
     $<HTMLElement>('[data-icon="info"]', root).onclick = () => {
       const info = $<LocationInfo>('#location-info', root);
 

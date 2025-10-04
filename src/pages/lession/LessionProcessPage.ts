@@ -15,7 +15,6 @@ import { questionGet } from '../../lib/model/question';
 import { TLession, TQuestionId, TQuestionProgress } from '../../lib/types';
 import { $, $$ } from '../../lib/utils/query';
 
-// TODO: reverse does not work
 export class LessionProcessPage extends HTMLElement {
   lession: TLession | undefined;
   questionProgress: TQuestionProgress | undefined;
@@ -89,7 +88,8 @@ export class LessionProcessPage extends HTMLElement {
         this.questionProgress = tmp;
         this.setQuestion(
           this.questionProgress.questionId,
-          this.questionProgress
+          this.questionProgress,
+          this.lession.reverse
         );
         this.setStateQuestion(true);
       } else {
@@ -174,7 +174,11 @@ export class LessionProcessPage extends HTMLElement {
     });
   }
 
-  async setQuestion(questionId: TQuestionId, progress: TQuestionProgress) {
+  async setQuestion(
+    questionId: TQuestionId,
+    progress: TQuestionProgress,
+    reverse: boolean
+  ) {
     const question = await questionGet(
       questionId.bookId,
       questionId.chapterId,
@@ -183,6 +187,7 @@ export class LessionProcessPage extends HTMLElement {
     $<QuestionShow>('#question-show').renderQuestion(
       questionId,
       question,
+      reverse,
       progress
     );
   }
