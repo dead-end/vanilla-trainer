@@ -9,7 +9,8 @@ const KEY = 'lession';
 export const lessionCreate = (
   questionIds: TQuestionId[],
   progress: number,
-  reverse: boolean
+  reverse: boolean,
+  max: number
 ) => {
   if (questionIds.length == 0) {
     return;
@@ -24,7 +25,7 @@ export const lessionCreate = (
   shuffleArr(learning);
 
   const lession: TLession = {
-    learning: learning,
+    learning: max > 0 ? learning.slice(0, max) : learning,
     learned: [],
     reverse: reverse,
   };

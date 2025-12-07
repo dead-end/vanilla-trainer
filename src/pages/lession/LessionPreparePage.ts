@@ -43,6 +43,14 @@ export class LessionPreparePage extends HTMLElement {
               <option value="false" selected>False</option>
             </select>
           </ui-field>
+          <ui-field data-id="max" data-label="Max Questions">
+            <select name="max" id="max">
+              <option value="-1" selected>All</option>
+              <option value="30">30</option>
+              <option value="35">35</option>
+              <option value="40">40</option>
+            </select>
+          </ui-field>
 
           <div class="is-row is-gap">
             <a href="#" class="btn" id="chapter-list-link">Cancel</a>
@@ -80,6 +88,7 @@ export class LessionPreparePage extends HTMLElement {
     const formData = new FormData(form);
     const correct = fieldGet(formData, 'correct');
     const reverse = fieldGet(formData, 'reverse');
+    const max = fieldGet(formData, 'max');
 
     const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
 
@@ -93,7 +102,8 @@ export class LessionPreparePage extends HTMLElement {
     lessionCreate(
       questionIds,
       parseInt(correct.value),
-      reverse.value === 'true'
+      reverse.value === 'true',
+      parseInt(max.value)
     );
 
     window.location.hash = hashLessionProcess();
