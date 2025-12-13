@@ -89,3 +89,9 @@ export type TKeyValue = {
 };
 
 export type TDoDelete = (questionId: TQuestionId) => void;
+
+export type TChapterContent = {
+  bookId: string;
+  chapterId: string;
+  questions: TQuestion[];
+};

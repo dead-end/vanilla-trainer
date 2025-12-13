@@ -1,14 +1,19 @@
 import { KeyValues } from '../../components/KeyValues';
+import {
+  chapterContentsGet,
+  chapterContentsGetIds,
+  chapterContentsLen,
+} from '../../lib/chapterContent';
 import { dispatchError } from '../../lib/error';
 import { createFragment } from '../../lib/html/createFragment';
 import { html } from '../../lib/html/html';
 import { hashLessionProcess } from '../../lib/location/hash';
+
 import { bookGet } from '../../lib/model/book';
 import { chapterGet } from '../../lib/model/chapter';
 import { lessionCreate } from '../../lib/model/lession';
-import { questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
-import { TQuestion, TQuestionId } from '../../lib/types';
+import { TChapterContent, TKeyValue } from '../../lib/types';
 import { fieldGet } from '../../lib/ui/field';
 import { $ } from '../../lib/utils/query';
 
@@ -68,16 +73,14 @@ export class LessionPreparePage extends HTMLElement {
   }
 
   private async updateComponent() {
-    const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
+    const chapterContents = await this.getChapterContents();
 
-    const questions = await questionListing(bookId, chapterId);
-    const len = questions.length;
-    if (len === 0) {
+    if (chapterContentsLen(chapterContents) === 0) {
       dispatchError('The chapter has no questions!');
       $<HTMLButtonElement>('#btn-start').disabled = true;
     }
 
-    this.addLessionInfo(bookId, chapterId, questions);
+    this.addLessionInfo(chapterContents);
   }
 
   private async handleSubmit(e: SubmitEvent) {
@@ -90,14 +93,8 @@ export class LessionPreparePage extends HTMLElement {
     const reverse = fieldGet(formData, 'reverse');
     const max = fieldGet(formData, 'max');
 
-    const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
-
-    const questions = await questionListing(bookId, chapterId);
-    const questionIds: TQuestionId[] = questions.map((_q, i) => ({
-      bookId,
-      chapterId,
-      idx: i,
-    }));
+    const chapterContents = await this.getChapterContents();
+    const questionIds = chapterContentsGetIds(chapterContents);
 
     lessionCreate(
       questionIds,
@@ -109,18 +106,46 @@ export class LessionPreparePage extends HTMLElement {
     window.location.hash = hashLessionProcess();
   }
 
-  private async addLessionInfo(
-    bookId: string,
-    chapterId: string,
-    questions: TQuestion[]
-  ) {
-    const book = await bookGet(bookId);
-    const chapter = await chapterGet(bookId, chapterId);
+  private async addLessionInfo(chapterContents: TChapterContent[]) {
+    const data: TKeyValue[] = [];
 
-    $<KeyValues>('#lession-info').update([
-      { key: 'Book', value: book.title },
-      { key: 'Chapter', value: chapter.title },
-      { key: 'Length', value: questions.length.toString() },
-    ]);
+    for (const chapterContent of chapterContents) {
+      const book = await bookGet(chapterContent.bookId);
+      const chapter = await chapterGet(
+        chapterContent.bookId,
+        chapterContent.chapterId
+      );
+
+      data.push({ key: 'Book', value: book.title });
+      data.push({ key: 'Chapter', value: chapter.title });
+      data.push({
+        key: 'Length',
+        value: chapterContent.questions.length.toString(),
+      });
+    }
+
+    if (chapterContents.length > 0) {
+      data.push({
+        key: 'Total',
+        value: chapterContentsLen(chapterContents).toString(),
+      });
+    }
+
+    $<KeyValues>('#lession-info').update(data);
+  }
+
+  /**
+   * The function gets the book and the selected chapters from the url and
+   * returns the corresponding chapter content.
+   */
+  private async getChapterContents() {
+    const [bookId, chapterIds] = getRouteParams('bookId', 'chapterIds');
+
+    const chapterContents = await chapterContentsGet(
+      bookId,
+      chapterIds.split(',')
+    );
+
+    return chapterContents;
   }
 }

@@ -13,7 +13,7 @@ import { pathChaptersGet } from '../../lib/location/path';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';
 import { TChapter } from '../../lib/types';
-import { $ } from '../../lib/utils/query';
+import { $, $$ } from '../../lib/utils/query';
 
 export class ChapterListPage extends HTMLElement {
   connectedCallback() {
@@ -32,6 +32,7 @@ export class ChapterListPage extends HTMLElement {
         <table>
           <thead>
             <tr>
+              <th class="tight"></th>
               <th class="is-larger-sm">Id</th>
               <th>Title</th>
               <th>Actions</th>
@@ -43,11 +44,17 @@ export class ChapterListPage extends HTMLElement {
           <a href="#/books" class="btn">Books</a>
           <a href="#" class="btn" id="chapter-create-link">Create</a>
           <a href="#/" class="btn" id="chapter-cache-link">Cache</a>
+          <button id="btn-start" class="btn" type="button" disabled>
+            Start
+          </button>
         </div>
       </div>
     `;
 
     const frag = createFragment(str);
+
+    $<HTMLButtonElement>('#btn-start', frag).onclick =
+      this.startLessionPrepare.bind(this);
 
     return frag;
   }
@@ -108,6 +115,14 @@ export class ChapterListPage extends HTMLElement {
   ) {
     const str = /* html */ html`
       <tr>
+        <td class="tight">
+          <input
+            type="checkbox"
+            id="chapter-${chap.id}"
+            name="chapter"
+            value="${chap.id}"
+          />
+        </td>
         <td class="is-larger-sm">${chap.id}</td>
         <td>${chap.title}</td>
         <td data-id="actions">
@@ -141,6 +156,38 @@ export class ChapterListPage extends HTMLElement {
       window.location.hash = hashLessionPrepare(bookId, chap.id);
     };
 
+    $<HTMLElement>('input[type="checkbox"]', frag).onclick =
+      this.updateStartButton.bind(this);
+
     return frag;
+  }
+
+  /**
+   * The function starts the lession. It gets the selected chapters, creates
+   * the url and redirects.
+   */
+  private startLessionPrepare() {
+    const arr: string[] = [];
+
+    $$<HTMLInputElement>('input[type="checkbox"]', this).forEach((c) => {
+      if (c.checked) {
+        arr.push(c.value);
+      }
+    });
+
+    const chapterIds = arr.join(',');
+    const bookId = getRouteParam('bookId');
+
+    window.location.hash = hashLessionPrepare(bookId, chapterIds);
+  }
+
+  /**
+   * The function enables the start buton if at least one checkbox is checked.
+   */
+  private updateStartButton() {
+    $<HTMLButtonElement>('#btn-start').disabled = !$$<HTMLInputElement>(
+      'input[type="checkbox"]',
+      this
+    ).find((c) => c.checked);
   }
 }

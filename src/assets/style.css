@@ -196,6 +196,10 @@ select {
   outline: none;
 }
 
+input[type='checkbox'] {
+  min-width: 0rem;
+}
+
 /*
 TODO: style select box - padding is ignored
 select {
@@ -430,6 +434,11 @@ tr:hover {
 .dense td,
 .dense th {
   padding: 0.4rem var(--table-padding-x);
+}
+
+th.tight,
+td.tight {
+  width: 0rem;
 }
 
 /******************************************************************************

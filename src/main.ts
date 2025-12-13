@@ -59,7 +59,7 @@ routeRegister(
   'question-update-page'
 );
 routeRegister(
-  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/lession-prepare$/,
+  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterIds>[^\/]+)\/lession-prepare$/,
   'lession-prepare-page'
 );
 routeRegister(/^#\/lession-process$/, 'lession-process-page');
