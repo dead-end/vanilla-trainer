@@ -47,3 +47,4 @@ Install VS Code extension: `es6-string-html`
 ## Docs
 
 - [Styling Web Components](docs/styling.md)
+- [Template literals](docs/template-literals.md)
