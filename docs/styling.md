@@ -1,7 +1,7 @@
 ## Styling Web Components
 
-The Shadow Dom encapsulates CSS. The is what you want if you want to create a
-Web Component that can be placed on any website.
+The Shadow Dom encapsulates CSS. This is desired behavior if you want to create a
+Web Component that is reusable and can be placed on any website.
 
 If you create an app that has a lot of web components you probably want to have a
 consistent styling. In this case the encapsulation becomes a problem.
