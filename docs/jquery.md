@@ -1,6 +1,6 @@
-## Poor men's jquery
+## Poor men's JQuery
 
-This is a simple implementation of the `$` function in jquery:
+This is a simple implementation of the `$` function in JQuery:
 
 ```js
 export const $ = <T extends Element>(

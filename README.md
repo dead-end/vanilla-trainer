@@ -48,4 +48,4 @@ Install VS Code extension: `es6-string-html`
 
 - [Styling Web Components](docs/styling.md)
 - [Template literals](docs/template-literals.md)
-- [Poor men's jquery](docs/jquery.md)
+- [Poor men's JQuery](docs/jquery.md)
