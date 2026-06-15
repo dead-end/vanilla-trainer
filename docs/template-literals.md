@@ -46,7 +46,7 @@ const str = `string-0${param_0}string-1${param_1}`;
 looks like:
 
 ```js
-(template[0], param[0], template[1], param[1], template[2]);
+template[0] + param[0] + template[1] + param[1] + template[2];
 ```
 
 with:
