@@ -51,10 +51,25 @@ template[0] + param[0] + template[1] + param[1] + template[2];
 
 with:
 
+| Parameter   | Value      |
+| ----------- | ---------- |
+| template[0] | 'string-0' |
+| param[0]    | param_0    |
+| template[1] | 'string-1' |
+| param[1]    | param_0    |
+| template[2] | ''         |
+
+Here is an implementation of a html escape function:
+
 ```js
-template[0] = 'string-0';
-param[0] = param_0;
-template[1] = 'string-1';
-param[1] = param_1;
-template[2] = '';
+const escapeHtml = (() => {
+  const div = document.createElement('div');
+
+  return (str: string) => {
+    div.textContent = str;
+    const escaped = div.innerHTML;
+    div.textContent = '';
+    return escaped;
+  };
+})();
 ```
