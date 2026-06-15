@@ -9,9 +9,9 @@ consistent styling. In this case the encapsulation becomes a problem.
 The solution to this is `adoptedStyleSheets`. ([see: Mozilla](https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptedStyleSheets))
 
 The first step is to create styles and export the styles that you want to share.
-You can import the styles as a raw string and create an array of `CSSStyleSheet`
-objects. The `CSSStyleSheet` ensures that the css is parsed only once and then
-can be shared.
+You can import the styles as a raw string, which is a vite feature. ([see: Vite](https://vite.dev/guide/assets#importing-asset-as-string))
+Then you can create an array of `CSSStyleSheet` objects. The `CSSStyleSheet` ensures
+that the css is parsed only once and then can be shared.
 
 ```js
 import style from './assets/style.css?raw';
