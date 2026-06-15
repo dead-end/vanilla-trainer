@@ -1,16 +1,17 @@
-## Styling web components
+## Styling Web Components
 
-The shadow dom encaplsulates CSS. The is ok if you want to create a web component
-that can be placed on every page.
+The Shadow Dom encapsulates CSS. The is what you want if you want to create a
+Web Component that can be placed on any website.
 
 If you create an app that has a lot of web components you probably want to have a
-consistent styling.
+consistent styling. In this case the encapsulation becomes a problem.
 
-The solution to this is `adoptedStyleSheets`. ([see:](https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptedStyleSheets))
+The solution to this is `adoptedStyleSheets`. ([see: Mozilla](https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptedStyleSheets))
 
-The first step is to create styles. You can import the styles as a raw string and
-create an array of `CSSStyleSheet`objects. The `CSSStyleSheet` ensures that the
-css is parsed only once and then can be shared.
+The first step is to create styles and export the styles that you want to share.
+You can import the styles as a raw string and create an array of `CSSStyleSheet`
+objects. The `CSSStyleSheet` ensures that the css is parsed only once and then
+can be shared.
 
 ```js
 import style from './assets/style.css?raw';
@@ -27,7 +28,7 @@ You can use this array to style the normal dom:
 document.adoptedStyleSheets = STYLES;
 ```
 
-Now you can style your web components.
+And you can style your web components.
 
 ```js
 import { STYLES } from '../lib/ui/stylesheets';
