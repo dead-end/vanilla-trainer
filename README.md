@@ -17,7 +17,7 @@ ghpages.publish(
   },
   () => {
     console.log('Deploy Complete!');
-  }
+  },
 );
 ```
 
@@ -43,3 +43,7 @@ npm run deploy
 ## innerHtml
 
 Install VS Code extension: `es6-string-html`
+
+## Docs
+
+- ([Styling](docs/styling.md))
