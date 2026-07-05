@@ -36,10 +36,10 @@ export class SearchPage extends HTMLElement {
     const arr: QuestionShow[] = [];
 
     const results = await searchDo(searchStr.toLowerCase());
-    $<HTMLElement>('[data-id="num"]').innerText =
+    $<HTMLElement>('[data-id="num"]').textContent =
       results.length === 0
         ? 'Nothing found!'
-        : `Numebr of results: ${results.length}`;
+        : `Number of results: ${results.length}`;
 
     results.forEach((r) => {
       arr.push(QuestionShow.instance(r.questId, r.quest));

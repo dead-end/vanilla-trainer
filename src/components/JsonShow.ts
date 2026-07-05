@@ -14,12 +14,12 @@ export class JsonShow extends HTMLElement {
 
   show(title: string, path: string, content: string) {
     if (this.shadowRoot) {
-      // TODO: why set fley? not static?
+      // TODO: why set flex? not static?
       $<HTMLElement>('#wrapper', this.shadowRoot).style.display = 'flex';
 
-      $<HTMLElement>('#title', this.shadowRoot).innerText = title;
-      $<HTMLElement>('#path', this.shadowRoot).innerText = path;
-      $<HTMLElement>('#content', this.shadowRoot).innerText = content;
+      $<HTMLElement>('#title', this.shadowRoot).textContent = title;
+      $<HTMLElement>('#path', this.shadowRoot).textContent = path;
+      $<HTMLElement>('#content', this.shadowRoot).textContent = content;
     }
   }
 
