@@ -7,13 +7,20 @@ import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
 import { KeyValues } from './KeyValues';
 
+const COMP_FRAG = createFragment(/* html */ html`
+  <key-values id="info"></key-values>
+`);
+
+/**
+ * The class shows for a book, chapter, question the corresponding information.
+ * For example for a question it shows the question, the chapter and the book.
+ */
 export class LocationInfo extends HTMLElement {
-  connectedCallback() {
-    if (!this.shadowRoot) {
-      const shadow = this.attachShadow({ mode: 'open' });
-      shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(this.renderComponent());
-    }
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: 'open' });
+    shadow.adoptedStyleSheets = STYLES;
+    shadow.appendChild(COMP_FRAG.cloneNode(true));
   }
 
   async show(bookId: string, chapterId?: string, idx?: string) {
@@ -38,11 +45,5 @@ export class LocationInfo extends HTMLElement {
 
   hide() {
     this.style.display = 'none';
-  }
-
-  renderComponent() {
-    const str = /* html */ html` <key-values id="info"></key-values> `;
-
-    return createFragment(str);
   }
 }
