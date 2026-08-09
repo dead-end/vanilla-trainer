@@ -45,7 +45,7 @@ export class PreviewField extends HTMLElement {
   }
 
   disconnectedCallback() {
-    if (this.shadowRoot != null) {
+    if (this.shadowRoot !== null) {
       $<HTMLTextAreaElement>(`#${this.id}`).oninput = null;
     }
   }

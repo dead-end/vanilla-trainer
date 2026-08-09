@@ -26,7 +26,7 @@ export class LessionContinue extends HTMLElement {
   }
 
   connectedCallback() {
-    if (this.shadowRoot != null) {
+    if (this.shadowRoot !== null) {
       $<HTMLButtonElement>('#btn-continue', this.shadowRoot).onclick =
         this.onContinue;
       $<HTMLButtonElement>('#btn-end', this.shadowRoot).onclick = this.onEnd;
@@ -36,7 +36,7 @@ export class LessionContinue extends HTMLElement {
   }
 
   disconnectedCallback() {
-    if (this.shadowRoot != null) {
+    if (this.shadowRoot !== null) {
       $<HTMLButtonElement>('#btn-continue', this.shadowRoot).onclick = null;
 
       $<HTMLButtonElement>('#btn-end', this.shadowRoot).onclick = null;

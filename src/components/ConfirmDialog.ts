@@ -70,7 +70,7 @@ export class ConfirmDialog extends HTMLElement {
   }
 
   disconnectedCallback() {
-    if (this.shadowRoot != null) {
+    if (this.shadowRoot !== null) {
       $<HTMLElement>('#btn-cancel', this.shadowRoot).onclick = null;
       $<HTMLElement>('#btn-ok', this.shadowRoot).onclick = null;
     }
@@ -83,7 +83,7 @@ export class ConfirmDialog extends HTMLElement {
   };
 
   onOk = async () => {
-    if (this.shadowRoot && this.fct) {
+    if (this.shadowRoot !== null && this.fct) {
       const btn = $<HTMLButtonElement>('#btn-ok', this.shadowRoot);
       btn.disabled = true;
       this.fct().finally(() => {

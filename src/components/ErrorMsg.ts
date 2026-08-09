@@ -36,7 +36,7 @@ export class ErrorMsg extends HTMLElement {
   }
 
   disconnectedCallback() {
-    if (this.shadowRoot != null) {
+    if (this.shadowRoot !== null) {
       $<HTMLElement>('#error-btn', this.shadowRoot).onclick = null;
       document.removeEventListener('error-msg', this.onError);
     }
