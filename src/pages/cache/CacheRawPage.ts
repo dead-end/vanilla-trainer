@@ -56,9 +56,7 @@ export class CacheRawPage extends HTMLElement {
     const jsonShow = $<JsonShow>('#search');
     if (pathIsQuestions(path)) {
       jsonShow.show('Search', path, await searchGetRaw(path));
-      return;
     }
-    jsonShow.hide();
   }
 
   renderPage() {
