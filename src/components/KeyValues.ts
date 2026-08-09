@@ -4,13 +4,34 @@ import { TKeyValue } from '../lib/types';
 import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
 
-export class KeyValues extends HTMLElement {
-  connectedCallback() {
-    if (!this.shadowRoot) {
-      const shadow = this.attachShadow({ mode: 'open' });
-      shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(this.renderComponent());
+const COMP_FRAG = createFragment(/* html */ html`
+  <style>
+    .wrapper {
+      display: grid;
+      grid-gap: var(--gap-small);
+      grid-template-columns: 1fr 1fr 1fr;
     }
+  </style>
+  <div id="wrapper" class="wrapper"></div>
+`);
+
+const DATA_FRAG = createFragment(/* html */ html`
+  <div class="is-row is-gap-small">
+    <div class="is-key"></div>
+    <div class="is-value"></div>
+  </div>
+`);
+
+/**
+ * The class renders an array of key / values. The array is provided
+ * programmatically.
+ */
+export class KeyValues extends HTMLElement {
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: 'open' });
+    shadow.adoptedStyleSheets = STYLES;
+    shadow.appendChild(COMP_FRAG.cloneNode(true));
   }
 
   update(data: TKeyValue[]) {
@@ -20,28 +41,10 @@ export class KeyValues extends HTMLElement {
     }
   }
 
-  renderComponent() {
-    const str = /* html */ html`
-      <style>
-        .wrapper {
-          display: grid;
-          grid-gap: var(--gap-small);
-          grid-template-columns: 1fr 1fr 1fr;
-        }
-      </style>
-      <div id="wrapper" class="wrapper"></div>
-    `;
-
-    return createFragment(str);
-  }
-
   renderData(data: TKeyValue) {
-    const str = /* html */ html`
-      <div class="is-row is-gap-small">
-        <div class="is-key">${data.key}</div>
-        <div class="is-value">${data.value}</div>
-      </div>
-    `;
-    return createFragment(str);
+    const clone = DATA_FRAG.cloneNode(true) as DocumentFragment;
+    $<HTMLElement>('.is-key', clone).innerText = data.key;
+    $<HTMLElement>('.is-value', clone).innerText = data.value;
+    return clone;
   }
 }
