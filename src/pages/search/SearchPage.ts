@@ -42,7 +42,7 @@ export class SearchPage extends HTMLElement {
         : `Number of results: ${results.length}`;
 
     results.forEach((r) => {
-      arr.push(QuestionShow.instance(r.questId, r.quest));
+      arr.push(new QuestionShow().init(r.questId, r.quest));
     });
 
     $<HTMLElement>('[data-id="questions"]').replaceChildren(...arr);
