@@ -12,33 +12,84 @@ import { STYLES } from '../lib/ui/stylesheets';
 import { $ } from '../lib/utils/query';
 import { LocationInfo } from './LocationInfo';
 
+const COMP_FRAG = createFragment(/* html */ html`
+  <style>
+    .label {
+      font-weight: bold;
+      padding-bottom: 0.5rem;
+    }
+  </style>
+  <div class="is-column is-gap-small">
+    <location-info id="location-info" style="display: none"></location-info>
+    <div class="is-grid-3">
+      <div class="is-column">
+        <div class="is-row is-space-between">
+          <div class="label" id="label">Question</div>
+          <div id="progress"></div>
+        </div>
+        <div
+          id="quest"
+          class="is-border is-shadow is-padding-input is-multiline is-grow"
+        ></div>
+      </div>
+      <div class="is-column">
+        <div class="label">Answer</div>
+        <div
+          id="answer"
+          class="is-border is-shadow is-padding-input is-multiline is-grow"
+        ></div>
+      </div>
+      <div class="is-column">
+        <div class="label">Details</div>
+        <div
+          id="details"
+          class="is-border is-shadow is-padding-input is-multiline is-grow"
+        ></div>
+      </div>
+    </div>
+
+    <div class="is-row is-end is-gap-small">
+      <ui-icons data-icon="delete"></ui-icons>
+      <ui-icons data-icon="update"></ui-icons>
+      <ui-icons data-icon="info"></ui-icons>
+    </div>
+  </div>
+`);
+
+/**
+ *
+ * The class uses the init function to provide data that would be normally
+ * given by the constructor. This is not possible with web components.
+ */
 export class QuestionShow extends HTMLElement {
   questionId: TQuestionId | undefined;
   question: TQuestion | undefined;
   doDelete: TDoDelete | undefined;
 
-  static instance(
-    questionId: TQuestionId,
-    question: TQuestion,
-    doDelete?: TDoDelete | undefined
-  ) {
-    const instance = document.createElement('question-show') as QuestionShow;
-    instance.questionId = questionId;
-    instance.question = question;
-    instance.doDelete = doDelete;
-    return instance;
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: 'open' });
+    shadow.adoptedStyleSheets = STYLES;
+    shadow.appendChild(COMP_FRAG.cloneNode(true));
   }
 
   connectedCallback() {
-    if (!this.shadowRoot) {
-      const shadow = this.attachShadow({ mode: 'open' });
-      shadow.adoptedStyleSheets = STYLES;
-      shadow.appendChild(this.renderComponent());
-
+    if (this.shadowRoot !== null) {
       if (this.questionId && this.question) {
         this.renderQuestion(this.questionId, this.question);
       }
     }
+  }
+
+  init(
+    questionId: TQuestionId,
+    question: TQuestion,
+    doDelete?: TDoDelete | undefined,
+  ) {
+    this.questionId = questionId;
+    this.question = question;
+    this.doDelete = doDelete;
+    return this;
   }
 
   /**
@@ -48,7 +99,7 @@ export class QuestionShow extends HTMLElement {
   renderQuestion(
     questionId: TQuestionId,
     question: TQuestion,
-    process?: TQuestionProgress
+    process?: TQuestionProgress,
   ) {
     if (this.shadowRoot) {
       $('#label', this.shadowRoot).textContent = `Question: ${questionId.idx}`;
@@ -103,7 +154,7 @@ export class QuestionShow extends HTMLElement {
       window.location.hash = hashQuestionUpdate(
         questionId.bookId,
         questionId.chapterId,
-        questionId.idx
+        questionId.idx,
       );
     };
   }
@@ -131,59 +182,11 @@ export class QuestionShow extends HTMLElement {
         $<LocationInfo>('#location-info', root).show(
           questionId.bookId,
           questionId.chapterId,
-          questionId.idx.toString()
+          questionId.idx.toString(),
         );
       } else {
         info.style.display = 'none';
       }
     };
-  }
-
-  renderComponent() {
-    const str = /* html */ html`
-      <style>
-        .label {
-          font-weight: bold;
-          padding-bottom: 0.5rem;
-        }
-      </style>
-      <div class="is-column is-gap-small">
-        <location-info id="location-info" style="display: none"></location-info>
-        <div class="is-grid-3">
-          <div class="is-column">
-            <div class="is-row is-space-between">
-              <div class="label" id="label">Question</div>
-              <div id="progress"></div>
-            </div>
-            <div
-              id="quest"
-              class="is-border is-shadow is-padding-input is-multiline is-grow"
-            ></div>
-          </div>
-          <div class="is-column">
-            <div class="label">Answer</div>
-            <div
-              id="answer"
-              class="is-border is-shadow is-padding-input is-multiline is-grow"
-            ></div>
-          </div>
-          <div class="is-column">
-            <div class="label">Details</div>
-            <div
-              id="details"
-              class="is-border is-shadow is-padding-input is-multiline is-grow"
-            ></div>
-          </div>
-        </div>
-
-        <div class="is-row is-end is-gap-small">
-          <ui-icons data-icon="delete"></ui-icons>
-          <ui-icons data-icon="update"></ui-icons>
-          <ui-icons data-icon="info"></ui-icons>
-        </div>
-      </div>
-    `;
-
-    return createFragment(str);
   }
 }

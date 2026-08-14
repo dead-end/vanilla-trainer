@@ -34,11 +34,11 @@ export class QuestionListPage extends HTMLElement {
 
     questions.forEach((q, idx) => {
       arr.push(
-        QuestionShow.instance(
+        new QuestionShow().init(
           { bookId, chapterId, idx },
           q,
-          this.doDelete.bind(this)
-        )
+          this.doDelete.bind(this),
+        ),
       );
     });
 
@@ -48,10 +48,10 @@ export class QuestionListPage extends HTMLElement {
   addLinks(bookId: string, chapterId: string) {
     $<HTMLAnchorElement>('#question-create-link').href = hashQuestionCreate(
       bookId,
-      chapterId
+      chapterId,
     );
     $<HTMLAnchorElement>('#question-cache-link').href = hashCache(
-      pathQuestionsGet(bookId, chapterId)
+      pathQuestionsGet(bookId, chapterId),
     );
     $<HTMLAnchorElement>('#chapter-list-link').href = hashChapterList(bookId);
   }
@@ -60,7 +60,7 @@ export class QuestionListPage extends HTMLElement {
     $<ConfirmDialog>('#confirm-dialog').activate(
       'Delete Question',
       `Do you realy want to delete the question: ${questionId.idx}?`,
-      this.getDeleteFct(questionId)
+      this.getDeleteFct(questionId),
     );
   }
 
@@ -69,7 +69,7 @@ export class QuestionListPage extends HTMLElement {
       questionDelete(
         questionId.bookId,
         questionId.chapterId,
-        questionId.idx
+        questionId.idx,
       ).then(() => {
         this.render();
       });
