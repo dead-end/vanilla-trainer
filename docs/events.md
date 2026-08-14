@@ -9,7 +9,7 @@ remove the handle without memory leaks.
 
 ```js
   connectedCallback() {
-    if (this.shadowRoot != null) {
+    if (this.shadowRoot !== null) {
       $<HTMLButtonElement>('#btn-end', this.shadowRoot).onclick =
         this.onEnd.bind(this);
         ...
@@ -17,7 +17,7 @@ remove the handle without memory leaks.
   }
 
   disconnectedCallback() {
-    if (this.shadowRoot != null) {
+    if (this.shadowRoot !== null) {
       $<HTMLButtonElement>('#btn-end', this.shadowRoot).onclick = null;
       ...
     }
