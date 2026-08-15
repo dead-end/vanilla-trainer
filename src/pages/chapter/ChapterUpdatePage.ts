@@ -8,10 +8,34 @@ import { LocationInfo } from '../../components/LocationInfo';
 import { createFragment } from '../../lib/html/createFragment';
 import { html } from '../../lib/html/html';
 
+const PAGE_FRAG = createFragment(/* html */ html`
+  <div class="is-column is-gap">
+    <div class="page-title">Update Chapter</div>
+    <location-info id="location-info"></location-info>
+    <form class="is-column is-gap">
+      <ui-field data-id="id" data-label="Id">
+        <input id="id" name="id" type="text" readonly />
+      </ui-field>
+      <ui-field data-id="title" data-label="Title">
+        <input id="title" name="title" type="text" />
+      </ui-field>
+      <div class="is-row is-gap">
+        <a href="#/books" class="btn" id="chapter-list-link">Cancel</a>
+        <button class="btn" type="submit" id="btn-submit">Update</button>
+      </div>
+    </form>
+  </div>
+`);
+
+/**
+ * The class implements a page to update a chapter.
+ */
 export class ChapterUpdatePage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      const frag = PAGE_FRAG.cloneNode(true) as DocumentFragment;
+      $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit;
+      this.appendChild(frag);
     }
 
     this.render();
@@ -32,7 +56,7 @@ export class ChapterUpdatePage extends HTMLElement {
     $<HTMLInputElement>('#title').value = chapter.title;
   }
 
-  async handleSubmit(e: SubmitEvent) {
+  handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
 
     const bookId = getRouteParam('bookId');
@@ -62,32 +86,5 @@ export class ChapterUpdatePage extends HTMLElement {
           button.disabled = false;
         });
     }
-  }
-
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Update Chapter</div>
-        <location-info id="location-info"></location-info>
-        <form class="is-column is-gap">
-          <ui-field data-id="id" data-label="Id">
-            <input id="id" name="id" type="text" readonly />
-          </ui-field>
-          <ui-field data-id="title" data-label="Title">
-            <input id="title" name="title" type="text" />
-          </ui-field>
-          <div class="is-row is-gap">
-            <a href="#/books" class="btn" id="chapter-list-link">Cancel</a>
-            <button class="btn" type="submit" id="btn-submit">Update</button>
-          </div>
-        </form>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
-
-    return frag;
-  }
+  };
 }
