@@ -32,40 +32,40 @@ import { LessionContinue } from './components/LessionContinue';
 
 document.adoptedStyleSheets = STYLES;
 
-routeRegister(/^#\/$/, 'index-page');
-routeRegister(/^#\/admin$/, 'admin-page');
-routeRegister(/^#\/books$/, 'book-list-page');
-routeRegister(/^#\/books\/create$/, 'book-create-page');
-routeRegister(/^#\/books\/update\/(?<bookId>[^\/]+)$/, 'book-update-page');
-routeRegister(/^#\/book\/(?<bookId>[^\/]+)\/chapters$/, 'chapter-list-page');
+routeRegister('^#/$', 'index-page');
+routeRegister('^#/admin$', 'admin-page');
+routeRegister('^#/books$', 'book-list-page');
+routeRegister('^#/books/create$', 'book-create-page');
+routeRegister('^#/books/update/(?<bookId>[^/]+)$', 'book-update-page');
+routeRegister('^#/book/(?<bookId>[^/]+)/chapters$', 'chapter-list-page');
 routeRegister(
-  /^#\/book\/(?<bookId>[^\/]+)\/chapters\/create$/,
-  'chapter-create-page'
+  '^#/book/(?<bookId>[^/]+)/chapters/create$',
+  'chapter-create-page',
 );
 routeRegister(
-  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/update$/,
-  'chapter-update-page'
+  '^#/book/(?<bookId>[^/]+)/chapter/(?<chapterId>[^/]+)/update$',
+  'chapter-update-page',
 );
 routeRegister(
-  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/questions$/,
-  'question-list-page'
+  '^#/book/(?<bookId>[^/]+)/chapter/(?<chapterId>[^/]+)/questions$',
+  'question-list-page',
 );
 routeRegister(
-  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/questions\/create$/,
-  'question-create-page'
+  '^#/book/(?<bookId>[^/]+)/chapter/(?<chapterId>[^/]+)/questions/create$',
+  'question-create-page',
 );
 routeRegister(
-  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/question\/(?<idx>[^\/]+)\/update$/,
-  'question-update-page'
+  '^#/book/(?<bookId>[^/]+)/chapter/(?<chapterId>[^/]+)/question/(?<idx>[^/]+)/update$',
+  'question-update-page',
 );
 routeRegister(
-  /^#\/book\/(?<bookId>[^\/]+)\/chapter\/(?<chapterId>[^\/]+)\/lession-prepare$/,
-  'lession-prepare-page'
+  '^#/book/(?<bookId>[^/]+)/chapter/(?<chapterId>[^/]+)/lession-prepare$',
+  'lession-prepare-page',
 );
-routeRegister(/^#\/lession-process$/, 'lession-process-page');
-routeRegister(/^#\/cache\/list$/, 'cache-list-page');
-routeRegister(/^#\/cache\/raw\/(?<path>.*)$/, 'cache-raw-page');
-routeRegister(/^#\/search(\/(?<searchStr>[^\/]+))?$/, 'search-page');
+routeRegister('^#/lession-process$', 'lession-process-page');
+routeRegister('^#/cache/list$', 'cache-list-page');
+routeRegister('^#/cache/raw/(?<path>.*)$', 'cache-raw-page');
+routeRegister('^#/search(/(?<searchStr>[^/]+))?$', 'search-page');
 
 customElements.define('navi-gation', Navigation);
 customElements.define('error-msg', ErrorMsg);

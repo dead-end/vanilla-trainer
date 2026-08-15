@@ -55,8 +55,8 @@ const handleHashChange = async () => {
 /**
  * Register a new route.
  */
-// TODO: Create a regex from a string: escape
-export const routeRegister = (regex: RegExp, page: string) => {
+export const routeRegister = (regStr: string, page: string) => {
+  const regex = new RegExp(regStr);
   routes.push({ regex, page });
 };
 
@@ -66,7 +66,7 @@ export const routeRegister = (regex: RegExp, page: string) => {
 export const routeInit = (
   _indexHash: string,
   _adminHash: string,
-  _notFound: string
+  _notFound: string,
 ) => {
   indexHash = _indexHash;
   adminHash = _adminHash;
