@@ -15,6 +15,29 @@ import { questionGet } from '../../lib/model/question';
 import { TLession, TQuestionId, TQuestionProgress } from '../../lib/types';
 import { $, $$ } from '../../lib/utils/query';
 
+const PAGE_FRAG = createFragment(/* html */ html`
+  <div class="is-column is-gap">
+    <div class="page-title">Lession Process</div>
+
+    <location-info id="location-info"></location-info>
+    <key-values id="progress-info"></key-values>
+
+    <question-show id="question-show" data-show="running"></question-show>
+
+    <div class="is-row is-gap">
+      <button class="btn" id="btn-correct" data-show="show">Correct</button>
+      <button class="btn" id="btn-wrong" data-show="show">Wrong</button>
+      <button class="btn" id="btn-skip" data-show="show">Skip</button>
+      <button class="btn" id="btn-learned" data-show="show">Learned</button>
+      <button class="btn" id="btn-show" data-show="ask">Show</button>
+      <button class="btn" id="btn-stop">End</button>
+    </div>
+  </div>
+`);
+
+/**
+ * The class implements the page that processes a lession.
+ */
 // TODO: reverse does not work
 export class LessionProcessPage extends HTMLElement {
   lession: TLession | undefined;
@@ -22,7 +45,19 @@ export class LessionProcessPage extends HTMLElement {
 
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      const frag = PAGE_FRAG.cloneNode(true) as DocumentFragment;
+      [
+        { id: '#btn-show', fct: this.onShow },
+        { id: '#btn-correct', fct: this.onCorrect },
+        { id: '#btn-wrong', fct: this.onWrong },
+        { id: '#btn-skip', fct: this.onSkip },
+        { id: '#btn-learned', fct: this.onLearned },
+        { id: '#btn-stop', fct: this.onStop },
+      ].forEach((e) => {
+        $<HTMLButtonElement>(e.id, frag).onclick = e.fct;
+      });
+
+      this.appendChild(frag);
       this.load();
     }
   }
@@ -52,7 +87,7 @@ export class LessionProcessPage extends HTMLElement {
         this.questionProgress = tmp;
         this.setQuestion(
           this.questionProgress.questionId,
-          this.questionProgress
+          this.questionProgress,
         );
         this.setStateQuestion(true);
       } else {
@@ -64,7 +99,7 @@ export class LessionProcessPage extends HTMLElement {
         $<LocationInfo>('location-info').show(
           this.questionProgress.questionId.bookId,
           this.questionProgress.questionId.chapterId,
-          this.questionProgress.questionId.idx.toString()
+          this.questionProgress.questionId.idx.toString(),
         );
       }
     }
@@ -89,30 +124,6 @@ export class LessionProcessPage extends HTMLElement {
 
       this.next();
     }
-  }
-
-  onShow() {
-    this.setStateQuestion(false);
-  }
-
-  onCorrect = () => {
-    this.update(this.questionProgress!.progress + 1);
-  };
-
-  onWrong() {
-    this.update(0);
-  }
-
-  onLearned() {
-    this.update(3);
-  }
-
-  onSkip() {
-    this.update(this.questionProgress!.progress);
-  }
-
-  onStop() {
-    window.location.hash = hashHome();
   }
 
   setStateQuestion(asking: boolean) {
@@ -141,12 +152,12 @@ export class LessionProcessPage extends HTMLElement {
     const question = await questionGet(
       questionId.bookId,
       questionId.chapterId,
-      questionId.idx
+      questionId.idx,
     );
     $<QuestionShow>('#question-show').renderQuestion(
       questionId,
       question,
-      progress
+      progress,
     );
   }
 
@@ -160,40 +171,27 @@ export class LessionProcessPage extends HTMLElement {
     ]);
   }
 
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Lession Process</div>
+  onShow = () => {
+    this.setStateQuestion(false);
+  };
 
-        <location-info id="location-info"></location-info>
-        <key-values id="progress-info"></key-values>
+  onCorrect = () => {
+    this.update(this.questionProgress!.progress + 1);
+  };
 
-        <question-show id="question-show" data-show="running"></question-show>
+  onWrong = () => {
+    this.update(0);
+  };
 
-        <div class="is-row is-gap">
-          <button class="btn" id="btn-correct" data-show="show">Correct</button>
-          <button class="btn" id="btn-wrong" data-show="show">Wrong</button>
-          <button class="btn" id="btn-skip" data-show="show">Skip</button>
-          <button class="btn" id="btn-learned" data-show="show">Learned</button>
-          <button class="btn" id="btn-show" data-show="ask">Show</button>
-          <button class="btn" id="btn-stop">End</button>
-        </div>
-      </div>
-    `;
+  onLearned = () => {
+    this.update(3);
+  };
 
-    const frag = createFragment(str);
+  onSkip = () => {
+    this.update(this.questionProgress!.progress);
+  };
 
-    [
-      { id: '#btn-show', fct: this.onShow },
-      { id: '#btn-correct', fct: this.onCorrect },
-      { id: '#btn-wrong', fct: this.onWrong },
-      { id: '#btn-skip', fct: this.onSkip },
-      { id: '#btn-learned', fct: this.onLearned },
-      { id: '#btn-stop', fct: this.onStop },
-    ].forEach((e) => {
-      $<HTMLButtonElement>(e.id, frag).onclick = e.fct.bind(this);
-    });
-
-    return frag;
-  }
+  onStop = () => {
+    window.location.hash = hashHome();
+  };
 }
