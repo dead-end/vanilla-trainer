@@ -15,10 +15,50 @@ import { getRouteParam } from '../../lib/route';
 import { TChapter } from '../../lib/types';
 import { $ } from '../../lib/utils/query';
 
+const PAGE_FRAG = createFragment(/* html */ html`
+  <div class="is-column is-gap">
+    <div class="page-title">Chapter List</div>
+    <location-info id="location-info"></location-info>
+    <table>
+      <thead>
+        <tr>
+          <th class="is-larger-sm">Id</th>
+          <th>Title</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="is-row is-gap">
+      <a href="#/books" class="btn">Books</a>
+      <a href="#" class="btn" id="chapter-create-link">Create</a>
+      <a href="#/" class="btn" id="chapter-cache-link">Cache</a>
+    </div>
+  </div>
+`);
+
+const ENTRY_FRAG = createFragment(/* html */ html`
+  <tr>
+    <td data-id="id" class="is-larger-sm"></td>
+    <td data-id="title"></td>
+    <td data-id="actions">
+      <div class="is-row is-gap-action">
+        <ui-icons data-icon="delete"></ui-icons>
+        <ui-icons data-icon="update"></ui-icons>
+        <ui-icons data-icon="list"></ui-icons>
+        <ui-icons data-icon="start"></ui-icons>
+      </div>
+    </td>
+  </tr>
+`);
+
+/**
+ * The class implements a page to list chapters.
+ */
 export class ChapterListPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(PAGE_FRAG.cloneNode(true));
     }
 
     this.render();
@@ -47,7 +87,7 @@ export class ChapterListPage extends HTMLElement {
       hashChapterCreate(bookId);
 
     $<HTMLAnchorElement>('#chapter-cache-link').href = hashCache(
-      pathChaptersGet(bookId)
+      pathChaptersGet(bookId),
     );
   }
 
@@ -55,8 +95,8 @@ export class ChapterListPage extends HTMLElement {
     return () => {
       confirmDialog.activate(
         'Delete Chapter',
-        `Do you realy want to delete the chapter: ${chapterId}?`,
-        this.getDeleteFct(bookId, chapterId)
+        `Do you really want to delete the chapter: ${chapterId}?`,
+        this.getDeleteFct(bookId, chapterId),
       );
     };
   }
@@ -69,57 +109,17 @@ export class ChapterListPage extends HTMLElement {
     };
   }
 
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Chapter List</div>
-        <location-info id="location-info"></location-info>
-        <table>
-          <thead>
-            <tr>
-              <th class="is-larger-sm">Id</th>
-              <th>Title</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div class="is-row is-gap">
-          <a href="#/books" class="btn">Books</a>
-          <a href="#" class="btn" id="chapter-create-link">Create</a>
-          <a href="#/" class="btn" id="chapter-cache-link">Cache</a>
-        </div>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    return frag;
-  }
-
   renderEntry(bookId: string, chap: TChapter, confirmDialog: ConfirmDialog) {
-    const str = /* html */ html`
-      <tr>
-        <td class="is-larger-sm">${chap.id}</td>
-        <td>${chap.title}</td>
-        <td data-id="actions">
-          <div class="is-row is-gap-action">
-            <ui-icons data-icon="delete"></ui-icons>
-            <ui-icons data-icon="update"></ui-icons>
-            <ui-icons data-icon="list"></ui-icons>
-            <ui-icons data-icon="start"></ui-icons>
-          </div>
-        </td>
-      </tr>
-    `;
+    const frag = ENTRY_FRAG.cloneNode(true) as DocumentFragment;
 
-    const frag = createFragment(str);
+    $<HTMLElement>('[data-id="id"]', frag).innerText = chap.id;
+    $<HTMLElement>('[data-id="title"]', frag).innerText = chap.title;
 
     $<HTMLElement>('[data-icon="delete"]', frag).onclick = this.onDelete(
       confirmDialog,
       bookId,
-      chap.id
-    ).bind(this);
+      chap.id,
+    );
 
     $<HTMLElement>('[data-icon="update"]', frag).onclick = () => {
       window.location.hash = hashChapterUpdate(bookId, chap.id);
