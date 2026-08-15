@@ -13,16 +13,39 @@ import {
 } from '../../lib/ui/field';
 import { $ } from '../../lib/utils/query';
 
+const PAGE_FRAG = createFragment(/* html */ html`
+  <div class="is-column is-gap">
+    <div class="page-title">Search</div>
+    <form class="is-column is-gap">
+      <ui-field data-id="search" data-label="Search text">
+        <input id="search" name="search" type="text" />
+      </ui-field>
+
+      <div class="is-row is-gap">
+        <button class="btn" type="submit">Search</button>
+      </div>
+    </form>
+    <div data-id="num" class="is-text-bold is-text-right is-text-small"></div>
+    <div data-id="questions"></div>
+  </div>
+`);
+
+/**
+ * The class implements the search page. The search string is taken from the
+ * url. The form submit does a redirect with the search string in the url.
+ */
 export class SearchPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      const frag = PAGE_FRAG.cloneNode(true) as DocumentFragment;
+      $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit;
+      this.appendChild(frag);
     }
 
-    this.render();
+    this.search();
   }
 
-  async render() {
+  async search() {
     const searchRaw = getRouteParam('searchStr');
     if (!searchRaw) {
       return;
@@ -48,7 +71,7 @@ export class SearchPage extends HTMLElement {
     $<HTMLElement>('[data-id="questions"]').replaceChildren(...arr);
   }
 
-  async handleSubmit(e: SubmitEvent) {
+  handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
@@ -61,33 +84,5 @@ export class SearchPage extends HTMLElement {
     if (!fieldErrorExists(form)) {
       window.location.hash = hashSearch(encodeURI(search.value));
     }
-  }
-
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Search</div>
-        <form class="is-column is-gap">
-          <ui-field data-id="search" data-label="Search text">
-            <input id="search" name="search" type="text" />
-          </ui-field>
-
-          <div class="is-row is-gap">
-            <button class="btn" type="submit">Search</button>
-          </div>
-        </form>
-        <div
-          data-id="num"
-          class="is-text-bold is-text-right is-text-small"
-        ></div>
-        <div data-id="questions"></div>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    $<HTMLFormElement>('form', frag).onsubmit = this.handleSubmit.bind(this);
-
-    return frag;
-  }
+  };
 }
