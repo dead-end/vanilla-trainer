@@ -14,10 +14,26 @@ import { getRouteParams } from '../../lib/route';
 import { TQuestionId } from '../../lib/types';
 import { $ } from '../../lib/utils/query';
 
+const PAGE_FRAG = createFragment(/* html */ html`
+  <div class="is-column is-gap">
+    <div class="page-title">Question List</div>
+    <location-info id="location-info"></location-info>
+    <div data-id="questions"></div>
+    <div class="is-row is-gap-action">
+      <a href="#" class="btn" id="chapter-list-link">Chapters</a>
+      <a href="#" class="btn" id="question-create-link">Create</a>
+      <a href="#" class="btn" id="question-cache-link">Cache</a>
+    </div>
+  </div>
+`);
+
+/**
+ * The class implements a page to list questions.
+ */
 export class QuestionListPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      this.appendChild(PAGE_FRAG.cloneNode(true));
     }
 
     this.render();
@@ -34,11 +50,7 @@ export class QuestionListPage extends HTMLElement {
 
     questions.forEach((q, idx) => {
       arr.push(
-        new QuestionShow().init(
-          { bookId, chapterId, idx },
-          q,
-          this.doDelete.bind(this),
-        ),
+        new QuestionShow().init({ bookId, chapterId, idx }, q, this.doDelete),
       );
     });
 
@@ -56,14 +68,6 @@ export class QuestionListPage extends HTMLElement {
     $<HTMLAnchorElement>('#chapter-list-link').href = hashChapterList(bookId);
   }
 
-  doDelete(questionId: TQuestionId) {
-    $<ConfirmDialog>('#confirm-dialog').activate(
-      'Delete Question',
-      `Do you realy want to delete the question: ${questionId.idx}?`,
-      this.getDeleteFct(questionId),
-    );
-  }
-
   getDeleteFct(questionId: TQuestionId) {
     return async () => {
       questionDelete(
@@ -76,20 +80,14 @@ export class QuestionListPage extends HTMLElement {
     };
   }
 
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Question List</div>
-        <location-info id="location-info"></location-info>
-        <div data-id="questions"></div>
-        <div class="is-row is-gap-action">
-          <a href="#" class="btn" id="chapter-list-link">Chapters</a>
-          <a href="#" class="btn" id="question-create-link">Create</a>
-          <a href="#" class="btn" id="question-cache-link">Cache</a>
-        </div>
-      </div>
-    `;
-
-    return createFragment(str);
-  }
+  /**
+   * Handler function
+   */
+  doDelete = (questionId: TQuestionId) => {
+    $<ConfirmDialog>('#confirm-dialog').activate(
+      'Delete Question',
+      `Do you really want to delete the question: ${questionId.idx}?`,
+      this.getDeleteFct(questionId),
+    );
+  };
 }
