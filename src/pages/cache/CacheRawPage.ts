@@ -15,10 +15,28 @@ import { getRouteParam } from '../../lib/route';
 import { searchGetRaw } from '../../lib/search';
 import { $ } from '../../lib/utils/query';
 
+const PAGE_FRAG = createFragment(/* html */ html`
+  <div class="is-column is-gap">
+    <div class="page-title">Cache Raw</div>
+    <location-info id="location-info"></location-info>
+
+    <json-show id="cache"></json-show>
+    <json-show id="search"></json-show>
+
+    <div class="is-row is-gap">
+      <button class="btn" id="btn-cancel">Back</button>
+    </div>
+  </div>
+`);
+
 export class CacheRawPage extends HTMLElement {
   connectedCallback() {
     if (!this.hasChildNodes()) {
-      this.appendChild(this.renderPage());
+      const frag = PAGE_FRAG.cloneNode(true) as DocumentFragment;
+      $<HTMLButtonElement>('#btn-cancel', frag).onclick = () => {
+        history.back();
+      };
+      this.appendChild(frag);
     }
 
     this.render();
@@ -57,29 +75,5 @@ export class CacheRawPage extends HTMLElement {
     if (pathIsQuestions(path)) {
       jsonShow.show('Search', path, await searchGetRaw(path));
     }
-  }
-
-  renderPage() {
-    const str = /* html */ html`
-      <div class="is-column is-gap">
-        <div class="page-title">Cache Raw</div>
-        <location-info id="location-info"></location-info>
-
-        <json-show id="cache"></json-show>
-        <json-show id="search"></json-show>
-
-        <div class="is-row is-gap">
-          <button class="btn" id="btn-cancel">Back</button>
-        </div>
-      </div>
-    `;
-
-    const frag = createFragment(str);
-
-    $<HTMLButtonElement>('#btn-cancel', frag).onclick = () => {
-      history.back();
-    };
-
-    return frag;
   }
 }
