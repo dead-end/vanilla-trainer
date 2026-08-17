@@ -29,13 +29,13 @@ export const hashQuestionCreate = (bookId: string, chapterId: string) => {
 export const hashQuestionUpdate = (
   bookId: string,
   chapterId: string,
-  idx: number
+  idx: number,
 ) => {
   return `#/book/${bookId}/chapter/${chapterId}/question/${idx}/update`;
 };
 
-export const hashLessionPrepare = (bookId: string, chapterId: string) => {
-  return `#/book/${bookId}/chapter/${chapterId}/lession-prepare`;
+export const hashLessionPrepare = (bookId: string, chapterIds: string[]) => {
+  return `#/book/${bookId}/chapter/${chapterIds.join(',')}/lession-prepare`;
 };
 
 export const hashLessionProcess = () => {

@@ -8,7 +8,7 @@ import { chapterGet } from '../../lib/model/chapter';
 import { lessionCreate } from '../../lib/model/lession';
 import { questionListing } from '../../lib/model/question';
 import { getRouteParams } from '../../lib/route';
-import { TQuestion, TQuestionId } from '../../lib/types';
+import { TChapterQuestions, TKeyValue, TQuestionId } from '../../lib/types';
 import { fieldGet } from '../../lib/ui/field';
 import { $ } from '../../lib/utils/query';
 
@@ -57,31 +57,38 @@ export class LessionPreparePage extends HTMLElement {
   }
 
   async render() {
-    const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
+    const [bookId, chapterIds] = getRouteParams('bookId', 'chapterIds');
+    const chapIds = chapterIds.split(',');
 
-    const questions = await questionListing(bookId, chapterId);
-    const len = questions.length;
+    const chapterQuestions = await this.getChapterQuestions(bookId, chapIds);
+
+    const len = chapterQuestions.reduce((l, cq) => l + cq.questions.length, 0);
     if (len === 0) {
-      errorGlobal('The chapter has no questions!');
+      errorGlobal('The chapters has no questions!');
       $<HTMLButtonElement>('#btn-start').disabled = true;
     }
 
-    this.addLessionInfo(bookId, chapterId, questions);
+    this.addLessionInfo(chapterQuestions);
   }
 
-  async addLessionInfo(
-    bookId: string,
-    chapterId: string,
-    questions: TQuestion[],
-  ) {
-    const book = await bookGet(bookId);
-    const chapter = await chapterGet(bookId, chapterId);
+  async addLessionInfo(chapterQuestions: TChapterQuestions[]) {
+    const arr: TKeyValue[] = [];
 
-    $<KeyValues>('#lession-info').update([
-      { key: 'Book', value: book.title },
-      { key: 'Chapter', value: chapter.title },
-      { key: 'Length', value: questions.length.toString() },
-    ]);
+    for (const chapterQuestion of chapterQuestions) {
+      const book = await bookGet(chapterQuestion.bookId);
+      const chapter = await chapterGet(
+        chapterQuestion.bookId,
+        chapterQuestion.chapterId,
+      );
+
+      arr.push(
+        { key: 'Book', value: book.title },
+        { key: 'Chapter', value: chapter.title },
+        { key: 'Length', value: chapterQuestion.questions.length.toString() },
+      );
+    }
+
+    $<KeyValues>('#lession-info').update(arr);
   }
 
   handleSubmit = async (e: SubmitEvent) => {
@@ -93,14 +100,17 @@ export class LessionPreparePage extends HTMLElement {
     const correct = fieldGet(formData, 'correct');
     const reverse = fieldGet(formData, 'reverse');
 
-    const [bookId, chapterId] = getRouteParams('bookId', 'chapterId');
+    const [bookId, chapterIds] = getRouteParams('bookId', 'chapterIds');
 
-    const questions = await questionListing(bookId, chapterId);
-    const questionIds: TQuestionId[] = questions.map((_q, i) => ({
+    const questionIds: TQuestionId[] = [];
+
+    const chapterQuestions = await this.getChapterQuestions(
       bookId,
-      chapterId,
-      idx: i,
-    }));
+      chapterIds.split(','),
+    );
+    for (const chapterQuestion of chapterQuestions) {
+      questionIds.push(...this.getQuestionIds(chapterQuestion));
+    }
 
     lessionCreate(
       questionIds,
@@ -110,4 +120,38 @@ export class LessionPreparePage extends HTMLElement {
 
     window.location.hash = hashLessionProcess();
   };
+
+  /**
+   * The method creates an array of TChapterQuestions from a book and an array
+   * of selected chapters.
+   */
+  async getChapterQuestions(bookId: string, chapterIds: string[]) {
+    const result: TChapterQuestions[] = [];
+
+    for (const chapterId of chapterIds) {
+      const questions = await questionListing(bookId, chapterId);
+      result.push({
+        bookId,
+        chapterId,
+        questions,
+      });
+    }
+
+    return result;
+  }
+
+  /**
+   * The method maps a TChapterQuestions to an array of TQuestionId, which
+   * represents a lession.
+   */
+  getQuestionIds(chapterQuestion: TChapterQuestions) {
+    const questionIds: TQuestionId[] = chapterQuestion.questions.map(
+      (_q, i) => ({
+        bookId: chapterQuestion.bookId,
+        chapterId: chapterQuestion.chapterId,
+        idx: i,
+      }),
+    );
+    return questionIds;
+  }
 }

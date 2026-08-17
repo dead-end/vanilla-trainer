@@ -50,6 +50,12 @@ export type TQuestion = {
   details?: string;
 };
 
+export type TChapterQuestions = {
+  bookId: string;
+  chapterId: string;
+  questions: TQuestion[];
+};
+
 export type TField = {
   id: string;
   value: string;

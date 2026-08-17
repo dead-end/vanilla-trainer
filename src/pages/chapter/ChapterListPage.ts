@@ -13,7 +13,7 @@ import { pathChaptersGet } from '../../lib/location/path';
 import { chapterDelete, chapterListing } from '../../lib/model/chapter';
 import { getRouteParam } from '../../lib/route';
 import { TChapter } from '../../lib/types';
-import { $ } from '../../lib/utils/query';
+import { $, $$ } from '../../lib/utils/query';
 
 const PAGE_FRAG = createFragment(/* html */ html`
   <div class="is-column is-gap">
@@ -22,6 +22,7 @@ const PAGE_FRAG = createFragment(/* html */ html`
     <table>
       <thead>
         <tr>
+          <th></th>
           <th class="is-larger-sm">Id</th>
           <th>Title</th>
           <th>Actions</th>
@@ -33,13 +34,21 @@ const PAGE_FRAG = createFragment(/* html */ html`
       <a href="#/books" class="btn">Books</a>
       <a href="#" class="btn" id="chapter-create-link">Create</a>
       <a href="#/" class="btn" id="chapter-cache-link">Cache</a>
+      <button class="btn" id="chapter-start" disabled>Start</button>
     </div>
   </div>
 `);
 
 const ENTRY_FRAG = createFragment(/* html */ html`
   <tr>
-    <td data-id="id" class="is-larger-sm"></td>
+    <td>
+      <input
+        data-id="checkbox"
+        type="checkbox"
+      />
+      <td data-id="id" class="is-larger-sm"></td>
+    </td>
+
     <td data-id="title"></td>
     <td data-id="actions">
       <div class="is-row is-gap-action">
@@ -89,7 +98,33 @@ export class ChapterListPage extends HTMLElement {
     $<HTMLAnchorElement>('#chapter-cache-link').href = hashCache(
       pathChaptersGet(bookId),
     );
+
+    $<HTMLButtonElement>('#chapter-start').onclick = this.onButtonStart;
   }
+
+  /**
+   * The method returns an array of chapter ids, which have a checked checkbox.
+   */
+  getChapterIds() {
+    const inputs = $$<HTMLInputElement>('[data-id="checkbox"]', this);
+    return inputs.filter((i) => i.checked).map((i) => i.value);
+  }
+
+  /**
+   * The method de/activates the start button depending on the number of
+   * checked chapters.
+   */
+  onCheckboxClick = () => {
+    $<HTMLButtonElement>('#chapter-start').disabled =
+      this.getChapterIds().length === 0;
+  };
+
+  onButtonStart = (e: Event) => {
+    e.preventDefault();
+    const bookId = getRouteParam('bookId');
+    const chapters = this.getChapterIds();
+    window.location.hash = hashLessionPrepare(bookId, chapters);
+  };
 
   onDelete(confirmDialog: ConfirmDialog, bookId: string, chapterId: string) {
     return () => {
@@ -112,6 +147,12 @@ export class ChapterListPage extends HTMLElement {
   renderEntry(bookId: string, chap: TChapter, confirmDialog: ConfirmDialog) {
     const frag = ENTRY_FRAG.cloneNode(true) as DocumentFragment;
 
+    const input = $<HTMLInputElement>('[data-id="checkbox"]', frag);
+    input.id = `input-${chap.id}`;
+    input.name = 'chapters[]';
+    input.value = chap.id;
+    input.onclick = this.onCheckboxClick;
+
     $<HTMLElement>('[data-id="id"]', frag).innerText = chap.id;
     $<HTMLElement>('[data-id="title"]', frag).innerText = chap.title;
 
@@ -130,7 +171,7 @@ export class ChapterListPage extends HTMLElement {
     };
 
     $<HTMLElement>('[data-icon="start"]', frag).onclick = () => {
-      window.location.hash = hashLessionPrepare(bookId, chap.id);
+      window.location.hash = hashLessionPrepare(bookId, [chap.id]);
     };
 
     return frag;
